@@ -21,7 +21,6 @@ import {
 import {
   Button,
   Select,
-  Table,
   TimePicker,
   DatePicker,
   Popconfirm,
@@ -38,7 +37,36 @@ import { DndProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import update from "immutability-helper";
 
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650
+  }
+});
+
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
+}
+
+const rows = [
+  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+  createData("Eclair", 262, 16.0, 24, 6.0),
+  createData("Cupcake", 305, 3.7, 67, 4.3),
+  createData("Gingerbread", 356, 16.0, 49, 3.9)
+];
+
 const AppTable = () => {
+  const classes = useStyles();
+
   const myContext = useContext(MyContext);
   const authContext = useContext(AuthContext);
   const langContext = useContext(LangContext);
@@ -106,8 +134,6 @@ const AppTable = () => {
         }
       };
 
-  // console.log(langContext.currentLangData);
-
   const { user, isAuthenticated } = authContext;
   const name = user && user.name;
 
@@ -156,305 +182,45 @@ const AppTable = () => {
     // eslint-disable-next-line
   }, [name, sameAsDate, lang]);
 
-  const columns = [
-    {
-      title: _projectId,
-      dataIndex: "selectedProjectId",
-      key: "selectedProjectId",
-      align: "center",
+  const pjidSelect = projects.map((obj, index) => {
+    return (
+      <Select.Option key={index} id={index} value={obj.pjid}>
+        {obj.pjid}
+      </Select.Option>
+    );
+  });
 
-      render: (selectedProjectId, record, rowIndex) => {
-        const mySelect = projects.map((obj, index) => {
-          return (
-            <Select.Option key={index} id={index} value={obj.pjid}>
-              {obj.pjid}
-            </Select.Option>
-          );
-        });
-        // console.log(dataSource[rowIndex]);
-        return (
-          <Select
-            showSearch
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            style={{ width: "100px" }}
-            value={
-              dataSource[rowIndex].selectedProjectId
-                ? dataSource[rowIndex].selectedProjectId
-                : _select
-            }
-            onChange={value => {
-              dispatch({
-                type: SELECT_PJID,
-                rowIndex,
-                value,
-                projects,
-                lang
-              });
+  const pjnameSelect = projects.map((obj, index) => {
+    return (
+      <Select.Option
+        key={index}
+        id={index}
+        value={lang === "ja" ? obj.pjname_jp : obj.pjname_en}
+      >
+        {lang === "ja" ? obj.pjname_jp : obj.pjname_en}
+      </Select.Option>
+    );
+  });
 
-              // console.log(dataSource[rowIndex]);
-            }}
-          >
-            {mySelect}
-          </Select>
-        );
-      }
-    },
-    {
-      title: _projectName,
-      dataIndex: "selectedProjectName",
-      key: "selectedProjectName",
-      align: "center",
+  const subidSelect = subs.map((obj, index) => {
+    return (
+      <Select.Option key={index} id={index} value={obj.subid}>
+        {obj.subid}
+      </Select.Option>
+    );
+  });
 
-      render: (selectedProjectName, record, rowIndex) => {
-        const mySelect = projects.map((obj, index) => {
-          return (
-            <Select.Option
-              key={index}
-              id={index}
-              value={lang === "ja" ? obj.pjname_jp : obj.pjname_en}
-            >
-              {lang === "ja" ? obj.pjname_jp : obj.pjname_en}
-            </Select.Option>
-          );
-        });
-        return (
-          <Select
-            showSearch
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            style={lang === "ja" ? { width: "300px" } : { width: "200px" }}
-            value={
-              dataSource[rowIndex].selectedProjectName
-                ? dataSource[rowIndex].selectedProjectName
-                : _select
-            }
-            onChange={value => {
-              dispatch({
-                type: SELECT_PJNAME,
-                rowIndex,
-                value,
-                projects,
-                lang
-              });
-
-              // console.log(dataSource[rowIndex]);
-            }}
-          >
-            {mySelect}
-          </Select>
-        );
-      }
-    },
-    {
-      title: _subId,
-      dataIndex: "selectedSubId",
-      key: "selectedSubId",
-      align: "center",
-
-      render: (selectedSubId, record, rowIndex) => {
-        const mySelect = subs.map((obj, index) => {
-          return (
-            <Select.Option key={index} id={index} value={obj.subid}>
-              {obj.subid}
-            </Select.Option>
-          );
-        });
-        return (
-          <Select
-            showSearch
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            style={{ width: "85px" }}
-            value={
-              dataSource[rowIndex].selectedSubId
-                ? dataSource[rowIndex].selectedSubId
-                : _select
-            }
-            onChange={value => {
-              dispatch({ type: SELECT_SUBID, rowIndex, value, subs, lang });
-
-              // console.log(dataSource[rowIndex]);
-            }}
-          >
-            {mySelect}
-          </Select>
-        );
-      }
-    },
-    {
-      title: _subName,
-      dataIndex: "selectedSubName",
-      key: "selectedSubName",
-      align: "center",
-
-      render: (selectedSubName, record, rowIndex) => {
-        const mySelect = subs.map((obj, index) => {
-          return (
-            <Select.Option
-              key={index}
-              id={index}
-              value={lang === "ja" ? obj.subname_jp : obj.subname_en}
-            >
-              {lang === "ja" ? obj.subname_jp : obj.subname_en}
-            </Select.Option>
-          );
-        });
-        return (
-          <Select
-            showSearch
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            style={{ width: "200px" }}
-            value={
-              dataSource[rowIndex].selectedSubName
-                ? dataSource[rowIndex].selectedSubName
-                : _select
-            }
-            onChange={value => {
-              dispatch({ type: SELECT_SUBNAME, rowIndex, value, subs, lang });
-
-              // console.log(dataSource[rowIndex]);
-            }}
-          >
-            {mySelect}
-          </Select>
-        );
-      }
-    },
-    {
-      title: _startTime,
-      dataIndex: "startTime",
-      key: "startTime",
-      align: "center",
-      render: (startTime, record, rowIndex) => (
-        <TimePicker
-          style={{ width: "85px" }}
-          placeholder={_select}
-          minuteStep={5}
-          defaultValue={moment("00:00", "HH:mm")}
-          format={"HH:mm"}
-          value={dataSource[rowIndex].startTime}
-          onChange={value => {
-            dispatch({ type: START_TIME, rowIndex, value });
-          }}
-        />
-      )
-    },
-    {
-      title: _endTime,
-      dataIndex: "endTime",
-      key: "endTime",
-      align: "center",
-      render: (endTime, record, rowIndex) => (
-        <TimePicker
-          style={{ width: "85px" }}
-          placeholder={_select}
-          minuteStep={5}
-          defaultValue={moment("00:00", "HH:mm")}
-          format={"HH:mm"}
-          value={dataSource[rowIndex].endTime}
-          onChange={value => {
-            dispatch({ type: END_TIME, rowIndex, value });
-          }}
-        />
-      )
-    },
-    {
-      title: _workTime,
-      dataIndex: "workTime",
-      key: "workTime",
-      align: "center",
-      render: (text, record, rowIndex) => (
-        <Input
-          style={{ width: "60px" }}
-          disabled
-          value={dataSource[rowIndex].workTime}
-        />
-      )
-    },
-    {
-      title: _status,
-      dataIndex: "status",
-      key: "status",
-      align: "center",
-      render: (text, record, rowIndex) => (
-        <InputNumber
-          style={{ width: "70px" }}
-          // value={dataSource[rowIndex].status}
-          min={0}
-          max={100}
-          value={dataSource[rowIndex].status}
-          onChange={value => {
-            dispatch({ type: STATUS, rowIndex, value });
-          }}
-        />
-      )
-    },
-    {
-      title: _comment,
-      dataIndex: "comment",
-      key: "comment",
-      align: "center",
-      render: (text, record, rowIndex) => (
-        <AutoComplete
-          style={{ width: "250px" }}
-          options={dataSource[rowIndex].option}
-          filterOption={(inputValue, option) =>
-            option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-          }
-          value={dataSource[rowIndex].comment}
-          onChange={value => {
-            dispatch({ type: COMMENT, rowIndex, value: value });
-          }}
-        />
-      )
-    },
-    {
-      title: "",
-      dataIndex: "operation",
-      align: "center",
-      render: (text, record, rowIndex) =>
-        dataSource.length >= 1 ? (
-          <Popconfirm
-            title={_sureToDelete}
-            onConfirm={() => onDelete(record.key)}
-          >
-            <a href="/">
-              <DeleteOutlined />
-            </a>
-          </Popconfirm>
-        ) : null
-    }
-  ];
-
-  const components = {
-    body: {
-      row: EditableRow
-    }
-  };
-
-  const moveRow = (dragIndex, hoverIndex) => {
-    const dragRow = dataSource[dragIndex];
-
-    dispatch({
-      type: DRAG_ROW,
-      payload: update(dataSource, {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, dragRow]
-        ]
-      })
-    });
-  };
+  const subnameSelect = subs.map((obj, index) => {
+    return (
+      <Select.Option
+        key={index}
+        id={index}
+        value={lang === "ja" ? obj.subname_jp : obj.subname_en}
+      >
+        {lang === "ja" ? obj.subname_jp : obj.subname_en}
+      </Select.Option>
+    );
+  });
 
   const onAdd = () => {
     dispatch({ type: ADD_ROW });
@@ -520,24 +286,209 @@ const AppTable = () => {
             : dispatch({ type: SET_SAME_AS_DATE, payload: date });
         }}
       />
-      <DndProvider backend={HTML5Backend}>
-        <Table
-          className="table-striped-rows"
-          style={{ overflowX: "auto" }}
-          components={components}
-          columns={columns}
-          dataSource={dataSource}
-          onRow={(record, index) => ({
-            index,
-            moveRow: moveRow
-          })}
-          rowKey={record => record.key}
-          size="middle"
-          bordered
-          pagination={false}
-          loading={loading ? true : false}
-        />
-      </DndProvider>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">{_projectId}</TableCell>
+              <TableCell align="center">{_projectName}</TableCell>
+              <TableCell align="center">{_subId}</TableCell>
+              <TableCell align="center">{_subName}</TableCell>
+              <TableCell align="center">{_startTime}</TableCell>
+              <TableCell align="center">{_endTime}</TableCell>
+              <TableCell align="center">{_workTime}</TableCell>
+              <TableCell align="center">{_status}</TableCell>
+              <TableCell align="center">{_comment}</TableCell>
+              <TableCell align="center"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {dataSource.map(row => (
+              <TableRow key={row.key}>
+                <TableCell align="center">
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                    style={{ width: "100px" }}
+                    value={
+                      row.selectedProjectId ? row.selectedProjectId : _select
+                    }
+                    onChange={value => {
+                      dispatch({
+                        type: SELECT_PJID,
+                        rowIndex: row.key,
+                        value,
+                        projects,
+                        lang
+                      });
+                    }}
+                  >
+                    {pjidSelect}
+                  </Select>
+                </TableCell>
+                <TableCell align="center">
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                    style={
+                      lang === "ja" ? { width: "300px" } : { width: "200px" }
+                    }
+                    value={
+                      row.selectedProjectName
+                        ? row.selectedProjectName
+                        : _select
+                    }
+                    onChange={value => {
+                      dispatch({
+                        type: SELECT_PJNAME,
+                        rowIndex: row.key,
+                        value,
+                        projects,
+                        lang
+                      });
+                    }}
+                  >
+                    {pjnameSelect}
+                  </Select>
+                </TableCell>
+                <TableCell align="center">
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                    style={{ width: "85px" }}
+                    value={row.selectedSubId ? row.selectedSubId : _select}
+                    onChange={value => {
+                      dispatch({
+                        type: SELECT_SUBID,
+                        rowIndex: row.key,
+                        value,
+                        subs,
+                        lang
+                      });
+                    }}
+                  >
+                    {subidSelect}
+                  </Select>
+                </TableCell>
+                <TableCell align="center">
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                    style={{ width: "200px" }}
+                    value={row.selectedSubName ? row.selectedSubName : _select}
+                    onChange={value => {
+                      dispatch({
+                        type: SELECT_SUBNAME,
+                        rowIndex: row.key,
+                        value,
+                        subs,
+                        lang
+                      });
+                    }}
+                  >
+                    {subnameSelect}
+                  </Select>
+                </TableCell>
+                <TableCell align="center">
+                  <TimePicker
+                    style={{ width: "85px" }}
+                    placeholder={_select}
+                    minuteStep={5}
+                    defaultValue={moment("00:00", "HH:mm")}
+                    format={"HH:mm"}
+                    value={row.startTime}
+                    onChange={value => {
+                      dispatch({ type: START_TIME, rowIndex: row.key, value });
+                    }}
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  <TimePicker
+                    style={{ width: "85px" }}
+                    placeholder={_select}
+                    minuteStep={5}
+                    defaultValue={moment("00:00", "HH:mm")}
+                    format={"HH:mm"}
+                    value={row.endTime}
+                    onChange={value => {
+                      dispatch({ type: END_TIME, rowIndex: row.key, value });
+                    }}
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  <Input
+                    style={{ width: "60px" }}
+                    disabled
+                    value={row.workTime}
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  <InputNumber
+                    style={{ width: "70px" }}
+                    min={0}
+                    max={100}
+                    value={row.status}
+                    onChange={value => {
+                      dispatch({ type: STATUS, rowIndex: row.key, value });
+                    }}
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  <AutoComplete
+                    style={{ width: "250px" }}
+                    options={row.option}
+                    filterOption={(inputValue, option) =>
+                      option.value
+                        .toUpperCase()
+                        .indexOf(inputValue.toUpperCase()) !== -1
+                    }
+                    value={row.comment}
+                    onChange={value => {
+                      dispatch({
+                        type: COMMENT,
+                        rowIndex: row.key,
+                        value: value
+                      });
+                    }}
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  {dataSource.length >= 1 && (
+                    <Popconfirm
+                      title={_sureToDelete}
+                      onConfirm={() => onDelete(row.key)}
+                    >
+                      <a href="/">
+                        <DeleteOutlined />
+                      </a>
+                    </Popconfirm>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <div style={{ textAlign: "center" }}>
         <Button size="large" type="dashed" style={{ margin: "2px 2px 0 0" }}>
           {_totalWorkTime}
