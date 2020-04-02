@@ -21,9 +21,11 @@
     "immutability-helper": "^3.0.1",
     "nprogress": "^0.2.0",
     "react": "^16.13.1",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dnd": "^10.0.2",
     "react-dnd-html5-backend": "^10.0.2",
     "react-dom": "^16.13.1",
+    "react-loading-overlay": "^1.0.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "uuid": "^3.4.0"
