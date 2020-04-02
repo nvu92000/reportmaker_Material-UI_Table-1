@@ -29,12 +29,9 @@ import {
   AutoComplete,
   message
 } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, MoreOutlined } from "@ant-design/icons";
 import moment from "moment";
-import { EditableRow } from "./helpers/EditableCell.js";
 import ProgressBar from "./layout/ProgressBar";
-import { DndProvider } from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
 import update from "immutability-helper";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -265,6 +262,8 @@ const AppTable = () => {
     );
   };
 
+  const onDragEnd = () => {};
+
   return (
     <Fragment>
       <Button
@@ -299,212 +298,316 @@ const AppTable = () => {
         }}
       >
         <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">{_projectId}</TableCell>
-                <TableCell align="center">{_projectName}</TableCell>
-                <TableCell align="center">{_subId}</TableCell>
-                <TableCell align="center">{_subName}</TableCell>
-                <TableCell align="center">{_startTime}</TableCell>
-                <TableCell align="center">{_endTime}</TableCell>
-                <TableCell align="center">{_workTime}</TableCell>
-                <TableCell align="center">{_status}</TableCell>
-                <TableCell align="center">{_comment}</TableCell>
-                <TableCell align="center"></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {dataSource.map((row, rowIndex) => (
-                <TableRow key={rowIndex}>
-                  <TableCell align="center">
-                    <Select
-                      showSearch
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        option.children
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                      style={{ width: "100px" }}
-                      value={
-                        row.selectedProjectId ? row.selectedProjectId : _select
-                      }
-                      onChange={value => {
-                        dispatch({
-                          type: SELECT_PJID,
-                          rowIndex,
-                          value,
-                          projects,
-                          lang
-                        });
-                      }}
-                    >
-                      {pjidSelect}
-                    </Select>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Select
-                      showSearch
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        option.children
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                      style={
-                        lang === "ja" ? { width: "300px" } : { width: "200px" }
-                      }
-                      value={
-                        row.selectedProjectName
-                          ? row.selectedProjectName
-                          : _select
-                      }
-                      onChange={value => {
-                        dispatch({
-                          type: SELECT_PJNAME,
-                          rowIndex,
-                          value,
-                          projects,
-                          lang
-                        });
-                      }}
-                    >
-                      {pjnameSelect}
-                    </Select>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Select
-                      showSearch
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        option.children
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                      style={{ width: "70px" }}
-                      value={row.selectedSubId ? row.selectedSubId : _select}
-                      onChange={value => {
-                        dispatch({
-                          type: SELECT_SUBID,
-                          rowIndex,
-                          value,
-                          subs,
-                          lang
-                        });
-                      }}
-                    >
-                      {subidSelect}
-                    </Select>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Select
-                      showSearch
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        option.children
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                      style={{ width: "200px" }}
-                      value={
-                        row.selectedSubName ? row.selectedSubName : _select
-                      }
-                      onChange={value => {
-                        dispatch({
-                          type: SELECT_SUBNAME,
-                          rowIndex,
-                          value,
-                          subs,
-                          lang
-                        });
-                      }}
-                    >
-                      {subnameSelect}
-                    </Select>
-                  </TableCell>
-                  <TableCell align="center">
-                    <TimePicker
-                      style={{ width: "80px" }}
-                      placeholder={_select}
-                      minuteStep={5}
-                      defaultValue={moment("00:00", "HH:mm")}
-                      format={"HH:mm"}
-                      value={row.startTime}
-                      onChange={value => {
-                        dispatch({ type: START_TIME, rowIndex, value });
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    <TimePicker
-                      style={{ width: "80px" }}
-                      placeholder={_select}
-                      minuteStep={5}
-                      defaultValue={moment("00:00", "HH:mm")}
-                      format={"HH:mm"}
-                      value={row.endTime}
-                      onChange={value => {
-                        dispatch({ type: END_TIME, rowIndex, value });
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    <Input
-                      style={{ width: "60px" }}
-                      disabled
-                      value={row.workTime}
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    <InputNumber
-                      style={{ width: "60px" }}
-                      min={0}
-                      max={100}
-                      value={row.status}
-                      onChange={value => {
-                        dispatch({ type: STATUS, rowIndex, value });
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    <AutoComplete
-                      style={{ width: "250px" }}
-                      options={row.option}
-                      filterOption={(inputValue, option) =>
-                        option.value
-                          .toUpperCase()
-                          .indexOf(inputValue.toUpperCase()) !== -1
-                      }
-                      value={row.comment}
-                      onChange={value => {
-                        dispatch({
-                          type: COMMENT,
-                          rowIndex,
-                          value: value
-                        });
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    {dataSource.length >= 1 && (
-                      <Popconfirm
-                        title={_sureToDelete}
-                        onConfirm={() => {
-                          console.log(row, row.key, rowIndex);
-                          onDelete(row.key);
-                        }}
-                      >
-                        <a href="/">
-                          <DeleteOutlined />
-                        </a>
-                      </Popconfirm>
-                    )}
-                  </TableCell>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell isMinimum />
+                  <TableCell align="center">{_projectId}</TableCell>
+                  <TableCell align="center">{_projectName}</TableCell>
+                  <TableCell align="center">{_subId}</TableCell>
+                  <TableCell align="center">{_subName}</TableCell>
+                  <TableCell align="center">{_startTime}</TableCell>
+                  <TableCell align="center">{_endTime}</TableCell>
+                  <TableCell align="center">{_workTime}</TableCell>
+                  <TableCell align="center">{_status}</TableCell>
+                  <TableCell align="center">{_comment}</TableCell>
+                  <TableCell align="center"></TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+              <Droppable droppableId="droppable">
+                {(provided, droppableSnapshot) => {
+                  return (
+                    <TableBody
+                      ref={provided.innerRef}
+                      isDraggingOver={droppableSnapshot.isDraggingOver}
+                    >
+                      {dataSource.map((row, rowIndex) => (
+                        <Draggable
+                          key={row.key}
+                          draggableId={row.key.toString()}
+                          index={rowIndex}
+                        >
+                          {(provided, snapshot) => {
+                            return (
+                              <TableRow
+                                key={rowIndex}
+                                ref={provided.innerRef}
+                                isDragging={snapshot.isDragging}
+                                isDraggingOver={
+                                  droppableSnapshot.isDraggingOver
+                                }
+                                isHovered={snapshot.isDragging}
+                                isFocused={
+                                  droppableSnapshot.isDraggingOver
+                                    ? snapshot.isDragging
+                                    : undefined
+                                }
+                                {...provided.draggableProps.style}
+                                {...provided.draggableProps}
+                              >
+                                <TableCell
+                                  align="center"
+                                  isMinimum
+                                  isDragOccurring={snapshot.isDragging}
+                                >
+                                  <div
+                                    id={row.key}
+                                    {...provided.dragHandleProps}
+                                  >
+                                    {/* <GripIcon /> */}
+                                    <MoreOutlined />
+                                  </div>
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  isDragOccurring={snapshot.isDragging}
+                                >
+                                  <Select
+                                    showSearch
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) =>
+                                      option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                    }
+                                    style={{ width: "100px" }}
+                                    value={
+                                      row.selectedProjectId
+                                        ? row.selectedProjectId
+                                        : _select
+                                    }
+                                    onChange={value => {
+                                      dispatch({
+                                        type: SELECT_PJID,
+                                        rowIndex,
+                                        value,
+                                        projects,
+                                        lang
+                                      });
+                                    }}
+                                  >
+                                    {pjidSelect}
+                                  </Select>
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  isDragOccurring={snapshot.isDragging}
+                                >
+                                  <Select
+                                    showSearch
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) =>
+                                      option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                    }
+                                    style={
+                                      lang === "ja"
+                                        ? { width: "300px" }
+                                        : { width: "200px" }
+                                    }
+                                    value={
+                                      row.selectedProjectName
+                                        ? row.selectedProjectName
+                                        : _select
+                                    }
+                                    onChange={value => {
+                                      dispatch({
+                                        type: SELECT_PJNAME,
+                                        rowIndex,
+                                        value,
+                                        projects,
+                                        lang
+                                      });
+                                    }}
+                                  >
+                                    {pjnameSelect}
+                                  </Select>
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  isDragOccurring={snapshot.isDragging}
+                                >
+                                  <Select
+                                    showSearch
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) =>
+                                      option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                    }
+                                    style={{ width: "70px" }}
+                                    value={
+                                      row.selectedSubId
+                                        ? row.selectedSubId
+                                        : _select
+                                    }
+                                    onChange={value => {
+                                      dispatch({
+                                        type: SELECT_SUBID,
+                                        rowIndex,
+                                        value,
+                                        subs,
+                                        lang
+                                      });
+                                    }}
+                                  >
+                                    {subidSelect}
+                                  </Select>
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  isDragOccurring={snapshot.isDragging}
+                                >
+                                  <Select
+                                    showSearch
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) =>
+                                      option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                    }
+                                    style={{ width: "200px" }}
+                                    value={
+                                      row.selectedSubName
+                                        ? row.selectedSubName
+                                        : _select
+                                    }
+                                    onChange={value => {
+                                      dispatch({
+                                        type: SELECT_SUBNAME,
+                                        rowIndex,
+                                        value,
+                                        subs,
+                                        lang
+                                      });
+                                    }}
+                                  >
+                                    {subnameSelect}
+                                  </Select>
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  isDragOccurring={snapshot.isDragging}
+                                >
+                                  <TimePicker
+                                    style={{ width: "80px" }}
+                                    placeholder={_select}
+                                    minuteStep={5}
+                                    defaultValue={moment("00:00", "HH:mm")}
+                                    format={"HH:mm"}
+                                    value={row.startTime}
+                                    onChange={value => {
+                                      dispatch({
+                                        type: START_TIME,
+                                        rowIndex,
+                                        value
+                                      });
+                                    }}
+                                  />
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  isDragOccurring={snapshot.isDragging}
+                                >
+                                  <TimePicker
+                                    style={{ width: "80px" }}
+                                    placeholder={_select}
+                                    minuteStep={5}
+                                    defaultValue={moment("00:00", "HH:mm")}
+                                    format={"HH:mm"}
+                                    value={row.endTime}
+                                    onChange={value => {
+                                      dispatch({
+                                        type: END_TIME,
+                                        rowIndex,
+                                        value
+                                      });
+                                    }}
+                                  />
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  isDragOccurring={snapshot.isDragging}
+                                >
+                                  <Input
+                                    style={{ width: "60px" }}
+                                    disabled
+                                    value={row.workTime}
+                                  />
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  isDragOccurring={snapshot.isDragging}
+                                >
+                                  <InputNumber
+                                    style={{ width: "60px" }}
+                                    min={0}
+                                    max={100}
+                                    value={row.status}
+                                    onChange={value => {
+                                      dispatch({
+                                        type: STATUS,
+                                        rowIndex,
+                                        value
+                                      });
+                                    }}
+                                  />
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  isDragOccurring={snapshot.isDragging}
+                                >
+                                  <AutoComplete
+                                    style={{ width: "250px" }}
+                                    options={row.option}
+                                    filterOption={(inputValue, option) =>
+                                      option.value
+                                        .toUpperCase()
+                                        .indexOf(inputValue.toUpperCase()) !==
+                                      -1
+                                    }
+                                    value={row.comment}
+                                    onChange={value => {
+                                      dispatch({
+                                        type: COMMENT,
+                                        rowIndex,
+                                        value: value
+                                      });
+                                    }}
+                                  />
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  isDragOccurring={snapshot.isDragging}
+                                >
+                                  {dataSource.length >= 1 && (
+                                    <Popconfirm
+                                      title={_sureToDelete}
+                                      onConfirm={() => {
+                                        console.log(row, row.key, rowIndex);
+                                        onDelete(row.key);
+                                      }}
+                                    >
+                                      <a href="/">
+                                        <DeleteOutlined />
+                                      </a>
+                                    </Popconfirm>
+                                  )}
+                                </TableCell>
+                              </TableRow>
+                            );
+                          }}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </TableBody>
+                  );
+                }}
+              </Droppable>
+            </Table>
+          </DragDropContext>
         </TableContainer>
       </LoadingOverlay>
       <div style={{ textAlign: "center" }}>
