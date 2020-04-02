@@ -145,7 +145,7 @@ const WeeklyWorkload = props => {
       <Breadcrumb />
       <Content
         style={{
-          padding: "20px 50px",
+          padding: "20px 20px",
           borderRadius: "2px",
           position: "relative",
           transition: "all .3s"

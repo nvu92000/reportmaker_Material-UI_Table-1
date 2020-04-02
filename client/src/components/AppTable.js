@@ -45,8 +45,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-
 import LoadingOverlay from "react-loading-overlay";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const useStyles = makeStyles({
   table: {
@@ -382,7 +382,7 @@ const AppTable = () => {
                           .toLowerCase()
                           .indexOf(input.toLowerCase()) >= 0
                       }
-                      style={{ width: "85px" }}
+                      style={{ width: "70px" }}
                       value={row.selectedSubId ? row.selectedSubId : _select}
                       onChange={value => {
                         dispatch({
@@ -425,7 +425,7 @@ const AppTable = () => {
                   </TableCell>
                   <TableCell align="center">
                     <TimePicker
-                      style={{ width: "85px" }}
+                      style={{ width: "80px" }}
                       placeholder={_select}
                       minuteStep={5}
                       defaultValue={moment("00:00", "HH:mm")}
@@ -438,7 +438,7 @@ const AppTable = () => {
                   </TableCell>
                   <TableCell align="center">
                     <TimePicker
-                      style={{ width: "85px" }}
+                      style={{ width: "80px" }}
                       placeholder={_select}
                       minuteStep={5}
                       defaultValue={moment("00:00", "HH:mm")}
@@ -458,7 +458,7 @@ const AppTable = () => {
                   </TableCell>
                   <TableCell align="center">
                     <InputNumber
-                      style={{ width: "70px" }}
+                      style={{ width: "60px" }}
                       min={0}
                       max={100}
                       value={row.status}

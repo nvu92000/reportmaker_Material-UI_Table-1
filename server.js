@@ -40,7 +40,7 @@ app.use(cookieParser());
 const db_config = {
   host: "localhost",
   user: "root",
-  password: "123456789",
+  password: "14081992",
   database: "projectdata"
 };
 
