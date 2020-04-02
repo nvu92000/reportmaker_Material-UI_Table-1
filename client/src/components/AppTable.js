@@ -303,8 +303,8 @@ const AppTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataSource.map(row => (
-              <TableRow key={row.key}>
+            {dataSource.map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
                 <TableCell align="center">
                   <Select
                     showSearch
@@ -321,7 +321,7 @@ const AppTable = () => {
                     onChange={value => {
                       dispatch({
                         type: SELECT_PJID,
-                        rowIndex: row.key,
+                        rowIndex,
                         value,
                         projects,
                         lang
@@ -351,7 +351,7 @@ const AppTable = () => {
                     onChange={value => {
                       dispatch({
                         type: SELECT_PJNAME,
-                        rowIndex: row.key,
+                        rowIndex,
                         value,
                         projects,
                         lang
@@ -375,7 +375,7 @@ const AppTable = () => {
                     onChange={value => {
                       dispatch({
                         type: SELECT_SUBID,
-                        rowIndex: row.key,
+                        rowIndex,
                         value,
                         subs,
                         lang
@@ -399,7 +399,7 @@ const AppTable = () => {
                     onChange={value => {
                       dispatch({
                         type: SELECT_SUBNAME,
-                        rowIndex: row.key,
+                        rowIndex,
                         value,
                         subs,
                         lang
@@ -418,7 +418,7 @@ const AppTable = () => {
                     format={"HH:mm"}
                     value={row.startTime}
                     onChange={value => {
-                      dispatch({ type: START_TIME, rowIndex: row.key, value });
+                      dispatch({ type: START_TIME, rowIndex, value });
                     }}
                   />
                 </TableCell>
@@ -431,7 +431,7 @@ const AppTable = () => {
                     format={"HH:mm"}
                     value={row.endTime}
                     onChange={value => {
-                      dispatch({ type: END_TIME, rowIndex: row.key, value });
+                      dispatch({ type: END_TIME, rowIndex, value });
                     }}
                   />
                 </TableCell>
@@ -449,7 +449,7 @@ const AppTable = () => {
                     max={100}
                     value={row.status}
                     onChange={value => {
-                      dispatch({ type: STATUS, rowIndex: row.key, value });
+                      dispatch({ type: STATUS, rowIndex, value });
                     }}
                   />
                 </TableCell>
@@ -466,7 +466,7 @@ const AppTable = () => {
                     onChange={value => {
                       dispatch({
                         type: COMMENT,
-                        rowIndex: row.key,
+                        rowIndex,
                         value: value
                       });
                     }}
@@ -476,7 +476,10 @@ const AppTable = () => {
                   {dataSource.length >= 1 && (
                     <Popconfirm
                       title={_sureToDelete}
-                      onConfirm={() => onDelete(row.key)}
+                      onConfirm={() => {
+                        console.log(row, row.key, rowIndex);
+                        onDelete(row.key);
+                      }}
                     >
                       <a href="/">
                         <DeleteOutlined />
