@@ -81,3 +81,9 @@ body {
 .table-striped-rows tr:nth-child(2n) td {
   background-color: #e7ebf0;
 }
+
+.draggable-row {
+  border-radius: 2px;
+  border: 1px solid lightgrey;
+  background-color: white;
+}

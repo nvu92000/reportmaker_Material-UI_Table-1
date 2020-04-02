@@ -332,6 +332,7 @@ const AppTable = () => {
                             return (
                               <TableRow
                                 key={rowIndex}
+                                className="draggable-row"
                                 ref={provided.innerRef}
                                 isDragging={snapshot.isDragging}
                                 isDraggingOver={
