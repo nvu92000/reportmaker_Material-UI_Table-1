@@ -262,7 +262,31 @@ const AppTable = () => {
     );
   };
 
-  const onDragEnd = () => {};
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  };
+
+  const onDragEnd = result => {
+    if (!result.destination) {
+      return;
+    }
+    const items = reorder(
+      dataSource,
+      result.source.index,
+      result.destination.index
+    );
+
+    dispatch({
+      type: DRAG_ROW,
+      payload: items
+    });
+
+    // document.getElementById(result.draggableId).focus();
+  };
 
   return (
     <Fragment>
@@ -561,7 +585,7 @@ const AppTable = () => {
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <AutoComplete
-                                    style={{ width: "250px" }}
+                                    style={{ width: "210px" }}
                                     options={row.option}
                                     filterOption={(inputValue, option) =>
                                       option.value
