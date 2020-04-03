@@ -44,6 +44,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import LoadingOverlay from "react-loading-overlay";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DraggableCell } from "./helpers/DraggableCell.js";
+import GripIcon from "./GripIcon.png";
 
 const useStyles = makeStyles({
   table: {
@@ -355,8 +357,17 @@ const AppTable = () => {
                           {(provided, snapshot) => {
                             return (
                               <TableRow
+                                hover={
+                                  droppableSnapshot.isDraggingOver
+                                    ? false
+                                    : true
+                                }
                                 key={rowIndex}
-                                className="draggable-row"
+                                className={
+                                  snapshot.isDragging
+                                    ? "draggable-row-dragging"
+                                    : "draggable-row"
+                                }
                                 ref={provided.innerRef}
                                 isDragging={snapshot.isDragging}
                                 isDraggingOver={
@@ -371,21 +382,21 @@ const AppTable = () => {
                                 {...provided.draggableProps.style}
                                 {...provided.draggableProps}
                               >
-                                <TableCell
-                                  align="center"
+                                <DraggableCell
                                   isMinimum
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <div
                                     id={row.key}
                                     {...provided.dragHandleProps}
+                                    style={{ textAlign: "center" }}
                                   >
-                                    {/* <GripIcon /> */}
-                                    <MoreOutlined />
+                                    {/* <MoreOutlined />
+                                     */}
+                                    <img src={GripIcon} alt="" />
                                   </div>
-                                </TableCell>
-                                <TableCell
-                                  align="center"
+                                </DraggableCell>
+                                <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <Select
@@ -414,9 +425,8 @@ const AppTable = () => {
                                   >
                                     {pjidSelect}
                                   </Select>
-                                </TableCell>
-                                <TableCell
-                                  align="center"
+                                </DraggableCell>
+                                <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <Select
@@ -449,9 +459,8 @@ const AppTable = () => {
                                   >
                                     {pjnameSelect}
                                   </Select>
-                                </TableCell>
-                                <TableCell
-                                  align="center"
+                                </DraggableCell>
+                                <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <Select
@@ -480,9 +489,8 @@ const AppTable = () => {
                                   >
                                     {subidSelect}
                                   </Select>
-                                </TableCell>
-                                <TableCell
-                                  align="center"
+                                </DraggableCell>
+                                <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <Select
@@ -511,9 +519,8 @@ const AppTable = () => {
                                   >
                                     {subnameSelect}
                                   </Select>
-                                </TableCell>
-                                <TableCell
-                                  align="center"
+                                </DraggableCell>
+                                <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <TimePicker
@@ -531,9 +538,8 @@ const AppTable = () => {
                                       });
                                     }}
                                   />
-                                </TableCell>
-                                <TableCell
-                                  align="center"
+                                </DraggableCell>
+                                <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <TimePicker
@@ -551,9 +557,8 @@ const AppTable = () => {
                                       });
                                     }}
                                   />
-                                </TableCell>
-                                <TableCell
-                                  align="center"
+                                </DraggableCell>
+                                <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <Input
@@ -561,9 +566,8 @@ const AppTable = () => {
                                     disabled
                                     value={row.workTime}
                                   />
-                                </TableCell>
-                                <TableCell
-                                  align="center"
+                                </DraggableCell>
+                                <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <InputNumber
@@ -579,9 +583,8 @@ const AppTable = () => {
                                       });
                                     }}
                                   />
-                                </TableCell>
-                                <TableCell
-                                  align="center"
+                                </DraggableCell>
+                                <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <AutoComplete
@@ -602,9 +605,8 @@ const AppTable = () => {
                                       });
                                     }}
                                   />
-                                </TableCell>
-                                <TableCell
-                                  align="center"
+                                </DraggableCell>
+                                <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   {dataSource.length >= 1 && (
@@ -620,7 +622,7 @@ const AppTable = () => {
                                       </a>
                                     </Popconfirm>
                                   )}
-                                </TableCell>
+                                </DraggableCell>
                               </TableRow>
                             );
                           }}

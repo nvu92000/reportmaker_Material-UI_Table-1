@@ -84,6 +84,12 @@ body {
 
 .draggable-row {
   border-radius: 2px;
-  border-top: 1px solid lightgrey;
+  transition: background-color 0.2s ease;
   background-color: white;
+}
+
+.draggable-row-dragging {
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+  background-color: rgba(24, 144, 255, 0.5);
 }
