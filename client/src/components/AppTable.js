@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useContext } from "react";
 import MyContext from "../context/table/myContext";
 import AuthContext from "../context/auth/authContext";
 import LangContext from "../context/lang/langContext";
-// import Spinner from "./layout/Spinner";
 import {
   SELECT_PJID,
   SELECT_PJNAME,
@@ -29,45 +28,23 @@ import {
   AutoComplete,
   message
 } from "antd";
-import { DeleteOutlined, MoreOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import moment from "moment";
 import ProgressBar from "./layout/ProgressBar";
 import update from "immutability-helper";
 
-import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import LoadingOverlay from "react-loading-overlay";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { DraggableCell } from "./helpers/DraggableCell.js";
 import GripIcon from "./GripIcon.png";
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650
-  }
-});
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9)
-];
-
 const AppTable = () => {
-  const classes = useStyles();
-
   const myContext = useContext(MyContext);
   const authContext = useContext(AuthContext);
   const langContext = useContext(LangContext);
@@ -328,7 +305,7 @@ const AppTable = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell isMinimum />
+                  <TableCell />
                   <TableCell align="center">{_projectId}</TableCell>
                   <TableCell align="center">{_projectName}</TableCell>
                   <TableCell align="center">{_subId}</TableCell>
@@ -344,10 +321,7 @@ const AppTable = () => {
               <Droppable droppableId="droppable">
                 {(provided, droppableSnapshot) => {
                   return (
-                    <TableBody
-                      ref={provided.innerRef}
-                      isDraggingOver={droppableSnapshot.isDraggingOver}
-                    >
+                    <TableBody ref={provided.innerRef}>
                       {dataSource.map((row, rowIndex) => (
                         <Draggable
                           key={row.key}
@@ -369,21 +343,10 @@ const AppTable = () => {
                                     : "draggable-row"
                                 }
                                 ref={provided.innerRef}
-                                isDragging={snapshot.isDragging}
-                                isDraggingOver={
-                                  droppableSnapshot.isDraggingOver
-                                }
-                                isHovered={snapshot.isDragging}
-                                isFocused={
-                                  droppableSnapshot.isDraggingOver
-                                    ? snapshot.isDragging
-                                    : undefined
-                                }
                                 {...provided.draggableProps.style}
                                 {...provided.draggableProps}
                               >
                                 <DraggableCell
-                                  isMinimum
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <div
@@ -391,8 +354,6 @@ const AppTable = () => {
                                     {...provided.dragHandleProps}
                                     style={{ textAlign: "center" }}
                                   >
-                                    {/* <MoreOutlined />
-                                     */}
                                     <img src={GripIcon} alt="" />
                                   </div>
                                 </DraggableCell>
@@ -471,7 +432,7 @@ const AppTable = () => {
                                         .toLowerCase()
                                         .indexOf(input.toLowerCase()) >= 0
                                     }
-                                    style={{ width: "70px" }}
+                                    style={{ width: "100px" }}
                                     value={
                                       row.selectedSubId
                                         ? row.selectedSubId
@@ -588,7 +549,7 @@ const AppTable = () => {
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <AutoComplete
-                                    style={{ width: "210px" }}
+                                    style={{ width: "300px" }}
                                     options={row.option}
                                     filterOption={(inputValue, option) =>
                                       option.value
