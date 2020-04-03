@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import MyContext from "../context/table/myContext";
 import LangContext from "../context/lang/langContext";
 import { SELECT_PAGE } from "../context/types";
-import { Button, Layout, Breadcrumb, DatePicker, Row, Col, Select } from "antd";
+import { Layout, Breadcrumb, DatePicker, Row, Col, Select } from "antd";
 import "antd/dist/antd.css";
 import axios from "axios";
 import { StackColumn } from "@antv/g2plot";

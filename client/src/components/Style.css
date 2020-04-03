@@ -70,7 +70,7 @@ body {
 }
 
 .table-striped-rows thead tr th {
-  background-color: rgb(35, 185, 110);
+  background-color: rgba(24, 144, 255);
   color: white;
 }
 

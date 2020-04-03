@@ -36,6 +36,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { KeyboardTimePicker } from "@material-ui/pickers";
+import Paper from "@material-ui/core/Paper";
 import LoadingOverlay from "react-loading-overlay";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { DraggableCell } from "./helpers/DraggableCell.js";
@@ -295,8 +296,8 @@ const AppTable = () => {
           })
         }}
       >
-        <TableContainer>
-          <DragDropContext onDragEnd={onDragEnd}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
@@ -593,8 +594,8 @@ const AppTable = () => {
                 }}
               </Droppable>
             </Table>
-          </DragDropContext>
-        </TableContainer>
+          </TableContainer>
+        </DragDropContext>
       </LoadingOverlay>
       <div style={{ textAlign: "center" }}>
         <Button size="large" type="dashed" style={{ margin: "2px 2px 0 0" }}>
