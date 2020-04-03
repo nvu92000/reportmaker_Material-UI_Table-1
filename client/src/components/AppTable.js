@@ -20,7 +20,6 @@ import {
 import {
   Button,
   Select,
-  TimePicker,
   DatePicker,
   Popconfirm,
   Input,
@@ -29,16 +28,14 @@ import {
   message
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import moment from "moment";
 import ProgressBar from "./layout/ProgressBar";
-import update from "immutability-helper";
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import { KeyboardTimePicker } from "@material-ui/pickers";
 import LoadingOverlay from "react-loading-overlay";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { DraggableCell } from "./helpers/DraggableCell.js";
@@ -343,7 +340,6 @@ const AppTable = () => {
                                     : "draggable-row"
                                 }
                                 ref={provided.innerRef}
-                                {...provided.draggableProps.style}
                                 {...provided.draggableProps}
                               >
                                 <DraggableCell
@@ -432,7 +428,7 @@ const AppTable = () => {
                                         .toLowerCase()
                                         .indexOf(input.toLowerCase()) >= 0
                                     }
-                                    style={{ width: "100px" }}
+                                    style={{ width: "70px" }}
                                     value={
                                       row.selectedSubId
                                         ? row.selectedSubId
@@ -484,12 +480,11 @@ const AppTable = () => {
                                 <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
-                                  <TimePicker
-                                    style={{ width: "80px" }}
-                                    placeholder={_select}
-                                    minuteStep={5}
-                                    defaultValue={moment("00:00", "HH:mm")}
-                                    format={"HH:mm"}
+                                  <KeyboardTimePicker
+                                    ampm={false}
+                                    style={{ width: "96px" }}
+                                    showTodayButton
+                                    todayLabel="now"
                                     value={row.startTime}
                                     onChange={value => {
                                       dispatch({
@@ -498,17 +493,19 @@ const AppTable = () => {
                                         value
                                       });
                                     }}
+                                    KeyboardButtonProps={{
+                                      "aria-label": "change time"
+                                    }}
                                   />
                                 </DraggableCell>
                                 <DraggableCell
                                   isDragOccurring={snapshot.isDragging}
                                 >
-                                  <TimePicker
-                                    style={{ width: "80px" }}
-                                    placeholder={_select}
-                                    minuteStep={5}
-                                    defaultValue={moment("00:00", "HH:mm")}
-                                    format={"HH:mm"}
+                                  <KeyboardTimePicker
+                                    ampm={false}
+                                    style={{ width: "96px" }}
+                                    showTodayButton
+                                    todayLabel="now"
                                     value={row.endTime}
                                     onChange={value => {
                                       dispatch({
@@ -516,6 +513,9 @@ const AppTable = () => {
                                         rowIndex,
                                         value
                                       });
+                                    }}
+                                    KeyboardButtonProps={{
+                                      "aria-label": "change time"
                                     }}
                                   />
                                 </DraggableCell>
@@ -549,7 +549,7 @@ const AppTable = () => {
                                   isDragOccurring={snapshot.isDragging}
                                 >
                                   <AutoComplete
-                                    style={{ width: "300px" }}
+                                    style={{ width: "180px" }}
                                     options={row.option}
                                     filterOption={(inputValue, option) =>
                                       option.value
