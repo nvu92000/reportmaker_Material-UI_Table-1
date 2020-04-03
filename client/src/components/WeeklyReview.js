@@ -162,9 +162,7 @@ const WeeklyReview = props => {
       >
         <Row>
           <Col lg={{ span: 6, offset: 3 }}>
-            <Button size="middle" style={{ margin: "0px 5px 0 0" }}>
-              {_reportWeek}
-            </Button>
+            <span style={{ margin: "5px 5px 0 0" }}>{_reportWeek}</span>
             <DatePicker
               placeholder={_selectWeek}
               bordered={true}

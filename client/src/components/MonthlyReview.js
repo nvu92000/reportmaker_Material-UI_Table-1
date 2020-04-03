@@ -143,9 +143,7 @@ const MonthlyReview = props => {
       >
         <Row>
           <Col lg={{ span: 8, offset: 5 }}>
-            <Button size="middle" style={{ margin: "0px 5px 0 0" }}>
-              {_reportMonth}
-            </Button>
+            <span style={{ margin: "5px 5px 0 0" }}>{_reportMonth}</span>
             <DatePicker
               placeholder={_selectMonth}
               picker="month"

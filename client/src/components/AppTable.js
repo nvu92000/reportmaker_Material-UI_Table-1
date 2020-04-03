@@ -274,9 +274,7 @@ const AppTable = () => {
       >
         {_addARow}
       </Button>
-      <Button size="middle" style={{ margin: "0px 5px 16px 0" }}>
-        {_sameAsDate}
-      </Button>
+      <span style={{ margin: "0px 5px 16px 0" }}>{_sameAsDate}</span>
       <DatePicker
         showToday={false}
         placeholder={_selectDate}

@@ -153,9 +153,7 @@ const WeeklyWorkload = props => {
       >
         <Row>
           <Col lg={{ span: 6, offset: 4 }}>
-            <Button size="middle" style={{ margin: "0px 5px 0 0" }}>
-              {_week}
-            </Button>
+            <span style={{ margin: "5px 5px 0 0" }}>{_week}</span>
             <DatePicker
               bordered={true}
               picker="week"
@@ -167,9 +165,7 @@ const WeeklyWorkload = props => {
           </Col>
 
           <Col lg={{ span: 6, offset: 2 }}>
-            <Button size="middle" style={{ margin: "0px 5px 0 0" }}>
-              {_workload}
-            </Button>
+            <span style={{ margin: "5px 5px 0 0" }}>{_workload}</span>
             <Select
               showSearch
               style={{ width: 140 }}

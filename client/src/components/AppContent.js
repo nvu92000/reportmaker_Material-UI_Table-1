@@ -47,9 +47,7 @@ const AppContent = () => {
         }}
       >
         <Row type="flex" justify="end">
-          <Button size="middle" style={{ margin: "0px 5px 0 0" }}>
-            {_reportDate}
-          </Button>
+          <span style={{ margin: "5px 5px 0 0" }}>{_reportDate}</span>
           <DatePicker
             showToday={false}
             placeholder={_selectDate}
