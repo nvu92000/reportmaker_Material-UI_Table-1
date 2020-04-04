@@ -64,6 +64,8 @@ const AppTable = () => {
       _sureToDelete,
     },
     inputDailyData: {
+      _addARow,
+      _delete,
       _sameAsDate,
       _projectId,
       _projectName,
@@ -94,6 +96,8 @@ const AppTable = () => {
           _sureToDelete: "Are you sure you want to delete this item?",
         },
         inputDailyData: {
+          _addARow: "Add a row",
+          _delete: "Delete",
           _sameAsDate: "Same as date:",
           _projectId: "Project ID",
           _projectName: "Project Name",
@@ -260,15 +264,17 @@ const AppTable = () => {
     <Fragment>
       <Row style={{ marginTop: "8px" }}>
         <Col>
-          <Fab
-            size="medium"
-            color="primary"
-            aria-label="add"
-            onClick={onAdd}
-            style={{ margin: "-8px 30px 20px 20px" }}
-          >
-            <AddIcon />
-          </Fab>
+          <Tooltip title={_addARow} aria-label="add">
+            <Fab
+              size="medium"
+              color="primary"
+              aria-label="add"
+              onClick={onAdd}
+              style={{ margin: "-8px 30px 20px 20px" }}
+            >
+              <AddIcon />
+            </Fab>
+          </Tooltip>
         </Col>
         <Col>
           <span style={{ margin: "5px 10px 0 0", fontSize: "17px" }}>
@@ -587,7 +593,7 @@ const AppTable = () => {
                                           onDelete(row.key);
                                         }}
                                       >
-                                        <Tooltip title="Delete">
+                                        <Tooltip title={_delete}>
                                           <IconButton
                                             aria-label="delete"
                                             style={{ padding: "0 5px 0 0" }}
