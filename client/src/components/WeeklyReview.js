@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import MyContext from "../context/table/myContext";
 import AuthContext from "../context/auth/authContext";
 import LangContext from "../context/lang/langContext";
@@ -16,7 +16,7 @@ import {
 import "antd/dist/antd.css";
 import axios from "axios";
 import moment from "moment";
-import SpreadSheet from "./spreadsheet/SpreadSheet";
+import { TableContainer } from "@material-ui/core";
 
 const WeeklyReview = (props) => {
   const myContext = useContext(MyContext);
@@ -42,8 +42,6 @@ const WeeklyReview = (props) => {
         },
       };
 
-  const spreadsheet = useRef();
-
   const { Content } = Layout;
 
   const { dispatch } = myContext;
@@ -52,26 +50,12 @@ const WeeklyReview = (props) => {
   const name = user && user.name;
 
   const [weekSelect, SetWeekSelect] = useState("");
-  const [sheetEvent, setSheetEvent] = useState("");
-  // const [sheet, setSheet] = useState("");
   const [roleSelect, setRoleSelect] = useState("");
 
   useEffect(() => {
     dispatch({ type: SELECT_PAGE, payload: "/weeklyreview" });
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    spreadsheet.current.spreadsheet.events.on(
-      "afterValueChange",
-      (cell, value) => {
-        setSheetEvent(`Value in cell ${cell} changed to ${value}`);
-      }
-    );
-    spreadsheet.current.spreadsheet.setValue("C2", "PREVIEW IS");
-    spreadsheet.current.spreadsheet.setValue("C3", "UNDER");
-    spreadsheet.current.spreadsheet.setValue("C4", "DEVELOPMENT");
-  }, [sheetEvent]);
 
   const onChangeDate = async (date) => {
     if (date !== null) {
@@ -150,8 +134,8 @@ const WeeklyReview = (props) => {
           transition: "all .3s",
         }}
       >
-        <Row>
-          <Col lg={{ span: 6, offset: 3 }}>
+        <Row style={{ justifyContent: "space-evenly" }}>
+          <Col>
             <span style={{ margin: "5px 10px 0 0", fontSize: "17px" }}>
               {_reportWeek}
             </span>
@@ -164,7 +148,7 @@ const WeeklyReview = (props) => {
               }}
             />
           </Col>
-          <Col lg={{ span: 4, offset: 1 }}>
+          <Col>
             <Select
               showSearch
               style={{ width: 120 }}
@@ -188,7 +172,7 @@ const WeeklyReview = (props) => {
               </Select.Option>
             </Select>
           </Col>
-          <Col lg={{ span: 4, offset: 2 }}>
+          <Col>
             <Button
               size="middle"
               onClick={() => {
@@ -207,15 +191,17 @@ const WeeklyReview = (props) => {
             </Button>
           </Col>
         </Row>
-        <Row>
-          <Col lg={{ span: 20, offset: 2 }}>
-            <SpreadSheet
-              ref={spreadsheet}
-              rowsCount={200}
-              colsCount={20}
-              menu={true}
-              readonly={false}
-            />
+        <Row style={{ justifyContent: "center" }}>
+          <Col>
+            <TableContainer>
+              <iframe
+                title="weeklyframe"
+                id="weeklyframe"
+                src="https://docs.google.com/spreadsheets/d/0B4t1BAVd8n24Z2E3TFh0eTRPZWc/edit#gid=1485113290"
+                height="700"
+                width="1200"
+              />
+            </TableContainer>
           </Col>
         </Row>
       </Content>

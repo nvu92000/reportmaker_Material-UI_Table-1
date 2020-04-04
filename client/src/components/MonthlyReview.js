@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import MyContext from "../context/table/myContext";
 import AuthContext from "../context/auth/authContext";
 import LangContext from "../context/lang/langContext";
@@ -14,10 +14,9 @@ import {
 } from "antd";
 import axios from "axios";
 import moment from "moment";
-import SpreadSheet from "./spreadsheet/SpreadSheet";
+import { TableContainer } from "@material-ui/core";
 
 const MonthlyReview = (props) => {
-  // console.log(props.match.path);
   const myContext = useContext(MyContext);
   const authContext = useContext(AuthContext);
   const langContext = useContext(LangContext);
@@ -39,8 +38,6 @@ const MonthlyReview = (props) => {
         },
       };
 
-  const spreadsheet = useRef();
-
   const { Content } = Layout;
 
   const { dispatch } = myContext;
@@ -49,8 +46,6 @@ const MonthlyReview = (props) => {
   const name = user && user.name;
 
   const [monthSelect, setMonthSelect] = useState("");
-  const [sheetEvent, setSheetEvent] = useState("");
-  // const [sheet, setSheet] = useState("");
 
   useEffect(() => {
     dispatch({
@@ -59,24 +54,6 @@ const MonthlyReview = (props) => {
     });
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    // console.log(
-    //   "spreadsheet: ",
-    //   spreadsheet.current.spreadsheet.events,
-    //   "sheetEvent: ",
-    //   sheetEvent
-    // );
-    spreadsheet.current.spreadsheet.events.on(
-      "afterValueChange",
-      (cell, value) => {
-        setSheetEvent(`Value in cell ${cell} changed to ${value}`);
-      }
-    );
-    spreadsheet.current.spreadsheet.setValue("C2", "PREVIEW IS");
-    spreadsheet.current.spreadsheet.setValue("C3", "UNDER");
-    spreadsheet.current.spreadsheet.setValue("C4", "DEVELOPMENT");
-  }, [sheetEvent]);
 
   const onChangeDate = async (date) => {
     if (date !== null) {
@@ -141,8 +118,8 @@ const MonthlyReview = (props) => {
           transition: "all .3s",
         }}
       >
-        <Row>
-          <Col lg={{ span: 8, offset: 5 }}>
+        <Row style={{ justifyContent: "space-evenly" }}>
+          <Col>
             <span style={{ margin: "5px 10px 0 0", fontSize: "17px" }}>
               {_reportMonth}
             </span>
@@ -155,7 +132,7 @@ const MonthlyReview = (props) => {
               }}
             />
           </Col>
-          <Col lg={{ span: 8, offset: 2 }}>
+          <Col>
             <Button
               size="middle"
               onClick={() => {
@@ -172,15 +149,17 @@ const MonthlyReview = (props) => {
             </Button>
           </Col>
         </Row>
-        <Row>
-          <Col lg={{ span: 20, offset: 2 }}>
-            <SpreadSheet
-              ref={spreadsheet}
-              rowsCount={200}
-              colsCount={20}
-              menu={true}
-              readonly={false}
-            />
+        <Row style={{ justifyContent: "center" }}>
+          <Col>
+            <TableContainer>
+              <iframe
+                title="monthlyframe"
+                id="monthlyframe"
+                src="https://docs.google.com/spreadsheets/d/0B4t1BAVd8n24Z2E3TFh0eTRPZWc/edit#gid=1485113290"
+                height="700"
+                width="1200"
+              />
+            </TableContainer>
           </Col>
         </Row>
       </Content>
