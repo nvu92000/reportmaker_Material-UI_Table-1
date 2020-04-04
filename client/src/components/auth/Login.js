@@ -11,7 +11,7 @@ import {
   message,
   Row,
   Col,
-  Divider
+  Divider,
 } from "antd";
 import { cypher, decypher } from "./Cypher";
 import US_flag from "./flags/us_flag.png";
@@ -24,7 +24,7 @@ import AuthContext from "../../context/auth/authContext";
 import LangContext from "../../context/lang/langContext";
 import { Link } from "react-router-dom";
 
-const Login = props => {
+const Login = (props) => {
   const authContext = useContext(AuthContext);
   const langContext = useContext(LangContext);
 
@@ -43,13 +43,13 @@ const Login = props => {
       _createAnAccount,
       _usernamePrompt,
       _passwordPrompt,
-      _invalidCredentials
-    }
+      _invalidCredentials,
+    },
   } = currentLangData
     ? currentLangData
     : {
         alert: {
-          _loginSuccess: "LOGIN SUCCESSFUL!"
+          _loginSuccess: "LOGIN SUCCESSFUL!",
         },
         login: {
           _reportMaker: "Report Maker",
@@ -62,8 +62,8 @@ const Login = props => {
           _createAnAccount: "Create an account",
           _usernamePrompt: "Please input your username!",
           _passwordPrompt: "Please input your password!",
-          _invalidCredentials: "Invalid Credentials"
-        }
+          _invalidCredentials: "Invalid Credentials",
+        },
       };
 
   const { login, error, clearErrors, isAuthenticated } = authContext;
@@ -90,14 +90,14 @@ const Login = props => {
     // eslint-disable-next-line
   }, [error, isAuthenticated, props.history]);
 
-  const getCookie = name => {
+  const getCookie = (name) => {
     const re = new RegExp(name + "=([^;]+)");
     const value = re.exec(document.cookie);
 
     return value !== null ? myDecypher(unescape(value[1])) : null;
   };
 
-  const onFinish = values => {
+  const onFinish = (values) => {
     // console.log("Received values of form: ", values);
 
     if (values.remember === true) {
@@ -121,7 +121,7 @@ const Login = props => {
       const today = new Date();
       const expired = new Date(today.getTime() - 24 * 3600 * 1000); // less 24 hours
 
-      const deleteCookie = name => {
+      const deleteCookie = (name) => {
         document.cookie =
           name + "=null; path=/; expires=" + expired.toGMTString();
       };
@@ -132,13 +132,13 @@ const Login = props => {
     login(
       {
         name: values.username,
-        password: values.password
+        password: values.password,
       },
       _loginSuccess
     );
   };
 
-  const firstKeyDown = e => {
+  const firstKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       passwordRef.current.focus();
@@ -157,8 +157,9 @@ const Login = props => {
         borderWidth: "1.5px",
         padding: "40px 20px",
         textAlign: "center",
-        width: lang === "ja" ? "500px" : "450px"
+        width: lang === "ja" ? "500px" : "450px",
       }}
+      className="responsive-card"
       bordered={true}
     >
       <div className="logo">
@@ -179,7 +180,7 @@ const Login = props => {
       <h1
         style={{
           color: "#1890ff",
-          marginBottom: "50px"
+          marginBottom: "50px",
         }}
       >
         {_reportMaker}
@@ -190,7 +191,7 @@ const Login = props => {
         initialValues={{
           username: getCookie("gaz9me37"),
           password: getCookie("tu01dfr43"),
-          remember: true
+          remember: true,
         }}
         onFinish={onFinish}
       >
@@ -210,8 +211,8 @@ const Login = props => {
           rules={[
             {
               required: true,
-              message: _passwordPrompt
-            }
+              message: _passwordPrompt,
+            },
           ]}
         >
           <Input.Password

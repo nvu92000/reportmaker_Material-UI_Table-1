@@ -6,7 +6,7 @@ import "../Style.css";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Tooltip, Card, message } from "antd";
 
-const Register = props => {
+const Register = (props) => {
   const authContext = useContext(AuthContext);
   const langContext = useContext(LangContext);
 
@@ -28,8 +28,8 @@ const Register = props => {
       _whatIsYourEmail,
       _notaValidEmail,
       _enterMorethan6,
-      _passwordNotMatch
-    }
+      _passwordNotMatch,
+    },
   } = langContext.currentLangData
     ? langContext.currentLangData
     : {
@@ -50,8 +50,8 @@ const Register = props => {
           _whatIsYourEmail: "What is your TechnoStar's email?",
           _notaValidEmail: "The input is not a valid Email!",
           _enterMorethan6: "Please enter a password with 6 or more characters",
-          _passwordNotMatch: "The two passwords that you entered do not match!"
-        }
+          _passwordNotMatch: "The two passwords that you entered do not match!",
+        },
       };
 
   const { register, error, clearErrors, isAuthenticated } = authContext;
@@ -86,27 +86,27 @@ const Register = props => {
     register({
       name,
       email,
-      password
+      password,
     });
   };
 
   const formItemLayout = {
     labelCol: {
       xs: {
-        span: 24
+        span: 24,
       },
       sm: {
-        span: 8
-      }
+        span: 8,
+      },
     },
     wrapperCol: {
       xs: {
-        span: 24
+        span: 24,
       },
       sm: {
-        span: 16
-      }
-    }
+        span: 16,
+      },
+    },
   };
 
   return (
@@ -121,8 +121,9 @@ const Register = props => {
         borderWidth: "1.5px",
         padding: "40px 20px",
         textAlign: "center",
-        width: "500px"
+        width: "500px",
       }}
+      className="responsive-card"
       bordered={true}
     >
       <div className="logo">
@@ -143,7 +144,7 @@ const Register = props => {
       <h1
         style={{
           color: "#1890ff",
-          marginBottom: "50px"
+          marginBottom: "50px",
         }}
       >
         {_accountRegister}
@@ -182,12 +183,12 @@ const Register = props => {
           rules={[
             {
               required: true,
-              message: _emailPrompt
+              message: _emailPrompt,
             },
             {
               type: "email",
-              message: _notaValidEmail
-            }
+              message: _notaValidEmail,
+            },
           ]}
         >
           <Input />
@@ -199,12 +200,12 @@ const Register = props => {
           rules={[
             {
               required: true,
-              message: _passwordPrompt
+              message: _passwordPrompt,
             },
             {
               min: 6,
-              message: _enterMorethan6
-            }
+              message: _enterMorethan6,
+            },
           ]}
         >
           <Input.Password />
@@ -218,7 +219,7 @@ const Register = props => {
           rules={[
             {
               required: true,
-              message: _confirmPasswordPrompt
+              message: _confirmPasswordPrompt,
             },
             ({ getFieldValue }) => ({
               validator(rule, value) {
@@ -227,8 +228,8 @@ const Register = props => {
                 }
 
                 return Promise.reject(_passwordNotMatch);
-              }
-            })
+              },
+            }),
           ]}
         >
           <Input.Password />

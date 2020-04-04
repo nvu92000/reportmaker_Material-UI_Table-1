@@ -5,17 +5,18 @@ import {
   SnippetsOutlined,
   CarryOutOutlined,
   CalendarOutlined,
-  BarChartOutlined
+  BarChartOutlined,
 } from "@ant-design/icons";
 import { withRouter } from "react-router-dom";
 import { SELECT_PAGE } from "../context/types";
 import MyContext from "../context/table/myContext";
 import LangContext from "../context/lang/langContext";
 
-const AppSider = props => {
-  // console.log(typeof props.match.url);
+const AppSider = (props) => {
   const myContext = useContext(MyContext);
   const langContext = useContext(LangContext);
+
+  const { lang, currentLangData } = langContext;
 
   const {
     alert: { _pleaseChangeData },
@@ -23,28 +24,28 @@ const AppSider = props => {
     weeklyReview: { _weeklyReview },
     monthlyReview: { _monthlyReview },
     dailyHistory: { _dailyHistory },
-    weeklyWorkload: { _weeklyWorkload }
-  } = langContext.currentLangData
-    ? langContext.currentLangData
+    weeklyWorkload: { _weeklyWorkload },
+  } = currentLangData
+    ? currentLangData
     : {
         alert: {
-          _pleaseChangeData: "Please save your data or cancel changes first!"
+          _pleaseChangeData: "Please save your data or cancel changes first!",
         },
         inputDailyData: {
-          _inputDailyData: "Input Daily Data"
+          _inputDailyData: "Input Daily Data",
         },
         weeklyReview: {
-          _weeklyReview: "Weekly Review"
+          _weeklyReview: "Weekly Review",
         },
         monthlyReview: {
-          _monthlyReview: "Monthly Review"
+          _monthlyReview: "Monthly Review",
         },
         dailyHistory: {
-          _dailyHistory: "Daily History"
+          _dailyHistory: "Daily History",
         },
         weeklyWorkload: {
-          _weeklyWorkload: "Weekly Workload"
-        }
+          _weeklyWorkload: "Weekly Workload",
+        },
       };
 
   const { selectedKeys, dispatch, isDataEdited } = myContext;
@@ -58,7 +59,7 @@ const AppSider = props => {
 
   return (
     <Sider
-      width={200}
+      width={lang === "vi" ? "210px" : "180px"}
       style={{ background: "#fff" }}
       trigger={null}
       collapsible

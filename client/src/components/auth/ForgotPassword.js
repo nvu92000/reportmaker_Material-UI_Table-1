@@ -6,7 +6,7 @@ import "../Style.css";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Tooltip, Card, message, Spin } from "antd";
 
-const ForgotPassword = props => {
+const ForgotPassword = (props) => {
   const authContext = useContext(AuthContext);
   const langContext = useContext(LangContext);
 
@@ -20,8 +20,8 @@ const ForgotPassword = props => {
       _sendPasswordResetEmail,
       _noUserWithThatEmail,
       _emailSent,
-      _pleaseCheckEmail
-    }
+      _pleaseCheckEmail,
+    },
   } = langContext.currentLangData
     ? langContext.currentLangData
     : {
@@ -35,8 +35,8 @@ const ForgotPassword = props => {
           _noUserWithThatEmail: "There is no user with that email",
           _emailSent: "Email sent",
           _pleaseCheckEmail:
-            "An email with a password reset link has been sent to your mailbox! Please check it!"
-        }
+            "An email with a password reset link has been sent to your mailbox! Please check it!",
+        },
       };
 
   const {
@@ -45,7 +45,7 @@ const ForgotPassword = props => {
     clearErrors,
     loading,
     msg,
-    clearMsg
+    clearMsg,
   } = authContext;
 
   const [form] = Form.useForm();
@@ -77,27 +77,27 @@ const ForgotPassword = props => {
 
   const onFinish = ({ email }) => {
     forgotPassword({
-      email
+      email,
     });
   };
 
   const formItemLayout = {
     labelCol: {
       xs: {
-        span: 24
+        span: 24,
       },
       sm: {
-        span: 8
-      }
+        span: 8,
+      },
     },
     wrapperCol: {
       xs: {
-        span: 24
+        span: 24,
       },
       sm: {
-        span: 16
-      }
-    }
+        span: 16,
+      },
+    },
   };
 
   return (
@@ -112,8 +112,9 @@ const ForgotPassword = props => {
         borderWidth: "1.5px",
         padding: "40px 20px",
         textAlign: "center",
-        width: "500px"
+        width: "500px",
       }}
+      className="responsive-card"
       bordered={true}
     >
       <div className="logo">
@@ -134,7 +135,7 @@ const ForgotPassword = props => {
       <h1
         style={{
           color: "#1890ff",
-          marginBottom: "50px"
+          marginBottom: "50px",
         }}
       >
         {_accountRecovery}
@@ -162,12 +163,12 @@ const ForgotPassword = props => {
             rules={[
               {
                 required: true,
-                message: _emailPrompt
+                message: _emailPrompt,
               },
               {
                 type: "email",
-                message: _notaValidEmail
-              }
+                message: _notaValidEmail,
+              },
             ]}
           >
             <Input ref={emailRef} />

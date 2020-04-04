@@ -3,7 +3,7 @@ import React, {
   useContext,
   useEffect,
   useLayoutEffect,
-  Fragment
+  Fragment,
 } from "react";
 import {
   Row,
@@ -13,12 +13,12 @@ import {
   message,
   Button,
   Drawer,
-  Card
+  Card,
 } from "antd";
 import {
   LogoutOutlined,
   MenuUnfoldOutlined,
-  MenuFoldOutlined
+  MenuFoldOutlined,
 } from "@ant-design/icons";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { QUOTES } from "../../context/types";
@@ -58,18 +58,18 @@ const Home = () => {
   const { switchLang, lang, currentLangData } = langContext;
   const {
     home: { _myAccount, _logOut },
-    alert: { _pleaseChangeData, _logout }
+    alert: { _pleaseChangeData, _logout },
   } = currentLangData
     ? currentLangData
     : {
         home: {
           _myAccount: "My Account",
-          _logOut: "Log out"
+          _logOut: "Log out",
         },
         alert: {
           _pleaseChangeData: "Please save your data or cancel changes first!",
-          _logout: "LOGGED OUT"
-        }
+          _logout: "LOGGED OUT",
+        },
       };
 
   useLayoutEffect(() => {
@@ -191,10 +191,10 @@ const Home = () => {
                       collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
                       {
                         className: "trigger",
-                        onClick: toggle
+                        onClick: toggle,
                       }
                     )}
-                    <div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
                       <Dropdown overlay={langMenu}>
                         <Button style={{ marginRight: "5px" }}>
                           {lang === "en-US"
@@ -212,7 +212,7 @@ const Home = () => {
                       </Dropdown>
 
                       <Button
-                        style={{ marginRight: "65px" }}
+                        style={{ marginRight: "35px" }}
                         onClick={onNameClick}
                       >
                         {user ? user.name : "Welcome!"}
@@ -226,7 +226,7 @@ const Home = () => {
                         width="280px"
                         bodyStyle={{
                           backgroundColor: "#faf9f8",
-                          padding: "0 0"
+                          padding: "0 0",
                         }}
                         headerStyle={{ backgroundColor: "#faf9f8" }}
                       >
@@ -240,7 +240,7 @@ const Home = () => {
                             borderBottomColor: "#e8e7e7",
                             width: "280px",
                             padding: "0 0",
-                            textAlign: "center"
+                            textAlign: "center",
                           }}
                           bordered={true}
                         >
@@ -256,7 +256,7 @@ const Home = () => {
                             style={{
                               width: "100%",
                               background: "rgb(2, 32, 60)",
-                              color: "#fff"
+                              color: "#fff",
                             }}
                           >
                             {_logOut}

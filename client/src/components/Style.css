@@ -107,9 +107,15 @@ body {
 }
 
 .MuiTableCell-root {
-  padding: 10px 2px !important;
+  padding: 16px 2px !important;
 }
 
 .MuiTableCell-head {
   padding: 20px 2px !important;
+}
+
+@media (max-width: 500px) {
+  .responsive-card {
+    width: 95% !important;
+  }
 }

@@ -26,8 +26,9 @@ import {
   InputNumber,
   AutoComplete,
   message,
+  Row,
+  Col,
 } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -63,7 +64,6 @@ const AppTable = () => {
       _sureToDelete,
     },
     inputDailyData: {
-      _addARow,
       _sameAsDate,
       _projectId,
       _projectName,
@@ -94,7 +94,6 @@ const AppTable = () => {
           _sureToDelete: "Are you sure you want to delete this item?",
         },
         inputDailyData: {
-          _addARow: "Add a row",
           _sameAsDate: "Same as date:",
           _projectId: "Project ID",
           _projectName: "Project Name",
@@ -259,33 +258,32 @@ const AppTable = () => {
 
   return (
     <Fragment>
-      <Fab
-        color="primary"
-        aria-label="add"
-        onClick={onAdd}
-        style={{ margin: "0px 30px 16px 30px" }}
-      >
-        <AddIcon />
-      </Fab>
-      {/* <Button
-        size="large"
-        onClick={onAdd}
-        type="primary"
-        style={{ margin: "0px 50px 16px 0" }}
-      >
-        {_addARow}
-      </Button> */}
-      <span style={{ margin: "0px 5px 16px 0" }}>{_sameAsDate}</span>
-      <DatePicker
-        showToday={false}
-        placeholder={_selectDate}
-        value={sameAsDate}
-        onChange={(date) => {
-          isDataEdited
-            ? message.error(_pleaseChangeData)
-            : dispatch({ type: SET_SAME_AS_DATE, payload: date });
-        }}
-      />
+      <Row style={{ marginTop: "8px" }}>
+        <Col>
+          <Fab
+            size="medium"
+            color="primary"
+            aria-label="add"
+            onClick={onAdd}
+            style={{ margin: "-8px 30px 20px 20px" }}
+          >
+            <AddIcon />
+          </Fab>
+        </Col>
+        <Col>
+          <span style={{ margin: "5px 5px 0 0" }}>{_sameAsDate}</span>
+          <DatePicker
+            showToday={false}
+            placeholder={_selectDate}
+            value={sameAsDate}
+            onChange={(date) => {
+              isDataEdited
+                ? message.error(_pleaseChangeData)
+                : dispatch({ type: SET_SAME_AS_DATE, payload: date });
+            }}
+          />
+        </Col>
+      </Row>
       <LoadingOverlay
         active={loading}
         spinner
@@ -348,9 +346,12 @@ const AppTable = () => {
                                     <div
                                       id={row.key}
                                       {...provided.dragHandleProps}
-                                      style={{ textAlign: "center" }}
+                                      style={{
+                                        textAlign: "center",
+                                        paddingLeft: "5px",
+                                      }}
                                     >
-                                      <img src={GripIcon} alt="" />
+                                      <img width="20px" src={GripIcon} alt="" />
                                     </div>
                                   </DraggableCell>
                                   <DraggableCell
@@ -549,7 +550,11 @@ const AppTable = () => {
                                     isDragOccurring={snapshot.isDragging}
                                   >
                                     <AutoComplete
-                                      style={{ width: "180px" }}
+                                      style={
+                                        lang === "ja"
+                                          ? { width: "220px" }
+                                          : { width: "220px" }
+                                      }
                                       options={row.option}
                                       filterOption={(inputValue, option) =>
                                         option.value
@@ -579,8 +584,13 @@ const AppTable = () => {
                                         }}
                                       >
                                         <Tooltip title="Delete">
-                                          <IconButton aria-label="delete">
-                                            <DeleteIcon />
+                                          <IconButton
+                                            aria-label="delete"
+                                            style={{ padding: "0 5px 0 0" }}
+                                          >
+                                            <DeleteIcon
+                                              style={{ width: "20px" }}
+                                            />
                                           </IconButton>
                                         </Tooltip>
                                         {/* <a href="/">

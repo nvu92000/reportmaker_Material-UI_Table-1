@@ -5,7 +5,7 @@ import "antd/dist/antd.css";
 import "../Style.css";
 import { Form, Input, Button, Card } from "antd";
 
-const ResetPassword = props => {
+const ResetPassword = (props) => {
   const authContext = useContext(AuthContext);
   const langContext = useContext(LangContext);
 
@@ -19,8 +19,8 @@ const ResetPassword = props => {
       _passwordNotMatch,
       _resetPassword,
       _newPassword,
-      _confirmNewPassword
-    }
+      _confirmNewPassword,
+    },
   } = langContext.currentLangData
     ? langContext.currentLangData
     : {
@@ -33,8 +33,8 @@ const ResetPassword = props => {
           _passwordNotMatch: "The two passwords that you entered do not match!",
           _resetPassword: "Reset Password",
           _newPassword: "New Password",
-          _confirmNewPassword: "Confirm New Password"
-        }
+          _confirmNewPassword: "Confirm New Password",
+        },
       };
 
   const {
@@ -43,7 +43,7 @@ const ResetPassword = props => {
     msg,
     error,
     loading,
-    isAuthenticated
+    isAuthenticated,
   } = authContext;
 
   const [form] = Form.useForm();
@@ -75,20 +75,20 @@ const ResetPassword = props => {
   const formItemLayout = {
     labelCol: {
       xs: {
-        span: 24
+        span: 24,
       },
       sm: {
-        span: 8
-      }
+        span: 8,
+      },
     },
     wrapperCol: {
       xs: {
-        span: 24
+        span: 24,
       },
       sm: {
-        span: 16
-      }
-    }
+        span: 16,
+      },
+    },
   };
 
   return (
@@ -103,8 +103,9 @@ const ResetPassword = props => {
         borderWidth: "1.5px",
         padding: "40px 20px",
         textAlign: "center",
-        width: "600px"
+        width: "600px",
       }}
+      className="responsive-card"
       bordered={true}
     >
       <div className="logo">
@@ -128,7 +129,7 @@ const ResetPassword = props => {
           <h2
             style={{
               color: "red",
-              marginBottom: "50px"
+              marginBottom: "50px",
             }}
           >
             {_codeExpired}
@@ -147,7 +148,7 @@ const ResetPassword = props => {
           <h1
             style={{
               color: "#1890ff",
-              marginBottom: "50px"
+              marginBottom: "50px",
             }}
           >
             {_resetPassword}
@@ -166,12 +167,12 @@ const ResetPassword = props => {
               rules={[
                 {
                   required: true,
-                  message: _passwordPrompt
+                  message: _passwordPrompt,
                 },
                 {
                   min: 6,
-                  message: _enterMorethan6
-                }
+                  message: _enterMorethan6,
+                },
               ]}
             >
               <Input.Password ref={passwordRef} />
@@ -184,7 +185,7 @@ const ResetPassword = props => {
               rules={[
                 {
                   required: true,
-                  message: _confirmPasswordPrompt
+                  message: _confirmPasswordPrompt,
                 },
                 ({ getFieldValue }) => ({
                   validator(rule, value) {
@@ -193,8 +194,8 @@ const ResetPassword = props => {
                     }
 
                     return Promise.reject(_passwordNotMatch);
-                  }
-                })
+                  },
+                }),
               ]}
             >
               <Input.Password />
