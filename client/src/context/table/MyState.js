@@ -8,12 +8,12 @@ import {
   GET_DATA_FROM_SAME_AS_DATE,
   SAVE_DATA,
   SET_LOADING,
-  CLEAR_LOGOUT
+  CLEAR_LOGOUT,
 } from "../types";
 import { message } from "antd";
 import moment from "moment";
 
-const MyState = props => {
+const MyState = (props) => {
   const initialState = {
     selectedDate: moment(),
     sameAsDate: null,
@@ -26,7 +26,7 @@ const MyState = props => {
     selectedKeys: [],
     quotes: null,
     options: {},
-    isDataEdited: false
+    isDataEdited: false,
   };
 
   const [state, dispatch] = useReducer(MyReducer, initialState);
@@ -39,7 +39,7 @@ const MyState = props => {
       dispatch({
         type: GET_PROJECT,
         payload: res1.data.data,
-        payload2: res2.data.data
+        payload2: res2.data.data,
       });
     } catch (error) {
       console.log(error);
@@ -53,8 +53,8 @@ const MyState = props => {
       const res2 = await axios.get("api/subs");
       const res3 = await axios.get("api/comments", {
         params: {
-          name
-        }
+          name,
+        },
       });
 
       const options = res3.data.data.reduce((obj, item) => {
@@ -67,16 +67,13 @@ const MyState = props => {
       const projects = res1.data.data;
       const subs = res2.data.data;
 
-      const workdate = selectedDate
-        .format("YYYY-MM-DD")
-        .split("-")
-        .join("");
+      const workdate = selectedDate.format("YYYY-MM-DD").split("-").join("");
 
       const res = await axios.get(`api/personal`, {
         params: {
           name,
-          workdate
-        }
+          workdate,
+        },
       });
 
       const newData = res.data.data.map((item, index) => {
@@ -85,13 +82,14 @@ const MyState = props => {
           selectedProjectId: item.pjid,
           selectedProjectName:
             lang === "ja"
-              ? projects.find(element => element.pjid === item.pjid).pjname_jp
-              : projects.find(element => element.pjid === item.pjid).pjname_en,
+              ? projects.find((element) => element.pjid === item.pjid).pjname_jp
+              : projects.find((element) => element.pjid === item.pjid)
+                  .pjname_en,
           selectedSubId: item.subid,
           selectedSubName:
             lang === "ja"
-              ? subs.find(element => element.subid === item.subid).subname_jp
-              : subs.find(element => element.subid === item.subid).subname_en,
+              ? subs.find((element) => element.subid === item.subid).subname_jp
+              : subs.find((element) => element.subid === item.subid).subname_en,
           startTime: moment(
             `"${item.starthour}:${item.startmin}:00"`,
             "HH:mm:ss"
@@ -108,7 +106,7 @@ const MyState = props => {
           }`,
           status: item.percent,
           comment: item.comment,
-          option: options[item.pjid] ? options[item.pjid] : []
+          option: options[item.pjid] ? options[item.pjid] : [],
         };
       });
 
@@ -116,7 +114,7 @@ const MyState = props => {
         type: GET_DATA_FROM_DATE,
         payload: newData,
         dataLength: newData.length,
-        options
+        options,
       });
     }
   };
@@ -128,8 +126,8 @@ const MyState = props => {
       const res2 = await axios.get("api/subs");
       const res3 = await axios.get("api/comments", {
         params: {
-          name
-        }
+          name,
+        },
       });
 
       const options = res3.data.data.reduce((obj, item) => {
@@ -142,16 +140,13 @@ const MyState = props => {
       const projects = res1.data.data;
       const subs = res2.data.data;
 
-      const workdate = sameAsDate
-        .format("YYYY-MM-DD")
-        .split("-")
-        .join("");
+      const workdate = sameAsDate.format("YYYY-MM-DD").split("-").join("");
 
       const res = await axios.get(`api/personal`, {
         params: {
           name,
-          workdate
-        }
+          workdate,
+        },
       });
 
       const newData = res.data.data.map((item, index) => {
@@ -160,13 +155,14 @@ const MyState = props => {
           selectedProjectId: item.pjid,
           selectedProjectName:
             lang === "ja"
-              ? projects.find(element => element.pjid === item.pjid).pjname_jp
-              : projects.find(element => element.pjid === item.pjid).pjname_en,
+              ? projects.find((element) => element.pjid === item.pjid).pjname_jp
+              : projects.find((element) => element.pjid === item.pjid)
+                  .pjname_en,
           selectedSubId: item.subid,
           selectedSubName:
             lang === "ja"
-              ? subs.find(element => element.subid === item.subid).subname_jp
-              : subs.find(element => element.subid === item.subid).subname_en,
+              ? subs.find((element) => element.subid === item.subid).subname_jp
+              : subs.find((element) => element.subid === item.subid).subname_en,
           startTime: moment(
             `"${item.starthour}:${item.startmin}:00"`,
             "HH:mm:ss"
@@ -183,7 +179,7 @@ const MyState = props => {
           }`,
           status: item.percent,
           comment: item.comment,
-          option: options[item.pjid] ? options[item.pjid] : []
+          option: options[item.pjid] ? options[item.pjid] : [],
         };
       });
 
@@ -191,7 +187,7 @@ const MyState = props => {
         type: GET_DATA_FROM_SAME_AS_DATE,
         payload: newData,
         dataLength: newData.length,
-        options
+        options,
       });
     }
   };
@@ -209,16 +205,16 @@ const MyState = props => {
   ) => {
     if (
       dataSource.some(
-        obj => obj.selectedProjectId === null || obj.selectedSubId === null
+        (obj) => obj.selectedProjectId === null || obj.selectedSubId === null
       )
     ) {
       message.warning(_selectProject);
     } else if (
-      dataSource.some(obj => obj.startTime === null || obj.endTime === null)
+      dataSource.some((obj) => obj.startTime === null || obj.endTime === null)
     ) {
       message.warning(_cannotBeEmpty);
     } else if (
-      dataSource.some(obj => {
+      dataSource.some((obj) => {
         const startHr = Number(obj.startTime.toString().slice(16, 18));
         const startMin = Number(obj.startTime.toString().slice(19, 21));
         const endHr = Number(obj.endTime.toString().slice(16, 18));
@@ -252,10 +248,7 @@ const MyState = props => {
       } else if (selectedDate !== null) {
         setLoading();
 
-        const workdate = selectedDate
-          .format("YYYY-MM-DD")
-          .split("-")
-          .join("");
+        const workdate = selectedDate.format("YYYY-MM-DD").split("-").join("");
 
         if (oldCount === 0) {
           for (let i = 0; i < dataSource.length; i++) {
@@ -268,7 +261,7 @@ const MyState = props => {
               status,
               workTime,
               startTime,
-              endTime
+              endTime,
             } = dataSource[i];
 
             // INSERT DATA
@@ -289,8 +282,8 @@ const MyState = props => {
                 starthour: parseInt(startTime.toString().slice(16, 18)),
                 startmin: parseInt(startTime.toString().slice(19, 21)),
                 endhour: parseInt(endTime.toString().slice(16, 18)),
-                endmin: parseInt(endTime.toString().slice(19, 21))
-              }
+                endmin: parseInt(endTime.toString().slice(19, 21)),
+              },
             });
           }
         } else if (oldCount > 0) {
@@ -305,7 +298,7 @@ const MyState = props => {
                 comment,
                 workTime,
                 startTime,
-                endTime
+                endTime,
               } = dataSource[i];
 
               // UPDATE DATA
@@ -326,8 +319,8 @@ const MyState = props => {
                   starthour: parseInt(startTime.toString().slice(16, 18)),
                   startmin: parseInt(startTime.toString().slice(19, 21)),
                   endhour: parseInt(endTime.toString().slice(16, 18)),
-                  endmin: parseInt(endTime.toString().slice(19, 21))
-                }
+                  endmin: parseInt(endTime.toString().slice(19, 21)),
+                },
               });
             }
           } else if (dataSource.length !== oldCount) {
@@ -337,8 +330,8 @@ const MyState = props => {
                 params: {
                   name,
                   workdate,
-                  count: i + 1
-                }
+                  count: i + 1,
+                },
               });
             }
 
@@ -352,7 +345,7 @@ const MyState = props => {
                 status,
                 workTime,
                 startTime,
-                endTime
+                endTime,
               } = dataSource[i];
 
               // INSERT DATA
@@ -373,15 +366,15 @@ const MyState = props => {
                   starthour: parseInt(startTime.toString().slice(16, 18)),
                   startmin: parseInt(startTime.toString().slice(19, 21)),
                   endhour: parseInt(endTime.toString().slice(16, 18)),
-                  endmin: parseInt(endTime.toString().slice(19, 21))
-                }
+                  endmin: parseInt(endTime.toString().slice(19, 21)),
+                },
               });
             }
           }
         }
         dispatch({
           type: SAVE_DATA,
-          dataLength: dataSource.length
+          dataLength: dataSource.length,
         });
         message.success(_saved);
       }
@@ -414,7 +407,7 @@ const MyState = props => {
         getDataFromDate,
         getDataFromSameAsDate,
         clearLogout,
-        onSave
+        onSave,
       }}
     >
       {props.children}

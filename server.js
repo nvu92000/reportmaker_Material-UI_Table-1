@@ -41,7 +41,7 @@ const db_config = {
   host: "localhost",
   user: "root",
   password: "14081992",
-  database: "projectdata"
+  database: "projectdata",
 };
 
 // const db_config = {
@@ -62,7 +62,7 @@ const handleDisconnect = () => {
   query = util.promisify(connection.query).bind(connection);
   console.log(query);
 
-  connection.connect(err => {
+  connection.connect((err) => {
     if (err) {
       // The server is either down or restarting (takes a while sometimes).
       console.log(`Error when connecting to db: ${err} at ${Date()}`);
@@ -74,7 +74,7 @@ const handleDisconnect = () => {
     console.log(`Connected as thread id: ${connection.threadId} at ${Date()}`);
   });
 
-  connection.on("error", function(err) {
+  connection.on("error", function (err) {
     console.log(`db error: ${err} at ${Date()}`);
     if (err.code === "PROTOCOL_CONNECTION_LOST") {
       // Connection to the MySQL server is usually lost due to either server restart,
@@ -103,7 +103,7 @@ app.get("/api/workload/get", async (req, res) => {
     const results = await query(QUERY_WORKLOAD);
 
     return res.json({
-      data: results
+      data: results,
     });
   } catch (err) {
     console.log(err.message);
@@ -157,7 +157,7 @@ app.get("/api/weekly/get", async (req, res) => {
       CreateReportDevEng(name, sunday, results);
     }
     return res.json({
-      data: results
+      data: results,
     });
   } catch (err) {
     console.log(err.message);
@@ -183,7 +183,7 @@ app.get("/api/timesheet/get", async (req, res) => {
     const results = await query(QUERY_MONTHLY);
     CreateTimeSheet(name, monthStartDate, results);
     return res.json({
-      data: results
+      data: results,
     });
   } catch (err) {
     console.log(err.message);
@@ -207,14 +207,29 @@ app.post("/api/projects/add", async (req, res) => {
       starthour,
       startmin,
       endhour,
-      endmin
+      endmin,
     } = req.body.params;
     const INSERT_PRODUCTS_QUERY = `INSERT INTO projectdata.t_personalrecode
     (name, workdate, count, pjid, pjname, deadline, expecteddate, subid, subname, percent, comment, worktime, starthour, startmin, endhour, endmin)
     VALUES('${name}','${workdate}','${count}','${pjid}','${pjname}',
     (SELECT deadline FROM projectdata.t_projectmaster WHERE pjid = '${pjid}'),
     (SELECT expecteddate FROM projectdata.t_projectmaster WHERE pjid = '${pjid}'),
-    '${subid}','${subname}','${status}','${comment}', '${worktime}', '${starthour}', '${startmin}', '${endhour}', '${endmin}')`;
+    '${subid}','${subname}','${status}','${comment
+      .split("")
+      .map((a) => {
+        if (a === "'") {
+          return "\\".concat("'");
+        } else if (a === '"') {
+          return "\\".concat('"');
+        } else if (a === "\\") {
+          return "\\".concat("\\");
+        } else {
+          return a;
+        }
+      })
+      .join(
+        ""
+      )}', '${worktime}', '${starthour}', '${startmin}', '${endhour}', '${endmin}')`;
     await query(INSERT_PRODUCTS_QUERY);
     console.log(`${name} added data at ${Date()}`);
     return res.send("Successfully added weekly data");
@@ -240,14 +255,26 @@ app.put("/api/projects/update", async (req, res) => {
       starthour,
       startmin,
       endhour,
-      endmin
+      endmin,
     } = req.body.params;
-    console.log(req.body.params);
     const UPDATE_PRODUCTS_QUERY = `UPDATE projectdata.t_personalrecode
     SET pjid = '${pjid}', pjname = '${pjname}',
     deadline = (SELECT deadline FROM projectdata.t_projectmaster WHERE pjid = '${pjid}'),
     expecteddate = (SELECT expecteddate FROM projectdata.t_projectmaster WHERE pjid = '${pjid}'),
-    subid = '${subid}', subname = '${subname}', percent = '${status}', comment = '${comment}', worktime = '${worktime}',
+    subid = '${subid}', subname = '${subname}', percent = '${status}', comment = '${comment
+      .split("")
+      .map((a) => {
+        if (a === "'") {
+          return "\\".concat("'");
+        } else if (a === '"') {
+          return "\\".concat('"');
+        } else if (a === "\\") {
+          return "\\".concat("\\");
+        } else {
+          return a;
+        }
+      })
+      .join("")}', worktime = '${worktime}',
     starthour = '${starthour}', startmin = '${startmin}', endhour = '${endhour}', endmin = '${endmin}'
     WHERE name = '${name}' AND workdate = '${workdate}' AND count = '${count}'`;
     await query(UPDATE_PRODUCTS_QUERY);
@@ -284,7 +311,7 @@ app.get("/api/personal", async (req, res) => {
     const results = await query(QUERY_PERSONAL);
     console.log(`${name} logged in at ${Date()}`);
     return res.json({
-      data: results
+      data: results,
     });
   } catch (err) {
     console.log(err.message);
@@ -301,7 +328,7 @@ app.get("/api/projects", async (req, res) => {
   try {
     const results = await query(QUERY_PROJECTS);
     return res.json({
-      data: results
+      data: results,
     });
   } catch (err) {
     console.log(err.message);
@@ -313,7 +340,7 @@ app.get("/api/subs", async (req, res) => {
   try {
     const results = await query(QUERY_SUBS);
     return res.json({
-      data: results
+      data: results,
     });
   } catch (err) {
     console.log(err.message);
@@ -331,7 +358,7 @@ app.get("/api/daily", async (req, res) => {
     const results = await query(QUERY_DAILY);
     console.log(`${name} queried daily history at ${Date()}`);
     return res.json({
-      data: results
+      data: results,
     });
   } catch (err) {
     console.log(err.message);
@@ -344,7 +371,7 @@ app.get("/api/daily/members", async (req, res) => {
     const QUERY_MEMBERS = `SELECT name FROM projectdata.t_personalrecode GROUP BY name`;
     const results = await query(QUERY_MEMBERS);
     return res.json({
-      data: results
+      data: results,
     });
   } catch (err) {
     console.log(err.message);
@@ -370,7 +397,7 @@ app.get("/api/comments", async (req, res) => {
 
     const results = await query(QUERY_COMMENTS);
     return res.json({
-      data: results
+      data: results,
     });
   } catch (err) {
     console.log(err.message);
@@ -382,14 +409,12 @@ app.get("/api/comments", async (req, res) => {
 app.post(
   "/api/users",
   [
-    check("name", "Name is required")
-      .not()
-      .isEmpty(),
+    check("name", "Name is required").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
     check(
       "password",
       "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 })
+    ).isLength({ min: 6 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -416,7 +441,7 @@ app.post(
         const user = {
           name,
           email,
-          password
+          password,
         };
 
         const salt = await bcrypt.genSalt(10);
@@ -425,8 +450,8 @@ app.post(
 
         const payload = {
           user: {
-            name: user.name
-          }
+            name: user.name,
+          },
         };
 
         jwt.sign(
@@ -461,7 +486,7 @@ app.get("/api/auth", auth, async (req, res) => {
 
     const user = {
       name: search_res[0].name,
-      email: search_res[0].email
+      email: search_res[0].email,
     };
 
     res.json(user);
@@ -477,10 +502,8 @@ app.get("/api/auth", auth, async (req, res) => {
 app.post(
   "/api/auth",
   [
-    check("name", "Please include a valid name")
-      .not()
-      .isEmpty(),
-    check("password", "Password is required").exists()
+    check("name", "Please include a valid name").not().isEmpty(),
+    check("password", "Password is required").exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -507,8 +530,8 @@ app.post(
 
       const payload = {
         user: {
-          name: search_res[0].name
-        }
+          name: search_res[0].name,
+        },
       };
 
       jwt.sign(
@@ -578,7 +601,7 @@ TechnoStar Email Service
     await sendEmail({
       email: req.body.email,
       subject: "Reset Password Notification",
-      message
+      message,
     });
     res.status(200).json({ data: "Email sent" });
 
@@ -609,7 +632,7 @@ app.get("/api/auth/resetpassword", async (req, res) => {
       return res.status(400).json({ msg: "Invalid token" });
     } else {
       return res.status(200).json({
-        msg: search_res[0].email
+        msg: search_res[0].email,
       });
     }
   } catch (err) {
@@ -627,7 +650,7 @@ app.put(
     check(
       "password",
       "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 })
+    ).isLength({ min: 6 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -657,8 +680,8 @@ app.put(
 
       const payload = {
         user: {
-          name: search_res[0].name
-        }
+          name: search_res[0].name,
+        },
       };
 
       jwt.sign(

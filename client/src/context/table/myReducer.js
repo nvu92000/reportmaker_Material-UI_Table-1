@@ -20,7 +20,7 @@ import {
   SELECT_PAGE,
   RESET_PROJECTS,
   QUOTES,
-  DRAG_ROW
+  DRAG_ROW,
 } from "../types";
 import moment from "moment";
 
@@ -30,7 +30,7 @@ export default (state, action) => {
       return {
         ...state,
         dataSource: action.payload,
-        isDataEdited: true
+        isDataEdited: true,
       };
 
     case QUOTES:
@@ -42,20 +42,20 @@ export default (state, action) => {
         projects: [],
         subs: [],
         dataSource: [],
-        sameAsDate: null
+        sameAsDate: null,
       };
 
     case SELECT_PAGE:
       return {
         ...state,
-        selectedKeys: [action.payload]
+        selectedKeys: [action.payload],
       };
 
     case GET_PROJECT:
       return {
         ...state,
         projects: state.projects.concat(action.payload),
-        subs: state.subs.concat(action.payload2)
+        subs: state.subs.concat(action.payload2),
       };
 
     case SET_LOADING:
@@ -76,7 +76,7 @@ export default (state, action) => {
         options: action.options,
         isDataEdited: false,
         loading: false,
-        sameAsDate: null
+        sameAsDate: null,
       };
 
     case GET_DATA_FROM_SAME_AS_DATE:
@@ -86,7 +86,7 @@ export default (state, action) => {
         rowCount: action.dataLength,
         options: action.options,
         isDataEdited: true,
-        loading: false
+        loading: false,
       };
 
     case SAVE_DATA:
@@ -94,7 +94,7 @@ export default (state, action) => {
         ...state,
         isDataEdited: false,
         oldCount: action.dataLength,
-        loading: false
+        loading: false,
       };
 
     case SELECT_PJID:
@@ -106,16 +106,18 @@ export default (state, action) => {
             obj.selectedProjectId = action.value;
             obj.selectedProjectName =
               action.lang === "ja"
-                ? action.projects.find(element => element.pjid === action.value)
-                    .pjname_jp
-                : action.projects.find(element => element.pjid === action.value)
-                    .pjname_en;
+                ? action.projects.find(
+                    (element) => element.pjid === action.value
+                  ).pjname_jp
+                : action.projects.find(
+                    (element) => element.pjid === action.value
+                  ).pjname_en;
             obj.option = state.options[action.value]
               ? state.options[action.value]
               : [];
           }
           return obj;
-        })
+        }),
       };
 
     case SELECT_PJNAME:
@@ -128,16 +130,16 @@ export default (state, action) => {
             obj.selectedProjectId =
               action.lang === "ja"
                 ? action.projects.find(
-                    element => element.pjname_jp === action.value
+                    (element) => element.pjname_jp === action.value
                   ).pjid
                 : action.projects.find(
-                    element => element.pjname_en === action.value
+                    (element) => element.pjname_en === action.value
                   ).pjid;
             const temp = obj.selectedProjectId;
             obj.option = state.options[temp] ? state.options[temp] : [];
           }
           return obj;
-        })
+        }),
       };
 
     case SELECT_SUBID:
@@ -149,13 +151,13 @@ export default (state, action) => {
             obj.selectedSubId = action.value;
             obj.selectedSubName =
               action.lang === "ja"
-                ? action.subs.find(element => element.subid === action.value)
+                ? action.subs.find((element) => element.subid === action.value)
                     .subname_jp
-                : action.subs.find(element => element.subid === action.value)
+                : action.subs.find((element) => element.subid === action.value)
                     .subname_en;
           }
           return obj;
-        })
+        }),
       };
 
     case SELECT_SUBNAME:
@@ -168,14 +170,14 @@ export default (state, action) => {
             obj.selectedSubId =
               action.lang === "ja"
                 ? action.subs.find(
-                    element => element.subname_jp === action.value
+                    (element) => element.subname_jp === action.value
                   ).subid
                 : action.subs.find(
-                    element => element.subname_en === action.value
+                    (element) => element.subname_en === action.value
                   ).subid;
           }
           return obj;
-        })
+        }),
       };
 
     case START_TIME:
@@ -207,7 +209,7 @@ export default (state, action) => {
             }
           }
           return obj;
-        })
+        }),
       };
 
     case END_TIME:
@@ -246,7 +248,7 @@ export default (state, action) => {
             }
           }
           return obj;
-        })
+        }),
       };
 
     case STATUS:
@@ -258,7 +260,7 @@ export default (state, action) => {
             obj.status = action.value;
           }
           return obj;
-        })
+        }),
       };
 
     case COMMENT:
@@ -270,7 +272,7 @@ export default (state, action) => {
             obj.comment = action.value;
           }
           return obj;
-        })
+        }),
       };
 
     case ADD_ROW:
@@ -295,18 +297,18 @@ export default (state, action) => {
             workTime: "00:00",
             status: "0",
             comment: "-",
-            option: []
-          }
+            option: [],
+          },
         ],
         rowCount: state.rowCount + 1,
-        isDataEdited: true
+        isDataEdited: true,
       };
 
     case DELETE_ROW:
       return {
         ...state,
-        dataSource: state.dataSource.filter(item => item.key !== action.key),
-        isDataEdited: true
+        dataSource: state.dataSource.filter((item) => item.key !== action.key),
+        isDataEdited: true,
       };
 
     case CLEAR_LOGOUT:
@@ -318,7 +320,7 @@ export default (state, action) => {
         subs: [],
         dataSource: [],
         options: {},
-        option: {}
+        option: {},
       };
 
     default:

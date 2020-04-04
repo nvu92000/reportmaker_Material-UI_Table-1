@@ -567,10 +567,12 @@ const AppTable = () => {
                                         dispatch({
                                           type: COMMENT,
                                           rowIndex,
-                                          value: value,
+                                          value,
                                         });
                                       }}
-                                    />
+                                    >
+                                      <Input.TextArea style={{ height: 30 }} />
+                                    </AutoComplete>
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
@@ -593,9 +595,6 @@ const AppTable = () => {
                                             />
                                           </IconButton>
                                         </Tooltip>
-                                        {/* <a href="/">
-                                          <DeleteOutlined />
-                                        </a> */}
                                       </Popconfirm>
                                     )}
                                   </DraggableCell>
