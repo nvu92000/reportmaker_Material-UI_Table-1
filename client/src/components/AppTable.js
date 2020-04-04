@@ -28,7 +28,6 @@ import {
   message,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import ProgressBar from "./layout/ProgressBar";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -128,15 +127,6 @@ const AppTable = () => {
     onSave,
     isDataEdited,
   } = myContext;
-
-  useEffect(() => {
-    if (loading && isAuthenticated) {
-      ProgressBar.start();
-    }
-    if (!loading && isAuthenticated) {
-      ProgressBar.done();
-    }
-  }, [loading, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated) getProject();
