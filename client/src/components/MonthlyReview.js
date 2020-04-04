@@ -10,13 +10,13 @@ import {
   DatePicker,
   message,
   Row,
-  Col
+  Col,
 } from "antd";
 import axios from "axios";
 import moment from "moment";
 import SpreadSheet from "./spreadsheet/SpreadSheet";
 
-const MonthlyReview = props => {
+const MonthlyReview = (props) => {
   // console.log(props.match.path);
   const myContext = useContext(MyContext);
   const authContext = useContext(AuthContext);
@@ -25,18 +25,18 @@ const MonthlyReview = props => {
   const { currentLangData } = langContext;
   const {
     alert: { _pleaseSelectMonth },
-    monthlyReview: { _reportMonth, _selectMonth, _downloadTimeSheet }
+    monthlyReview: { _reportMonth, _selectMonth, _downloadTimeSheet },
   } = currentLangData
     ? currentLangData
     : {
         alert: {
-          _pleaseSelectMonth: "Please select a month!"
+          _pleaseSelectMonth: "Please select a month!",
         },
         monthlyReview: {
           _reportMonth: "Report Month:",
           _selectMonth: "Select Month",
-          _downloadTimeSheet: "Download Time Sheet"
-        }
+          _downloadTimeSheet: "Download Time Sheet",
+        },
       };
 
   const spreadsheet = useRef();
@@ -55,7 +55,7 @@ const MonthlyReview = props => {
   useEffect(() => {
     dispatch({
       type: SELECT_PAGE,
-      payload: "/monthlyreview"
+      payload: "/monthlyreview",
     });
     // eslint-disable-next-line
   }, []);
@@ -78,7 +78,7 @@ const MonthlyReview = props => {
     spreadsheet.current.spreadsheet.setValue("C4", "DEVELOPMENT");
   }, [sheetEvent]);
 
-  const onChangeDate = async date => {
+  const onChangeDate = async (date) => {
     if (date !== null) {
       const monthStartDate = date
         .startOf("month")
@@ -87,8 +87,8 @@ const MonthlyReview = props => {
       await axios.get(`api/timesheet/get`, {
         params: {
           name,
-          monthStartDate
-        }
+          monthStartDate,
+        },
       });
       setMonthSelect(monthStartDate);
     }
@@ -101,13 +101,13 @@ const MonthlyReview = props => {
         //Force to receive data in a Blob Format
         params: {
           name,
-          monthStartDate: monthSelect
-        }
+          monthStartDate: monthSelect,
+        },
       });
 
       //Create a Blob from the PDF Stream
       const file = new Blob([res.data], {
-        type: "application/xlsx"
+        type: "application/xlsx",
       });
       //Build a URL from the file
       const fileURL = URL.createObjectURL(file);
@@ -131,24 +131,26 @@ const MonthlyReview = props => {
   };
 
   return (
-    <Layout style={{ padding: "15px 15px" }}>
+    <Layout style={{ padding: "24px 15px 15px" }}>
       <Breadcrumb />
       <Content
         style={{
           padding: "20px 20px",
           borderRadius: "2px",
           position: "relative",
-          transition: "all .3s"
+          transition: "all .3s",
         }}
       >
         <Row>
           <Col lg={{ span: 8, offset: 5 }}>
-            <span style={{ margin: "5px 5px 0 0" }}>{_reportMonth}</span>
+            <span style={{ margin: "5px 10px 0 0", fontSize: "17px" }}>
+              {_reportMonth}
+            </span>
             <DatePicker
               placeholder={_selectMonth}
               picker="month"
               bordered={true}
-              onChange={date => {
+              onChange={(date) => {
                 onChangeDate(date);
               }}
             />

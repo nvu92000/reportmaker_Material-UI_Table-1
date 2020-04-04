@@ -271,7 +271,9 @@ const AppTable = () => {
           </Fab>
         </Col>
         <Col>
-          <span style={{ margin: "5px 5px 0 0" }}>{_sameAsDate}</span>
+          <span style={{ margin: "5px 10px 0 0", fontSize: "17px" }}>
+            {_sameAsDate}
+          </span>
           <DatePicker
             showToday={false}
             placeholder={_selectDate}

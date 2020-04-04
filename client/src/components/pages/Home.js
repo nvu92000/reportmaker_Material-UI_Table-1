@@ -5,16 +5,7 @@ import React, {
   useLayoutEffect,
   Fragment,
 } from "react";
-import {
-  Row,
-  Layout,
-  Menu,
-  Dropdown,
-  message,
-  Button,
-  Drawer,
-  Card,
-} from "antd";
+import { Row, Layout, Menu, Dropdown, message, Drawer, Card } from "antd";
 import {
   LogoutOutlined,
   MenuUnfoldOutlined,
@@ -42,6 +33,12 @@ import { SET_LANG } from "../../context/types";
 import Register from "../auth/Register";
 import ForgotPassword from "../auth/ForgotPassword";
 import ResetPassword from "../auth/ResetPassword";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import { ReactComponent as Language } from "./Language.svg";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
@@ -128,7 +125,9 @@ const Home = () => {
           isDataEdited ? message.error(_pleaseChangeData) : switchLang("en-US")
         }
       >
-        English
+        <Typography variant="body1" noWrap style={{ marginLeft: "5px" }}>
+          English
+        </Typography>
       </Menu.Item>
       <Menu.Item
         key="2"
@@ -136,7 +135,9 @@ const Home = () => {
           isDataEdited ? message.error(_pleaseChangeData) : switchLang("ja")
         }
       >
-        日本語
+        <Typography variant="body1" noWrap style={{ marginLeft: "5px" }}>
+          日本語
+        </Typography>
       </Menu.Item>
       <Menu.Item
         key="3"
@@ -144,7 +145,9 @@ const Home = () => {
           isDataEdited ? message.error(_pleaseChangeData) : switchLang("vi")
         }
       >
-        Tiếng Việt
+        <Typography variant="body1" noWrap style={{ marginLeft: "5px" }}>
+          Tiếng Việt
+        </Typography>
       </Menu.Item>
       <Menu.Item
         key="4"
@@ -152,7 +155,9 @@ const Home = () => {
           isDataEdited ? message.error(_pleaseChangeData) : switchLang("zh")
         }
       >
-        中文
+        <Typography variant="body1" noWrap style={{ marginLeft: "5px" }}>
+          中文
+        </Typography>
       </Menu.Item>
       <Menu.Item
         key="5"
@@ -160,7 +165,9 @@ const Home = () => {
           isDataEdited ? message.error(_pleaseChangeData) : switchLang("ko")
         }
       >
-        한국어
+        <Typography variant="body1" noWrap style={{ marginLeft: "5px" }}>
+          한국어
+        </Typography>
       </Menu.Item>
     </Menu>
   );
@@ -186,86 +193,98 @@ const Home = () => {
             <Layout>
               <Layout>
                 <Header>
-                  <Row type="flex" justify="space-between">
-                    {React.createElement(
-                      collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                      {
-                        className: "trigger",
-                        onClick: toggle,
-                      }
-                    )}
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <Dropdown overlay={langMenu}>
-                        <Button style={{ marginRight: "5px" }}>
-                          {lang === "en-US"
-                            ? "English"
-                            : lang === "ja"
-                            ? "日本語"
-                            : lang === "vi"
-                            ? "Tiếng Việt"
-                            : lang === "zh"
-                            ? "中文"
-                            : lang === "ko"
-                            ? "한국어"
-                            : "Language"}
-                        </Button>
-                      </Dropdown>
-
-                      <Button
-                        style={{ marginRight: "35px" }}
-                        onClick={onNameClick}
+                  <AppBar
+                    className="AppBar"
+                    position="relative"
+                    color="transparent"
+                  >
+                    <Row type="flex" justify="space-between">
+                      {React.createElement(
+                        collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                        {
+                          className: "trigger",
+                          onClick: toggle,
+                        }
+                      )}
+                      <Toolbar
+                        style={{ display: "flex", alignItems: "center" }}
                       >
-                        {user ? user.name : "Welcome!"}
-                      </Button>
-                      <Drawer
-                        title={_myAccount}
-                        placement="right"
-                        closable={false}
-                        onClose={onClose}
-                        visible={visible}
-                        width="280px"
-                        bodyStyle={{
-                          backgroundColor: "#faf9f8",
-                          padding: "0 0",
-                        }}
-                        headerStyle={{ backgroundColor: "#faf9f8" }}
-                      >
-                        <Card
-                          style={{
-                            float: "left",
-                            position: "absolute",
-                            backgroundColor: "#fff",
-                            borderWidth: "2px",
-                            borderTopColor: "#e8e7e7",
-                            borderBottomColor: "#e8e7e7",
-                            width: "280px",
-                            padding: "0 0",
-                            textAlign: "center",
-                          }}
-                          bordered={true}
-                        >
-                          <p style={{ fontSize: "20px", fontWeight: "bold" }}>
-                            {user ? user.name : "Welcome!"}
-                          </p>
-                          <p style={{ fontSize: "16px" }}>
-                            {user ? user.email : "Your email here"}
-                          </p>
+                        <Dropdown overlay={langMenu}>
                           <Button
-                            size="large"
-                            onClick={onLogout}
                             style={{
-                              width: "100%",
-                              background: "rgb(2, 32, 60)",
-                              color: "#fff",
+                              marginRight: "25px",
+                              color: " #fff",
                             }}
                           >
-                            {_logOut}
-                            <LogoutOutlined />
+                            <Language style={{ marginRight: "5px" }} />
+                            {lang === "en-US"
+                              ? "English"
+                              : lang === "ja"
+                              ? "日本語"
+                              : lang === "vi"
+                              ? "Tiếng Việt"
+                              : lang === "zh"
+                              ? "中文"
+                              : lang === "ko"
+                              ? "한국어"
+                              : "Language"}
                           </Button>
-                        </Card>
-                      </Drawer>
-                    </div>
-                  </Row>
+                        </Dropdown>
+
+                        <Button
+                          style={{ marginRight: "35px", color: " #fff" }}
+                          onClick={onNameClick}
+                        >
+                          {user ? user.name : "Welcome!"}
+                        </Button>
+                        <Drawer
+                          title={_myAccount}
+                          placement="right"
+                          closable={false}
+                          onClose={onClose}
+                          visible={visible}
+                          width="280px"
+                          bodyStyle={{
+                            backgroundColor: "#faf9f8",
+                            padding: "0 0",
+                          }}
+                          headerStyle={{ backgroundColor: "#faf9f8" }}
+                        >
+                          <Card
+                            style={{
+                              float: "left",
+                              position: "absolute",
+                              backgroundColor: "#fff",
+                              borderWidth: "2px",
+                              borderTopColor: "#e8e7e7",
+                              borderBottomColor: "#e8e7e7",
+                              width: "280px",
+                              padding: "0 0",
+                              textAlign: "center",
+                            }}
+                            bordered={true}
+                          >
+                            <p style={{ fontSize: "20px", fontWeight: "bold" }}>
+                              {user ? user.name : "Welcome!"}
+                            </p>
+                            <p style={{ fontSize: "16px" }}>
+                              {user ? user.email : "Your email here"}
+                            </p>
+                            <Button
+                              size="large"
+                              variant="contained"
+                              color="primary"
+                              onClick={onLogout}
+                              className="logout-button"
+                            >
+                              {_logOut}
+                              <LogoutOutlined style={{ marginLeft: "5px" }} />
+                            </Button>
+                          </Card>
+                        </Drawer>
+                      </Toolbar>
+                    </Row>
+                  </AppBar>
                 </Header>
               </Layout>
               <PrivateRoute key="/" path="/" exact component={AppContent} />
@@ -293,16 +312,17 @@ const Home = () => {
                 exact
                 component={WeeklyWorkload}
               />
-              {/* <PrivateRoute path="*">
-                <Redirect to="/" />
-              </PrivateRoute> */}
               <Footer>
-                <h3 style={{ margin: "20px 20px" }}>
-                  {quotes === null ? null : `"${quotes}"`}
-                </h3>
-                <h3 style={{ margin: "20px 20px" }}>
-                  Copyright © 2002-2020 TechnoStar Co., Ltd.
-                </h3>
+                <Paper elevation={10}>
+                  <AppBar position="relative" color="transparent">
+                    <h3 style={{ margin: "20px 10px 5px" }}>
+                      {quotes === null ? null : `"${quotes}"`}
+                    </h3>
+                    <h3 style={{ margin: "5px 10px 20px" }}>
+                      Copyright © 2002-2020 TechnoStar Co., Ltd.
+                    </h3>
+                  </AppBar>
+                </Paper>
               </Footer>
             </Layout>
           </Layout>

@@ -540,13 +540,7 @@ app.post(
         { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
-          res
-            .status(200)
-            // .cookie("token", token, {
-            //   expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-            //   httpOnly: true
-            // })
-            .json({ token });
+          res.status(200).json({ token });
         }
       );
     } catch (err) {
@@ -604,8 +598,6 @@ TechnoStar Email Service
       message,
     });
     res.status(200).json({ data: "Email sent" });
-
-    console.log(resetToken);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -621,8 +613,6 @@ app.get("/api/auth/resetpassword", async (req, res) => {
       .createHash("sha256")
       .update(req.query.resetToken)
       .digest("hex");
-
-    console.log(resetPasswordToken);
 
     const SEARCH_USER = `SELECT * FROM projectdata.namelist
       WHERE resetPasswordToken ='${resetPasswordToken}' AND resetPasswordExpire >'${Date.now()}'`;
@@ -663,7 +653,6 @@ app.put(
       WHERE email ='${req.body.email}'`;
       const search_res = await query(SEARCH_USER);
 
-      console.log(req.body);
       if (!search_res[0]) {
         return res.status(400).json({ msg: "User doesn't exist" });
       }
@@ -690,13 +679,7 @@ app.put(
         { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
-          res
-            .status(200)
-            // .cookie("token", token, {
-            //   expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-            //   httpOnly: true
-            // })
-            .json({ token });
+          res.status(200).json({ token });
         }
       );
     } catch (err) {

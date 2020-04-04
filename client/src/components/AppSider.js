@@ -1,16 +1,15 @@
 import React, { useEffect, useContext } from "react";
 import { Layout, Menu, message } from "antd";
-import {
-  FormOutlined,
-  SnippetsOutlined,
-  CarryOutOutlined,
-  CalendarOutlined,
-  BarChartOutlined,
-} from "@ant-design/icons";
 import { withRouter } from "react-router-dom";
 import { SELECT_PAGE } from "../context/types";
 import MyContext from "../context/table/myContext";
 import LangContext from "../context/lang/langContext";
+import BorderColorIcon from "@material-ui/icons/BorderColor";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import BarChartIcon from "@material-ui/icons/BarChart";
+import Typography from "@material-ui/core/Typography";
 
 const AppSider = (props) => {
   const myContext = useContext(MyContext);
@@ -59,7 +58,7 @@ const AppSider = (props) => {
 
   return (
     <Sider
-      width={lang === "vi" ? "210px" : "180px"}
+      width={lang === "vi" ? "210px" : "190px"}
       style={{ background: "#fff" }}
       trigger={null}
       collapsible
@@ -132,25 +131,57 @@ const AppSider = (props) => {
           }
         }}
       >
-        <Menu.Item key="/">
-          <FormOutlined />
-          <span>{_inputDailyData}</span>
+        <Menu.Item key="/" style={{ display: "flex", alignItems: "center" }}>
+          <BorderColorIcon style={{ margin: "0 8px 0 -5px" }} />
+          <span>
+            <Typography variant="body1" noWrap>
+              {_inputDailyData}
+            </Typography>
+          </span>
         </Menu.Item>
-        <Menu.Item key="/weeklyreview">
-          <SnippetsOutlined />
-          <span>{_weeklyReview}</span>
+        <Menu.Item
+          key="/weeklyreview"
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <AssignmentIcon style={{ margin: "0 8px 0 -5px" }} />
+          <span>
+            <Typography variant="body1" noWrap>
+              {_weeklyReview}
+            </Typography>
+          </span>
         </Menu.Item>
-        <Menu.Item key="/monthlyreview">
-          <CarryOutOutlined />
-          <span>{_monthlyReview}</span>
+        <Menu.Item
+          key="/monthlyreview"
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <AssignmentTurnedInIcon style={{ margin: "0 8px 0 -5px" }} />
+          <span>
+            <Typography variant="body1" noWrap>
+              {_monthlyReview}
+            </Typography>
+          </span>
         </Menu.Item>
-        <Menu.Item key="/dailyhistory">
-          <CalendarOutlined />
-          <span>{_dailyHistory}</span>
+        <Menu.Item
+          key="/dailyhistory"
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <CalendarTodayIcon style={{ margin: "0 8px 0 -5px" }} />
+          <span>
+            <Typography variant="body1" noWrap>
+              {_dailyHistory}
+            </Typography>
+          </span>
         </Menu.Item>
-        <Menu.Item key="/weeklyworkload">
-          <BarChartOutlined />
-          <span>{_weeklyWorkload}</span>
+        <Menu.Item
+          key="/weeklyworkload"
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <BarChartIcon style={{ margin: "0 8px 0 -5px" }} />
+          <span>
+            <Typography variant="body1" noWrap>
+              {_weeklyWorkload}
+            </Typography>
+          </span>
         </Menu.Item>
       </Menu>
     </Sider>

@@ -27,7 +27,7 @@ body {
   box-sizing: border-box;
   border: 1px solid rgb(233, 233, 233);
   color: #000;
-  min-height: 732px;
+  min-height: 71.7vh;
 }
 .code-box-demo > div > .ant-layout {
   margin-bottom: 48px;
@@ -37,16 +37,16 @@ body {
 }
 
 .trigger {
-  font-size: 18px;
+  font-size: 24px;
   line-height: 64px;
-  padding: 0 24px;
+  padding: 5px 24px 0;
   cursor: pointer;
   transition: color 0.3s;
-  color: #000;
+  color: #fff;
 }
 
 .trigger:hover {
-  color: #1890ff;
+  color: rgb(255, 255, 255, 0.5);
 }
 
 .logo {
@@ -106,12 +106,26 @@ body {
   background-color: rgba(24, 144, 255, 0.8) !important;
 }
 
+.AppBar {
+  z-index: 10 !important;
+  background-color: rgba(24, 144, 255) !important;
+}
+
 .MuiTableCell-root {
   padding: 16px 2px !important;
 }
 
 .MuiTableCell-head {
   padding: 20px 2px !important;
+}
+
+.logout-button {
+  width: 100%;
+  background-color: rgb(2, 32, 60, 0.8) !important;
+}
+
+.logout-button:hover {
+  background-color: rgb(2, 32, 60) !important;
 }
 
 @media (max-width: 500px) {

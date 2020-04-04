@@ -137,7 +137,7 @@ const WeeklyWorkload = (props) => {
   };
 
   return (
-    <Layout style={{ padding: "15px 15px" }}>
+    <Layout style={{ padding: "24px 15px 15px" }}>
       <Breadcrumb />
       <Content
         style={{
@@ -149,7 +149,9 @@ const WeeklyWorkload = (props) => {
       >
         <Row>
           <Col lg={{ span: 6, offset: 4 }}>
-            <span style={{ margin: "5px 5px 0 0" }}>{_week}</span>
+            <span style={{ margin: "5px 10px 0 0", fontSize: "17px" }}>
+              {_week}
+            </span>
             <DatePicker
               bordered={true}
               picker="week"
@@ -160,8 +162,10 @@ const WeeklyWorkload = (props) => {
             />
           </Col>
 
-          <Col lg={{ span: 6, offset: 2 }}>
-            <span style={{ margin: "5px 5px 0 0" }}>{_workload}</span>
+          <Col lg={{ span: 7, offset: 2 }}>
+            <span style={{ margin: "5px 10px 0 0", fontSize: "17px" }}>
+              {_workload}
+            </span>
             <Select
               showSearch
               style={{ width: 140 }}

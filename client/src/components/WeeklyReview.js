@@ -140,7 +140,7 @@ const WeeklyReview = (props) => {
   };
 
   return (
-    <Layout style={{ padding: "15px 15px" }}>
+    <Layout style={{ padding: "24px 15px 15px" }}>
       <Breadcrumb />
       <Content
         style={{
@@ -152,7 +152,9 @@ const WeeklyReview = (props) => {
       >
         <Row>
           <Col lg={{ span: 6, offset: 3 }}>
-            <span style={{ margin: "5px 5px 0 0" }}>{_reportWeek}</span>
+            <span style={{ margin: "5px 10px 0 0", fontSize: "17px" }}>
+              {_reportWeek}
+            </span>
             <DatePicker
               placeholder={_selectWeek}
               bordered={true}

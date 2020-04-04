@@ -282,7 +282,7 @@ const DailyHistory = (props) => {
   ];
 
   return (
-    <Layout style={{ padding: " 15px 15px" }}>
+    <Layout style={{ padding: "24px 15px 15px" }}>
       <Breadcrumb />
       <Content
         style={{
