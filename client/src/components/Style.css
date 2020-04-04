@@ -93,3 +93,7 @@ body {
   transition: background-color 0.2s ease;
   background-color: rgba(24, 144, 255, 0.5);
 }
+
+.noHover {
+  pointer-events: none;
+}
