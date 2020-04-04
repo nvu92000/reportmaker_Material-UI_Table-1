@@ -27,7 +27,7 @@ body {
   box-sizing: border-box;
   border: 1px solid rgb(233, 233, 233);
   color: #000;
-  min-height: 71.7vh;
+  min-height: 72.9vh;
 }
 .code-box-demo > div > .ant-layout {
   margin-bottom: 48px;
