@@ -314,7 +314,11 @@ const Home = () => {
               />
               <Footer>
                 <Paper elevation={10}>
-                  <AppBar position="relative" color="transparent">
+                  <AppBar
+                    position="relative"
+                    color="transparent"
+                    style={{ zIndex: 10 }}
+                  >
                     <h3 style={{ margin: "20px 10px 5px" }}>
                       {quotes === null ? null : `"${quotes}"`}
                     </h3>
