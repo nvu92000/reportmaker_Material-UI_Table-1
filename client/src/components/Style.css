@@ -97,3 +97,19 @@ body {
 .noHover {
   pointer-events: none;
 }
+
+.MuiFab-primary {
+  background-color: rgba(24, 144, 255) !important;
+}
+
+.MuiFab-primary:hover {
+  background-color: rgba(24, 144, 255, 0.8) !important;
+}
+
+.MuiTableCell-root {
+  padding: 10px 2px !important;
+}
+
+.MuiTableCell-head {
+  padding: 20px 2px !important;
+}

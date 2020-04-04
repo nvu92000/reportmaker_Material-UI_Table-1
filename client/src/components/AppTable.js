@@ -36,6 +36,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { KeyboardTimePicker } from "@material-ui/pickers";
 import Paper from "@material-ui/core/Paper";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 import LoadingOverlay from "react-loading-overlay";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { DraggableCell } from "./helpers/DraggableCell.js";
@@ -196,7 +201,6 @@ const AppTable = () => {
     dispatch({ type: DELETE_ROW, key });
   };
 
-  // if (loading) return <Spinner />;
   const totalWorkTime =
     dataSource.length === 0
       ? 0
@@ -255,14 +259,22 @@ const AppTable = () => {
 
   return (
     <Fragment>
-      <Button
+      <Fab
+        color="primary"
+        aria-label="add"
+        onClick={onAdd}
+        style={{ margin: "0px 30px 16px 30px" }}
+      >
+        <AddIcon />
+      </Fab>
+      {/* <Button
         size="large"
         onClick={onAdd}
         type="primary"
         style={{ margin: "0px 50px 16px 0" }}
       >
         {_addARow}
-      </Button>
+      </Button> */}
       <span style={{ margin: "0px 5px 16px 0" }}>{_sameAsDate}</span>
       <DatePicker
         showToday={false}
@@ -566,9 +578,14 @@ const AppTable = () => {
                                           onDelete(row.key);
                                         }}
                                       >
-                                        <a href="/">
+                                        <Tooltip title="Delete">
+                                          <IconButton aria-label="delete">
+                                            <DeleteIcon />
+                                          </IconButton>
+                                        </Tooltip>
+                                        {/* <a href="/">
                                           <DeleteOutlined />
-                                        </a>
+                                        </a> */}
                                       </Popconfirm>
                                     )}
                                   </DraggableCell>

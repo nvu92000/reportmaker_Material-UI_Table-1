@@ -24,7 +24,7 @@ class DraggableCell extends React.Component {
 
     const snapshot = {
       width,
-      height
+      height,
     };
 
     return snapshot;
