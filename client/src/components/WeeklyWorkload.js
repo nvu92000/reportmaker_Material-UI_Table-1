@@ -25,6 +25,7 @@ const WeeklyWorkload = (props) => {
       _byProjects,
       _workloadByMembers,
       _workloadByProjects,
+      _hours,
     },
   } = currentLangData
     ? currentLangData
@@ -36,6 +37,7 @@ const WeeklyWorkload = (props) => {
           _byProjects: "By Projects",
           _workloadByMembers: "Workload By Members",
           _workloadByProjects: "Workload By Projects",
+          _hours: "Hours",
         },
       };
 
@@ -76,7 +78,7 @@ const WeeklyWorkload = (props) => {
         autoRotateLabel: true,
       },
       yAxis: {
-        title: { text: "Hours" },
+        title: { text: _hours },
         min: 0,
       },
       label: {
@@ -90,7 +92,7 @@ const WeeklyWorkload = (props) => {
     return () => {
       columnPlot.destroy();
     };
-  }, [dataSource, bySelect, _workloadByMembers, _workloadByProjects]);
+  }, [dataSource, bySelect, _workloadByMembers, _workloadByProjects, _hours]);
 
   const onChangeDate = async (date) => {
     if (date !== null) {

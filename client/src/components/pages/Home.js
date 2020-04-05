@@ -327,7 +327,9 @@ const Home = () => {
                       {quotes === null ? null : `"${quotes}"`}
                     </h3>
                     <h3 style={{ margin: "5px 10px 20px" }}>
-                      Copyright © 2002-2020 TechnoStar Co., Ltd.
+                      {lang === "ja"
+                        ? "© 2002-2020 株式会社テクノスター"
+                        : "© 2002-2020 TechnoStar Co., Ltd."}
                     </h3>
                   </AppBar>
                 </Paper>

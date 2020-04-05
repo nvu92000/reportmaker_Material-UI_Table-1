@@ -600,6 +600,8 @@ const AppTable = () => {
                                           console.log(row, row.key, rowIndex);
                                           onDelete(row.key);
                                         }}
+                                        okText="OK"
+                                        cancelText={_cancel}
                                       >
                                         <Tooltip title={_delete}>
                                           <IconButton

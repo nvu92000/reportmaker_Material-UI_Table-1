@@ -118,6 +118,7 @@ const langData = {
       _byProjects: "By Projects",
       _workloadByMembers: "Workload By Members",
       _workloadByProjects: "Workload By Projects",
+      _hours: "Hours",
     },
   },
   ja: {
@@ -241,6 +242,7 @@ const langData = {
       _byProjects: "プロジェクト別",
       _workloadByMembers: "メンバー別の仕事量",
       _workloadByProjects: "プロジェクト別の仕事量",
+      _hours: "時間",
     },
   },
   vi: {
@@ -365,6 +367,7 @@ const langData = {
       _byProjects: "Theo dự án",
       _workloadByMembers: "Khối lượng công việc theo thành viên",
       _workloadByProjects: "Khối lượng công việc theo dự án",
+      _hours: "Giờ",
     },
   },
   zh: {
@@ -486,6 +489,7 @@ const langData = {
       _byProjects: "按项目",
       _workloadByMembers: "会员的工作量",
       _workloadByProjects: "项目工作量",
+      _hours: "小时",
     },
   },
   ko: {
@@ -610,6 +614,7 @@ const langData = {
       _byProjects: "프로젝트 별",
       _workloadByMembers: "회원 별 작업량",
       _workloadByProjects: "프로젝트 별 작업량",
+      _hours: "시간",
     },
   },
 };
