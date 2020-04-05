@@ -51,9 +51,10 @@ import {
   TableRow,
   TextField,
 } from "@material-ui/core";
-import ListAltIcon from "@material-ui/icons/ListAlt";
+import MenuBookIcon from "@material-ui/icons/MenuBook";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import ClearIcon from "@material-ui/icons/Clear";
+import CancelIcon from "@material-ui/icons/Cancel";
 import { ReactComponent as Language } from "./Language.svg";
 
 const Home = () => {
@@ -77,7 +78,7 @@ const Home = () => {
 
   const { switchLang, lang, currentLangData } = langContext;
   const {
-    home: { _myAccount, _logOut },
+    home: { _myAccount, _logOut, _projectList, _close },
     alert: { _pleaseChangeData, _logout },
     inputDailyData: { _projectId, _projectName, _filter, _cancel },
   } = currentLangData
@@ -86,6 +87,8 @@ const Home = () => {
         home: {
           _myAccount: "My Account",
           _logOut: "Log out",
+          _projectList: "Project List",
+          _close: "Close",
         },
         alert: {
           _pleaseChangeData: "Please save your data or cancel changes first!",
@@ -306,181 +309,9 @@ const Home = () => {
                               : "Language"}
                           </Button>
                         </Dropdown>
-                        <Popper
-                          open={open}
-                          anchorEl={anchorEl}
-                          placement={placement}
-                          transition
-                          style={{ zIndex: 800 }}
-                        >
-                          {({ TransitionProps }) => (
-                            <Fade {...TransitionProps} timeout={350}>
-                              <Paper elevation={2}>
-                                <TableContainer
-                                  style={{
-                                    maxHeight: "550px",
-                                    overflowY: "scroll",
-                                  }}
-                                >
-                                  <Table stickyHeader aria-label="sticky table">
-                                    <TableHead>
-                                      <TableRow>
-                                        <TableCell align="center">
-                                          {!idFiltered ? (
-                                            <Tooltip
-                                              title={_filter}
-                                              aria-label="filter"
-                                            >
-                                              <IconButton
-                                                aria-label="projectlist"
-                                                onClick={() => {
-                                                  setIdFiltered(true);
-                                                  setNameFiltered(false);
-                                                  setNameValue("");
-                                                  setIdValue("");
-                                                }}
-                                              >
-                                                <FilterListIcon />
-                                              </IconButton>
-                                            </Tooltip>
-                                          ) : (
-                                            <Tooltip
-                                              title={_cancel}
-                                              aria-label="cancel"
-                                            >
-                                              <IconButton
-                                                aria-label="clear"
-                                                onClick={() => {
-                                                  setIdFiltered(false);
-                                                }}
-                                              >
-                                                <ClearIcon />
-                                              </IconButton>
-                                            </Tooltip>
-                                          )}
-                                          {idFiltered ? (
-                                            <TextField
-                                              autoFocus
-                                              style={{
-                                                width: "60px",
-                                              }}
-                                              onChange={(event) =>
-                                                setIdValue(event.target.value)
-                                              }
-                                            />
-                                          ) : (
-                                            _projectId
-                                          )}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                          {!nameFiltered ? (
-                                            <Tooltip
-                                              title={_filter}
-                                              aria-label="filter"
-                                            >
-                                              <IconButton
-                                                aria-label="projectlist"
-                                                onClick={() => {
-                                                  setNameFiltered(true);
-                                                  setIdFiltered(false);
-                                                  setIdValue("");
-                                                  setNameValue("");
-                                                }}
-                                              >
-                                                <FilterListIcon />
-                                              </IconButton>
-                                            </Tooltip>
-                                          ) : (
-                                            <Tooltip
-                                              title={_cancel}
-                                              aria-label="cancel"
-                                            >
-                                              <IconButton
-                                                aria-label="clear"
-                                                onClick={() =>
-                                                  setNameFiltered(false)
-                                                }
-                                              >
-                                                <ClearIcon />
-                                              </IconButton>
-                                            </Tooltip>
-                                          )}
-                                          {nameFiltered ? (
-                                            <TextField
-                                              autoFocus
-                                              style={{ width: "100px" }}
-                                              onChange={(event) =>
-                                                setNameValue(event.target.value)
-                                              }
-                                            />
-                                          ) : (
-                                            _projectName
-                                          )}
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      {myPJ.length === 0 ? (
-                                        <TableRow key={"empty"} hover>
-                                          <TableCell
-                                            align="right"
-                                            style={{
-                                              width: "160px",
-                                              height: "53px",
-                                            }}
-                                          >
-                                            Not
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            style={{
-                                              width: "200px",
-                                              height: "53x",
-                                            }}
-                                          >
-                                            found
-                                          </TableCell>
-                                        </TableRow>
-                                      ) : (
-                                        myPJ.map((obj, index) => {
-                                          return (
-                                            <TableRow key={index} hover>
-                                              <TableCell
-                                                align="center"
-                                                style={{ width: "160px" }}
-                                              >
-                                                {obj.pjid}
-                                              </TableCell>
-                                              <TableCell
-                                                align="center"
-                                                style={{ width: "200px" }}
-                                              >
-                                                {lang === "ja"
-                                                  ? obj.pjname_jp
-                                                  : obj.pjname_en}
-                                              </TableCell>
-                                            </TableRow>
-                                          );
-                                        })
-                                      )}
-                                    </TableBody>
-                                  </Table>
-                                </TableContainer>
-                              </Paper>
-                            </Fade>
-                          )}
-                        </Popper>
-                        <Tooltip title={"Project List"}>
-                          <IconButton
-                            aria-label="projectlist"
-                            onClick={handleClick("bottom-start")}
-                          >
-                            <ListAltIcon style={{ color: "#fff" }} />
-                          </IconButton>
-                        </Tooltip>
                         <Tooltip title={_myAccount}>
                           <Button
-                            style={{ marginLeft: "20px", color: " #fff" }}
+                            style={{ marginRight: "10px", color: " #fff" }}
                             onClick={onNameClick}
                           >
                             {user ? user.name : "Welcome!"}
@@ -579,6 +410,208 @@ const Home = () => {
                   </AppBar>
                 </Paper>
               </Footer>
+              <div
+                style={{
+                  position: "fixed",
+                  bottom: 20,
+                  right: 20,
+                  zIndex: 200,
+                }}
+              >
+                <Popper
+                  open={open}
+                  anchorEl={anchorEl}
+                  placement={placement}
+                  transition
+                  style={{ zIndex: 800 }}
+                >
+                  {({ TransitionProps }) => (
+                    <Fade {...TransitionProps} timeout={350}>
+                      <Paper elevation={2}>
+                        <TableContainer
+                          style={{
+                            maxHeight: "550px",
+                            overflowY: "scroll",
+                          }}
+                        >
+                          <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell align="center">
+                                  {!idFiltered ? (
+                                    <Tooltip
+                                      title={_filter}
+                                      aria-label="filter"
+                                    >
+                                      <IconButton
+                                        aria-label="projectlist"
+                                        onClick={() => {
+                                          setIdFiltered(true);
+                                          setNameFiltered(false);
+                                          setNameValue("");
+                                          setIdValue("");
+                                        }}
+                                      >
+                                        <FilterListIcon />
+                                      </IconButton>
+                                    </Tooltip>
+                                  ) : (
+                                    <Tooltip
+                                      title={_cancel}
+                                      aria-label="cancel"
+                                    >
+                                      <IconButton
+                                        aria-label="clear"
+                                        onClick={() => {
+                                          setIdFiltered(false);
+                                        }}
+                                      >
+                                        <ClearIcon />
+                                      </IconButton>
+                                    </Tooltip>
+                                  )}
+                                  {idFiltered ? (
+                                    <TextField
+                                      autoFocus
+                                      style={{
+                                        width: "60px",
+                                      }}
+                                      onChange={(event) =>
+                                        setIdValue(event.target.value)
+                                      }
+                                    />
+                                  ) : (
+                                    _projectId
+                                  )}
+                                </TableCell>
+                                <TableCell align="center">
+                                  {!nameFiltered ? (
+                                    <Tooltip
+                                      title={_filter}
+                                      aria-label="filter"
+                                    >
+                                      <IconButton
+                                        aria-label="projectlist"
+                                        onClick={() => {
+                                          setNameFiltered(true);
+                                          setIdFiltered(false);
+                                          setIdValue("");
+                                          setNameValue("");
+                                        }}
+                                      >
+                                        <FilterListIcon />
+                                      </IconButton>
+                                    </Tooltip>
+                                  ) : (
+                                    <Tooltip
+                                      title={_cancel}
+                                      aria-label="cancel"
+                                    >
+                                      <IconButton
+                                        aria-label="clear"
+                                        onClick={() => setNameFiltered(false)}
+                                      >
+                                        <ClearIcon />
+                                      </IconButton>
+                                    </Tooltip>
+                                  )}
+                                  {nameFiltered ? (
+                                    <TextField
+                                      autoFocus
+                                      style={{ width: "100px" }}
+                                      onChange={(event) =>
+                                        setNameValue(event.target.value)
+                                      }
+                                    />
+                                  ) : (
+                                    _projectName
+                                  )}
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {myPJ.length === 0 ? (
+                                <TableRow key={"empty"} hover>
+                                  <TableCell
+                                    align="right"
+                                    style={{
+                                      width: "160px",
+                                      height: "53px",
+                                    }}
+                                  >
+                                    Not
+                                  </TableCell>
+                                  <TableCell
+                                    align="left"
+                                    style={{
+                                      width: "200px",
+                                      height: "53x",
+                                    }}
+                                  >
+                                    found
+                                  </TableCell>
+                                </TableRow>
+                              ) : (
+                                myPJ.map((obj, index) => {
+                                  return (
+                                    <TableRow key={index} hover>
+                                      <TableCell
+                                        align="center"
+                                        style={{ width: "160px" }}
+                                      >
+                                        {obj.pjid}
+                                      </TableCell>
+                                      <TableCell
+                                        align="center"
+                                        style={{ width: "200px" }}
+                                      >
+                                        {lang === "ja"
+                                          ? obj.pjname_jp
+                                          : obj.pjname_en}
+                                      </TableCell>
+                                    </TableRow>
+                                  );
+                                })
+                              )}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </Paper>
+                    </Fade>
+                  )}
+                </Popper>
+                {!open ? (
+                  <Tooltip title={_projectList}>
+                    <IconButton
+                      aria-label="projectlist"
+                      onClick={handleClick("top-end")}
+                    >
+                      <MenuBookIcon
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          color: "#73a0fa",
+                        }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                ) : (
+                  <Tooltip title={_close}>
+                    <IconButton
+                      aria-label="projectlist"
+                      onClick={handleClick("top-end")}
+                    >
+                      <CancelIcon
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          color: "#ff1818",
+                        }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </div>
             </Layout>
           </Layout>
         </Fragment>

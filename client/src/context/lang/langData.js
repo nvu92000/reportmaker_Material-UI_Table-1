@@ -55,6 +55,8 @@ const langData = {
       _editProfile: "Edit Profile",
       _myAccount: "My Account",
       _logOut: "Log out",
+      _projectList: "Project List",
+      _close: "Close",
     },
     inputDailyData: {
       _inputDailyData: "Input Daily Data",
@@ -181,6 +183,8 @@ const langData = {
       _editProfile: "プロファイル編集",
       _myAccount: "マイアカウント",
       _logOut: "ログアウト",
+      _projectList: "プロジェクトリスト",
+      _close: "閉じる",
     },
     inputDailyData: {
       _inputDailyData: "日次データの入力",
@@ -308,6 +312,8 @@ const langData = {
       _editProfile: "Chỉnh sửa hồ sơ",
       _myAccount: "Tài khoản của tôi",
       _logOut: "Đăng xuất",
+      _projectList: "Danh sách dự án",
+      _close: "Đóng",
     },
     inputDailyData: {
       _inputDailyData: "Nhập dữ liệu",
@@ -432,6 +438,8 @@ const langData = {
       _editProfile: "编辑个人资料",
       _myAccount: "我的帐户",
       _logOut: "登出",
+      _projectList: "项目清单",
+      _close: "关",
     },
     inputDailyData: {
       _inputDailyData: "输入每日数据",
@@ -559,6 +567,8 @@ const langData = {
       _editProfile: "프로필 수정",
       _myAccount: "내 계정",
       _logOut: "로그 아웃",
+      _projectList: "프로젝트 목록",
+      _close: "닫기",
     },
     inputDailyData: {
       _inputDailyData: "일일 데이터 입력",
