@@ -147,8 +147,8 @@ const WeeklyWorkload = (props) => {
           transition: "all .3s",
         }}
       >
-        <Row>
-          <Col lg={{ span: 6, offset: 4 }}>
+        <Row style={{ justifyContent: "space-evenly" }}>
+          <Col>
             <span style={{ margin: "5px 10px 0 0", fontSize: "17px" }}>
               {_week}
             </span>
@@ -162,7 +162,7 @@ const WeeklyWorkload = (props) => {
             />
           </Col>
 
-          <Col lg={{ span: 7, offset: 2 }}>
+          <Col>
             <span style={{ margin: "5px 10px 0 0", fontSize: "17px" }}>
               {_workload}
             </span>

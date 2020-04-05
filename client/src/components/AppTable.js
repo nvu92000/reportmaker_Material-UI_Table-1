@@ -29,23 +29,25 @@ import {
   Row,
   Col,
 } from "antd";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Fab,
+  Tooltip,
+  IconButton,
+} from "@material-ui/core";
 import { KeyboardTimePicker } from "@material-ui/pickers";
-import Paper from "@material-ui/core/Paper";
-import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
+import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import LoadingOverlay from "react-loading-overlay";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { DraggableCell } from "./helpers/DraggableCell.js";
-import GripIcon from "./GripIcon.png";
 
 const AppTable = () => {
   const myContext = useContext(MyContext);
@@ -65,6 +67,7 @@ const AppTable = () => {
     },
     inputDailyData: {
       _addARow,
+      _drag,
       _delete,
       _sameAsDate,
       _projectId,
@@ -97,6 +100,7 @@ const AppTable = () => {
         },
         inputDailyData: {
           _addARow: "Add a row",
+          _drag: "Drag",
           _delete: "Delete",
           _sameAsDate: "Same as date:",
           _projectId: "Project ID",
@@ -351,16 +355,18 @@ const AppTable = () => {
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
                                   >
-                                    <div
-                                      id={row.key}
-                                      {...provided.dragHandleProps}
-                                      style={{
-                                        textAlign: "center",
-                                        paddingLeft: "5px",
-                                      }}
-                                    >
-                                      <img width="20px" src={GripIcon} alt="" />
-                                    </div>
+                                    <Tooltip title={_drag}>
+                                      <IconButton
+                                        id={row.key}
+                                        {...provided.dragHandleProps}
+                                        aria-label="drag"
+                                        style={{
+                                          padding: "0 0 0 5px",
+                                        }}
+                                      >
+                                        <DragIndicatorIcon />
+                                      </IconButton>
+                                    </Tooltip>
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
@@ -531,11 +537,13 @@ const AppTable = () => {
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
                                   >
-                                    <Input
-                                      style={{ width: "60px" }}
-                                      disabled
-                                      value={row.workTime}
-                                    />
+                                    <Button
+                                      className="noHover"
+                                      size="middle"
+                                      type="default"
+                                    >
+                                      {row.workTime}
+                                    </Button>
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}

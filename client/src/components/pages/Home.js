@@ -33,11 +33,14 @@ import { SET_LANG } from "../../context/types";
 import Register from "../auth/Register";
 import ForgotPassword from "../auth/ForgotPassword";
 import ResetPassword from "../auth/ResetPassword";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
+import {
+  AppBar,
+  Tooltip,
+  Toolbar,
+  Button,
+  Typography,
+  Paper,
+} from "@material-ui/core";
 import { ReactComponent as Language } from "./Language.svg";
 
 const Home = () => {
@@ -230,13 +233,14 @@ const Home = () => {
                               : "Language"}
                           </Button>
                         </Dropdown>
-
-                        <Button
-                          style={{ marginRight: "35px", color: " #fff" }}
-                          onClick={onNameClick}
-                        >
-                          {user ? user.name : "Welcome!"}
-                        </Button>
+                        <Tooltip title={_myAccount}>
+                          <Button
+                            style={{ marginRight: "35px", color: " #fff" }}
+                            onClick={onNameClick}
+                          >
+                            {user ? user.name : "Welcome!"}
+                          </Button>
+                        </Tooltip>
                         <Drawer
                           title={_myAccount}
                           placement="right"
