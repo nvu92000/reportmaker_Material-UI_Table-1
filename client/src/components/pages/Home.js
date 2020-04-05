@@ -423,19 +423,23 @@ const Home = () => {
                                       {myPJ.length === 0 ? (
                                         <TableRow key={"empty"} hover>
                                           <TableCell
-                                            align="center"
+                                            align="right"
                                             style={{
                                               width: "150px",
-                                              height: "100px",
+                                              height: "53px",
                                             }}
-                                          ></TableCell>
+                                          >
+                                            Not
+                                          </TableCell>
                                           <TableCell
-                                            align="center"
+                                            align="left"
                                             style={{
                                               width: "200px",
-                                              height: "100px",
+                                              height: "53x",
                                             }}
-                                          ></TableCell>
+                                          >
+                                            found
+                                          </TableCell>
                                         </TableRow>
                                       ) : (
                                         myPJ.map((obj, index) => {
