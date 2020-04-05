@@ -425,7 +425,7 @@ const Home = () => {
                                           <TableCell
                                             align="right"
                                             style={{
-                                              width: "150px",
+                                              width: "160px",
                                               height: "53px",
                                             }}
                                           >
@@ -447,7 +447,7 @@ const Home = () => {
                                             <TableRow key={index} hover>
                                               <TableCell
                                                 align="center"
-                                                style={{ width: "150px" }}
+                                                style={{ width: "160px" }}
                                               >
                                                 {obj.pjid}
                                               </TableCell>
