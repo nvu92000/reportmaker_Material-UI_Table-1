@@ -49,9 +49,11 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TablePagination,
+  TextField,
 } from "@material-ui/core";
 import ListAltIcon from "@material-ui/icons/ListAlt";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import ClearIcon from "@material-ui/icons/Clear";
 import { ReactComponent as Language } from "./Language.svg";
 
 const Home = () => {
@@ -77,7 +79,7 @@ const Home = () => {
   const {
     home: { _myAccount, _logOut },
     alert: { _pleaseChangeData, _logout },
-    inputDailyData: { _projectId, _projectName },
+    inputDailyData: { _projectId, _projectName, _filter, _cancel },
   } = currentLangData
     ? currentLangData
     : {
@@ -92,14 +94,41 @@ const Home = () => {
         inputDailyData: {
           _projectId: "Project ID",
           _projectName: "Project Name",
+          _filter: "Filter",
+          _cancel: "Cancel",
         },
       };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-  const [placement, setPlacement] = React.useState();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [placement, setPlacement] = useState();
+
+  const [idFiltered, setIdFiltered] = useState(false);
+  const [nameFiltered, setNameFiltered] = useState(false);
+  const [idValue, setIdValue] = useState("");
+  const [nameValue, setNameValue] = useState("");
+  const [myPJ, setMyPJ] = useState([]);
+
+  useEffect(() => {
+    if (idFiltered && idValue !== "") {
+      setMyPJ(
+        projects.filter(
+          (obj) => obj.pjid.toLowerCase().indexOf(idValue.toLowerCase()) >= 0
+        )
+      );
+    } else if (nameFiltered && nameValue !== "") {
+      setMyPJ(
+        projects.filter(
+          (obj) =>
+            (lang === "ja" ? obj.pjname_jp : obj.pjname_en)
+              .toLowerCase()
+              .indexOf(nameValue.toLowerCase()) >= 0
+        )
+      );
+    } else setMyPJ(projects);
+
+    // eslint-disable-next-line
+  }, [idFiltered, idValue, nameFiltered, nameValue, projects, lang]);
 
   useLayoutEffect(() => {
     const selectedLang = window.localStorage.getItem("appUILang");
@@ -223,15 +252,6 @@ const Home = () => {
     setPlacement(newPlacement);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
   return (
     <Router>
       <Switch>
@@ -295,51 +315,153 @@ const Home = () => {
                         >
                           {({ TransitionProps }) => (
                             <Fade {...TransitionProps} timeout={350}>
-                              <Paper elevation={2} style={{ minwidth: 200 }}>
-                                <TableContainer style={{ maxHeight: 500 }}>
+                              <Paper elevation={2}>
+                                <TableContainer
+                                  style={{
+                                    maxHeight: "550px",
+                                    overflowY: "scroll",
+                                  }}
+                                >
                                   <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                       <TableRow>
                                         <TableCell align="center">
-                                          {_projectId}
+                                          {!idFiltered ? (
+                                            <Tooltip
+                                              title={_filter}
+                                              aria-label="filter"
+                                            >
+                                              <IconButton
+                                                aria-label="projectlist"
+                                                onClick={() => {
+                                                  setIdFiltered(true);
+                                                  setNameFiltered(false);
+                                                  setNameValue("");
+                                                  setIdValue("");
+                                                }}
+                                              >
+                                                <FilterListIcon />
+                                              </IconButton>
+                                            </Tooltip>
+                                          ) : (
+                                            <Tooltip
+                                              title={_cancel}
+                                              aria-label="cancel"
+                                            >
+                                              <IconButton
+                                                aria-label="clear"
+                                                onClick={() => {
+                                                  setIdFiltered(false);
+                                                }}
+                                              >
+                                                <ClearIcon />
+                                              </IconButton>
+                                            </Tooltip>
+                                          )}
+                                          {idFiltered ? (
+                                            <TextField
+                                              autoFocus
+                                              style={{
+                                                width: "60px",
+                                              }}
+                                              onChange={(event) =>
+                                                setIdValue(event.target.value)
+                                              }
+                                            />
+                                          ) : (
+                                            _projectId
+                                          )}
                                         </TableCell>
                                         <TableCell align="center">
-                                          {_projectName}
+                                          {!nameFiltered ? (
+                                            <Tooltip
+                                              title={_filter}
+                                              aria-label="filter"
+                                            >
+                                              <IconButton
+                                                aria-label="projectlist"
+                                                onClick={() => {
+                                                  setNameFiltered(true);
+                                                  setIdFiltered(false);
+                                                  setIdValue("");
+                                                  setNameValue("");
+                                                }}
+                                              >
+                                                <FilterListIcon />
+                                              </IconButton>
+                                            </Tooltip>
+                                          ) : (
+                                            <Tooltip
+                                              title={_cancel}
+                                              aria-label="cancel"
+                                            >
+                                              <IconButton
+                                                aria-label="clear"
+                                                onClick={() =>
+                                                  setNameFiltered(false)
+                                                }
+                                              >
+                                                <ClearIcon />
+                                              </IconButton>
+                                            </Tooltip>
+                                          )}
+                                          {nameFiltered ? (
+                                            <TextField
+                                              autoFocus
+                                              style={{ width: "100px" }}
+                                              onChange={(event) =>
+                                                setNameValue(event.target.value)
+                                              }
+                                            />
+                                          ) : (
+                                            _projectName
+                                          )}
                                         </TableCell>
                                       </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                      {projects
-                                        .slice(
-                                          page * rowsPerPage,
-                                          page * rowsPerPage + rowsPerPage
-                                        )
-                                        .map((obj, index) => {
+                                      {myPJ.length === 0 ? (
+                                        <TableRow key={"empty"} hover>
+                                          <TableCell
+                                            align="center"
+                                            style={{
+                                              width: "150px",
+                                              height: "100px",
+                                            }}
+                                          ></TableCell>
+                                          <TableCell
+                                            align="center"
+                                            style={{
+                                              width: "200px",
+                                              height: "100px",
+                                            }}
+                                          ></TableCell>
+                                        </TableRow>
+                                      ) : (
+                                        myPJ.map((obj, index) => {
                                           return (
                                             <TableRow key={index} hover>
-                                              <TableCell align="center">
+                                              <TableCell
+                                                align="center"
+                                                style={{ width: "150px" }}
+                                              >
                                                 {obj.pjid}
                                               </TableCell>
-                                              <TableCell align="center">
+                                              <TableCell
+                                                align="center"
+                                                style={{ width: "200px" }}
+                                              >
                                                 {lang === "ja"
                                                   ? obj.pjname_jp
                                                   : obj.pjname_en}
                                               </TableCell>
                                             </TableRow>
                                           );
-                                        })}
+                                        })
+                                      )}
                                     </TableBody>
                                   </Table>
                                 </TableContainer>
-                                <TablePagination
-                                  rowsPerPageOptions={[10, 25, 100]}
-                                  component="div"
-                                  count={projects.length}
-                                  rowsPerPage={rowsPerPage}
-                                  page={page}
-                                  onChangePage={handleChangePage}
-                                  onChangeRowsPerPage={handleChangeRowsPerPage}
-                                />
                               </Paper>
                             </Fade>
                           )}
