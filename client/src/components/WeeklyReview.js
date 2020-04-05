@@ -61,13 +61,14 @@ const WeeklyReview = (props) => {
     if (date !== null) {
       const sunday = date.startOf("week").format("YYYYMMDD").toString();
       if (roleSelect !== "") {
-        await axios.get(`api/weekly/get`, {
+        const res = await axios.get(`api/weekly/get`, {
           params: {
             name,
             sunday,
             role: roleSelect,
           },
         });
+        console.log(res);
       }
       SetWeekSelect(sunday);
     }
@@ -75,13 +76,14 @@ const WeeklyReview = (props) => {
 
   const onChangeRole = async (role) => {
     if (weekSelect !== "") {
-      await axios.get(`api/weekly/get`, {
+      const res = await axios.get(`api/weekly/get`, {
         params: {
           name,
           sunday: weekSelect,
           role,
         },
       });
+      console.log(res);
     }
     setRoleSelect(role);
   };
