@@ -12,7 +12,7 @@ import {
   MenuFoldOutlined,
 } from "@ant-design/icons";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { QUOTES } from "../../context/types";
+import { QUOTES, RESET_PROJECTS } from "../../context/types";
 
 import Login from "../auth/Login";
 import PrivateRoute from "../routing/PrivateRoute";
@@ -40,7 +40,18 @@ import {
   Button,
   Typography,
   Paper,
+  Popper,
+  Fade,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TablePagination,
 } from "@material-ui/core";
+import ListAltIcon from "@material-ui/icons/ListAlt";
 import { ReactComponent as Language } from "./Language.svg";
 
 const Home = () => {
@@ -49,9 +60,16 @@ const Home = () => {
   const dailyContext = useContext(DailyContext);
   const langContext = useContext(LangContext);
 
-  const { logout, user, loadUser } = authContext;
+  const { logout, user, loadUser, isAuthenticated } = authContext;
 
-  const { clearLogout, quotes, dispatch, isDataEdited } = myContext;
+  const {
+    clearLogout,
+    quotes,
+    dispatch,
+    isDataEdited,
+    projects,
+    getProject,
+  } = myContext;
 
   const { clearDailyLogout } = dailyContext;
 
@@ -59,6 +77,7 @@ const Home = () => {
   const {
     home: { _myAccount, _logOut },
     alert: { _pleaseChangeData, _logout },
+    inputDailyData: { _projectId, _projectName },
   } = currentLangData
     ? currentLangData
     : {
@@ -70,7 +89,17 @@ const Home = () => {
           _pleaseChangeData: "Please save your data or cancel changes first!",
           _logout: "LOGGED OUT",
         },
+        inputDailyData: {
+          _projectId: "Project ID",
+          _projectName: "Project Name",
+        },
       };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [placement, setPlacement] = React.useState();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   useLayoutEffect(() => {
     const selectedLang = window.localStorage.getItem("appUILang");
@@ -87,10 +116,19 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    if (isAuthenticated) getProject();
+
+    // ComponentWillUnmount
+    return () => {
+      dispatch({ type: RESET_PROJECTS });
+    };
+    // eslint-disable-next-line
+  }, [isAuthenticated]);
+
+  useEffect(() => {
     const randomQuote = async () => {
       try {
         const res = await axios.get("https://api.quotable.io/random");
-        // console.log(res.data);
         dispatch({ type: QUOTES, payload: res.data.content });
       } catch (error) {
         console.log(error);
@@ -179,6 +217,21 @@ const Home = () => {
     setVisible(false);
   };
 
+  const handleClick = (newPlacement) => (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((prev) => placement !== newPlacement || !prev);
+    setPlacement(newPlacement);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   return (
     <Router>
       <Switch>
@@ -215,7 +268,7 @@ const Home = () => {
                         <Dropdown overlay={langMenu}>
                           <Button
                             style={{
-                              marginRight: "25px",
+                              marginRight: "20px",
                               color: " #fff",
                             }}
                           >
@@ -233,9 +286,75 @@ const Home = () => {
                               : "Language"}
                           </Button>
                         </Dropdown>
+                        <Popper
+                          open={open}
+                          anchorEl={anchorEl}
+                          placement={placement}
+                          transition
+                          style={{ zIndex: 800 }}
+                        >
+                          {({ TransitionProps }) => (
+                            <Fade {...TransitionProps} timeout={350}>
+                              <Paper elevation={2} style={{ minwidth: 200 }}>
+                                <TableContainer style={{ maxHeight: 500 }}>
+                                  <Table stickyHeader aria-label="sticky table">
+                                    <TableHead>
+                                      <TableRow>
+                                        <TableCell align="center">
+                                          {_projectId}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {_projectName}
+                                        </TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      {projects
+                                        .slice(
+                                          page * rowsPerPage,
+                                          page * rowsPerPage + rowsPerPage
+                                        )
+                                        .map((obj, index) => {
+                                          return (
+                                            <TableRow key={index} hover>
+                                              <TableCell align="center">
+                                                {obj.pjid}
+                                              </TableCell>
+                                              <TableCell align="center">
+                                                {lang === "ja"
+                                                  ? obj.pjname_jp
+                                                  : obj.pjname_en}
+                                              </TableCell>
+                                            </TableRow>
+                                          );
+                                        })}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                                <TablePagination
+                                  rowsPerPageOptions={[10, 25, 100]}
+                                  component="div"
+                                  count={projects.length}
+                                  rowsPerPage={rowsPerPage}
+                                  page={page}
+                                  onChangePage={handleChangePage}
+                                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                                />
+                              </Paper>
+                            </Fade>
+                          )}
+                        </Popper>
+                        <Tooltip title={"Project List"}>
+                          <IconButton
+                            aria-label="projectlist"
+                            onClick={handleClick("bottom-start")}
+                          >
+                            <ListAltIcon style={{ color: "#fff" }} />
+                          </IconButton>
+                        </Tooltip>
                         <Tooltip title={_myAccount}>
                           <Button
-                            style={{ marginRight: "35px", color: " #fff" }}
+                            style={{ marginLeft: "20px", color: " #fff" }}
                             onClick={onNameClick}
                           >
                             {user ? user.name : "Welcome!"}
@@ -247,7 +366,7 @@ const Home = () => {
                           closable={false}
                           onClose={onClose}
                           visible={visible}
-                          width="280px"
+                          width="305px"
                           bodyStyle={{
                             backgroundColor: "#faf9f8",
                             padding: "0 0",
@@ -262,7 +381,7 @@ const Home = () => {
                               borderWidth: "2px",
                               borderTopColor: "#e8e7e7",
                               borderBottomColor: "#e8e7e7",
-                              width: "280px",
+                              width: "305px",
                               padding: "0 0",
                               textAlign: "center",
                             }}

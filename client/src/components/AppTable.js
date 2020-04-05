@@ -7,7 +7,6 @@ import {
   SELECT_PJNAME,
   SELECT_SUBID,
   SELECT_SUBNAME,
-  RESET_PROJECTS,
   START_TIME,
   END_TIME,
   ADD_ROW,
@@ -124,7 +123,7 @@ const AppTable = () => {
         },
       };
 
-  const { user, isAuthenticated } = authContext;
+  const { user } = authContext;
   const name = user && user.name;
 
   const {
@@ -136,22 +135,11 @@ const AppTable = () => {
     oldCount,
     loading,
     dispatch,
-    getProject,
     getDataFromDate,
     getDataFromSameAsDate,
     onSave,
     isDataEdited,
   } = myContext;
-
-  useEffect(() => {
-    if (isAuthenticated) getProject();
-
-    // ComponentWillUnmount
-    return () => {
-      dispatch({ type: RESET_PROJECTS });
-    };
-    // eslint-disable-next-line
-  }, [isAuthenticated]);
 
   useEffect(() => {
     getDataFromDate(name, selectedDate, lang);
