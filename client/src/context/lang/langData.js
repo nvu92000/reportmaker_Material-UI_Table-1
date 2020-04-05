@@ -78,6 +78,7 @@ const langData = {
       _cancel: "Cancel",
       _select: "Select",
       _selectDate: "Select Date",
+      _noData: "No data",
     },
     weeklyReview: {
       _weeklyReview: "Weekly Review",
@@ -202,6 +203,7 @@ const langData = {
       _cancel: "キャンセル",
       _select: "選択",
       _selectDate: "日付を選択",
+      _noData: "データなし",
     },
     weeklyReview: {
       _weeklyReview: "週間レビュー",
@@ -327,6 +329,7 @@ const langData = {
       _cancel: "Hủy bỏ",
       _select: "Chọn",
       _selectDate: "Chọn ngày",
+      _noData: "Không có dữ liệu",
     },
     weeklyReview: {
       _weeklyReview: "Đánh giá hàng tuần",
@@ -449,6 +452,7 @@ const langData = {
       _cancel: "取消",
       _select: "选择",
       _selectDate: "选择日期",
+      _noData: "没有数据",
     },
     weeklyReview: {
       _weeklyReview: "每周审查",
@@ -574,6 +578,7 @@ const langData = {
       _cancel: "취소",
       _select: "고르다",
       _selectDate: "날짜 선택",
+      _noData: "데이터가 없습니다",
     },
     weeklyReview: {
       _weeklyReview: "주간 검토",

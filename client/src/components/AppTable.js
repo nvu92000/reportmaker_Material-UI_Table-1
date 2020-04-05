@@ -28,6 +28,7 @@ import {
   message,
   Row,
   Col,
+  Empty,
 } from "antd";
 import {
   Table,
@@ -85,6 +86,7 @@ const AppTable = () => {
       _cancel,
       _select,
       _selectDate,
+      _noData,
     },
   } = currentLangData
     ? currentLangData
@@ -96,7 +98,7 @@ const AppTable = () => {
           _pleaseSelectDate: "Please select date!",
           _saved: "SUCCESSFULLY SAVED!",
           _pleaseChangeData: "Please save your data or cancel changes first!",
-          _sureToDelete: "Are you sure you want to delete this item?",
+          _sureToDelete: "Are you sure you want to delete this row?",
         },
         inputDailyData: {
           _addARow: "Add a row",
@@ -118,6 +120,7 @@ const AppTable = () => {
           _cancel: "Cancel",
           _select: "Select",
           _selectDate: "Select Date",
+          _noData: "No data",
         },
       };
 
@@ -630,34 +633,40 @@ const AppTable = () => {
             </TableContainer>
           </Paper>
         </DragDropContext>
+        {dataSource.length === 0 && (
+          <Paper elevation={3}>
+            <Empty
+              description={_noData}
+              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+              imageStyle={{
+                height: 100,
+              }}
+              style={{ padding: "20px 0 20px 0" }}
+            />
+          </Paper>
+        )}
       </LoadingOverlay>
-      <div style={{ textAlign: "center", marginTop: "5px" }}>
-        <Button
-          className="noHover"
-          size="large"
-          type="dashed"
-          style={{ margin: "2px 2px 0 0" }}
-        >
-          {_totalWorkTime}
-        </Button>
-        <Button
-          className="noHover"
-          size="large"
-          type="dashed"
-          style={{ margin: "2px 2px 0 0" }}
-        >
-          =
-        </Button>
-        <Button
-          className="noHover"
-          size="large"
-          type="default"
-          style={{ marginTop: "2px" }}
-        >
-          {totalWorkTime > 0 ? totalWorkTime.toPrecision(3) : 0}{" "}
-          {lang === "en-US" && totalWorkTime <= 1 ? "hour" : _hours}
-        </Button>
-      </div>
+      {dataSource.length > 0 && (
+        <div style={{ textAlign: "center", marginTop: "5px" }}>
+          <Button
+            className="noHover"
+            size="large"
+            type="default"
+            style={{ margin: "2px 2px 0 0" }}
+          >
+            {_totalWorkTime}:
+          </Button>
+          <Button
+            className="noHover"
+            size="large"
+            type="default"
+            style={{ marginTop: "2px" }}
+          >
+            {totalWorkTime > 0 ? totalWorkTime.toPrecision(3) : 0}{" "}
+            {lang === "en-US" && totalWorkTime <= 1 ? "hour" : _hours}
+          </Button>
+        </div>
+      )}
       {isDataEdited && (
         <div style={{ textAlign: "center" }}>
           <Button
