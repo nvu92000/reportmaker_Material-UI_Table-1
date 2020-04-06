@@ -11,23 +11,23 @@ const AppContent = () => {
 
   const {
     alert: { _pleaseChangeData },
-    inputDailyData: { _reportDate, _selectDate },
+    inputDailyData: { _reportDate, _selectDate }
   } = langContext.currentLangData
     ? langContext.currentLangData
     : {
         alert: {
-          _pleaseChangeData: "Please save your data or cancel changes first!",
+          _pleaseChangeData: "Please save your data or cancel changes first!"
         },
         inputDailyData: {
           _reportDate: "Report date:",
-          _selectDate: "Select Date",
-        },
+          _selectDate: "Select Date"
+        }
       };
 
   const { dispatch, isDataEdited, selectedDate } = myContext;
 
   const { Content } = Layout;
-  const onChange = (date) => {
+  const onChange = date => {
     if (isDataEdited && selectedDate) {
       message.error(_pleaseChangeData);
     } else {
@@ -36,14 +36,14 @@ const AppContent = () => {
   };
 
   return (
-    <Layout style={{ padding: "24px 15px 15px" }}>
+    <Layout style={{ padding: "2vh" }}>
       <Breadcrumb />
       <Content
         style={{
-          padding: "20px 20px",
+          padding: "2vh",
           borderRadius: "2px",
           position: "relative",
-          transition: "all .3s",
+          transition: "all .3s"
         }}
       >
         <Row type="flex" justify="end">

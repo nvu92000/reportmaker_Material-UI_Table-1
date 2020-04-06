@@ -40,20 +40,20 @@ app.use(cookieParser());
 // app.use("/api/auth", require("./routes/auth"));
 
 // mySQL;
-const db_config = {
-  host: "localhost",
-  user: "root",
-  password: "14081992",
-  database: "projectdata",
-};
-
 // const db_config = {
-//   host: process.env.DB_HOST,
-//   user: process.env.DB_USER,
-//   database: process.env.DB_DATABASE,
-//   password: process.env.DB_PASS,
-//   port: process.env.DB_PORT
+//   host: "localhost",
+//   user: "root",
+//   password: "123456789",
+//   database: "projectdata"
 // };
+
+const db_config = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASS,
+  port: process.env.DB_PORT
+};
 
 let connection;
 
@@ -65,7 +65,7 @@ const handleDisconnect = () => {
   query = util.promisify(connection.query).bind(connection);
   console.log(query);
 
-  connection.connect((err) => {
+  connection.connect(err => {
     if (err) {
       // The server is either down or restarting (takes a while sometimes).
       console.log(`Error when connecting to db: ${err} at ${Date()}`);
@@ -77,7 +77,7 @@ const handleDisconnect = () => {
     console.log(`Connected as thread id: ${connection.threadId} at ${Date()}`);
   });
 
-  connection.on("error", function (err) {
+  connection.on("error", function(err) {
     console.log(`db error: ${err} at ${Date()}`);
     if (err.code === "PROTOCOL_CONNECTION_LOST") {
       // Connection to the MySQL server is usually lost due to either server restart,
@@ -106,7 +106,7 @@ app.get("/api/workload/get", async (req, res) => {
     const results = await query(QUERY_WORKLOAD);
 
     return res.json({
-      data: results,
+      data: results
     });
   } catch (err) {
     console.log(err.message);
@@ -183,7 +183,7 @@ app.get("/api/weekly/get", async (req, res) => {
     );
 
     return res.json({
-      data: sheetId,
+      data: results
     });
   } catch (err) {
     console.log(err.message);
@@ -209,7 +209,7 @@ app.get("/api/timesheet/get", async (req, res) => {
     const results = await query(QUERY_MONTHLY);
     CreateTimeSheet(name, monthStartDate, results);
     return res.json({
-      data: results,
+      data: results
     });
   } catch (err) {
     console.log(err.message);
@@ -233,7 +233,7 @@ app.post("/api/projects/add", async (req, res) => {
       starthour,
       startmin,
       endhour,
-      endmin,
+      endmin
     } = req.body.params;
     const INSERT_PRODUCTS_QUERY = `INSERT INTO projectdata.t_personalrecode
     (name, workdate, count, pjid, pjname, deadline, expecteddate, subid, subname, percent, comment, worktime, starthour, startmin, endhour, endmin)
@@ -242,7 +242,7 @@ app.post("/api/projects/add", async (req, res) => {
     (SELECT expecteddate FROM projectdata.t_projectmaster WHERE pjid = '${pjid}'),
     '${subid}','${subname}','${status}','${comment
       .split("")
-      .map((a) => {
+      .map(a => {
         if (a === "'") {
           return "\\".concat("'");
         } else if (a === '"') {
@@ -281,7 +281,7 @@ app.put("/api/projects/update", async (req, res) => {
       starthour,
       startmin,
       endhour,
-      endmin,
+      endmin
     } = req.body.params;
     const UPDATE_PRODUCTS_QUERY = `UPDATE projectdata.t_personalrecode
     SET pjid = '${pjid}', pjname = '${pjname}',
@@ -289,7 +289,7 @@ app.put("/api/projects/update", async (req, res) => {
     expecteddate = (SELECT expecteddate FROM projectdata.t_projectmaster WHERE pjid = '${pjid}'),
     subid = '${subid}', subname = '${subname}', percent = '${status}', comment = '${comment
       .split("")
-      .map((a) => {
+      .map(a => {
         if (a === "'") {
           return "\\".concat("'");
         } else if (a === '"') {
@@ -337,7 +337,7 @@ app.get("/api/personal", async (req, res) => {
     const results = await query(QUERY_PERSONAL);
     console.log(`${name} logged in at ${Date()}`);
     return res.json({
-      data: results,
+      data: results
     });
   } catch (err) {
     console.log(err.message);
@@ -354,7 +354,7 @@ app.get("/api/projects", async (req, res) => {
   try {
     const results = await query(QUERY_PROJECTS);
     return res.json({
-      data: results,
+      data: results
     });
   } catch (err) {
     console.log(err.message);
@@ -366,7 +366,7 @@ app.get("/api/subs", async (req, res) => {
   try {
     const results = await query(QUERY_SUBS);
     return res.json({
-      data: results,
+      data: results
     });
   } catch (err) {
     console.log(err.message);
@@ -384,7 +384,7 @@ app.get("/api/daily", async (req, res) => {
     const results = await query(QUERY_DAILY);
     console.log(`${name} queried daily history at ${Date()}`);
     return res.json({
-      data: results,
+      data: results
     });
   } catch (err) {
     console.log(err.message);
@@ -397,7 +397,7 @@ app.get("/api/daily/members", async (req, res) => {
     const QUERY_MEMBERS = `SELECT name FROM projectdata.t_personalrecode GROUP BY name`;
     const results = await query(QUERY_MEMBERS);
     return res.json({
-      data: results,
+      data: results
     });
   } catch (err) {
     console.log(err.message);
@@ -423,7 +423,7 @@ app.get("/api/comments", async (req, res) => {
 
     const results = await query(QUERY_COMMENTS);
     return res.json({
-      data: results,
+      data: results
     });
   } catch (err) {
     console.log(err.message);
@@ -435,12 +435,14 @@ app.get("/api/comments", async (req, res) => {
 app.post(
   "/api/users",
   [
-    check("name", "Name is required").not().isEmpty(),
+    check("name", "Name is required")
+      .not()
+      .isEmpty(),
     check("email", "Please include a valid email").isEmail(),
     check(
       "password",
       "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 }),
+    ).isLength({ min: 6 })
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -467,7 +469,7 @@ app.post(
         const user = {
           name,
           email,
-          password,
+          password
         };
 
         const salt = await bcrypt.genSalt(10);
@@ -476,8 +478,8 @@ app.post(
 
         const payload = {
           user: {
-            name: user.name,
-          },
+            name: user.name
+          }
         };
 
         jwt.sign(
@@ -512,7 +514,7 @@ app.get("/api/auth", auth, async (req, res) => {
 
     const user = {
       name: search_res[0].name,
-      email: search_res[0].email,
+      email: search_res[0].email
     };
 
     res.json(user);
@@ -528,8 +530,10 @@ app.get("/api/auth", auth, async (req, res) => {
 app.post(
   "/api/auth",
   [
-    check("name", "Please include a valid name").not().isEmpty(),
-    check("password", "Password is required").exists(),
+    check("name", "Please include a valid name")
+      .not()
+      .isEmpty(),
+    check("password", "Password is required").exists()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -556,8 +560,8 @@ app.post(
 
       const payload = {
         user: {
-          name: search_res[0].name,
-        },
+          name: search_res[0].name
+        }
       };
 
       jwt.sign(
@@ -621,7 +625,7 @@ TechnoStar Email Service
     await sendEmail({
       email: req.body.email,
       subject: "Reset Password Notification",
-      message,
+      message
     });
     res.status(200).json({ data: "Email sent" });
   } catch (err) {
@@ -648,7 +652,7 @@ app.get("/api/auth/resetpassword", async (req, res) => {
       return res.status(400).json({ msg: "Invalid token" });
     } else {
       return res.status(200).json({
-        msg: search_res[0].email,
+        msg: search_res[0].email
       });
     }
   } catch (err) {
@@ -666,7 +670,7 @@ app.put(
     check(
       "password",
       "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 }),
+    ).isLength({ min: 6 })
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -695,8 +699,8 @@ app.put(
 
       const payload = {
         user: {
-          name: search_res[0].name,
-        },
+          name: search_res[0].name
+        }
       };
 
       jwt.sign(
@@ -752,20 +756,20 @@ const authorize = async (credentials, filename, path, callback) => {
 function getAccessToken(oAuth2Client, filename, path, callback) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: "offline",
-    scope: SCOPES,
+    scope: SCOPES
   });
   console.log("Authorize this app by visiting this url:", authUrl);
   const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout,
+    output: process.stdout
   });
-  rl.question("Enter the code from that page here: ", (code) => {
+  rl.question("Enter the code from that page here: ", code => {
     rl.close();
     oAuth2Client.getToken(code, (err, token) => {
       if (err) return console.error("Error retrieving access token", err);
       oAuth2Client.setCredentials(token);
       // Store the token to disk for later program executions
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+      fs.writeFile(TOKEN_PATH, JSON.stringify(token), err => {
         if (err) return console.error(err);
         console.log("Token stored to", TOKEN_PATH);
       });
@@ -789,7 +793,7 @@ function getList(drive, pageToken) {
       pageSize: 10,
       //q: "name='elvis233424234'", // file name
       pageToken: pageToken ? pageToken : "",
-      fields: "nextPageToken, files(*)", //files(id,name)
+      fields: "nextPageToken, files(*)" //files(id,name)
     },
     (err, res) => {
       if (err) return console.log("The API returned an error: " + err);
@@ -812,7 +816,7 @@ function getList(drive, pageToken) {
 }
 function processList(files) {
   console.log("Processing....");
-  files.forEach((file) => {
+  files.forEach(file => {
     // console.log(file.name + '|' + file.size + '|' + file.createdTime + '|' + file.modifiedTime);
     console.log(file);
   });
@@ -820,17 +824,17 @@ function processList(files) {
 const uploadFile = async (auth, filename, path) => {
   const drive = google.drive({ version: "v3", auth });
   const fileMetadata = {
-    name: filename,
+    name: filename
   };
   const media = {
     mimeType:
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    body: fs.createReadStream(path),
+    body: fs.createReadStream(path)
   };
   const res = await drive.files.create({
     resource: fileMetadata,
     media: media,
-    fields: "id",
+    fields: "id"
   });
   console.log("Sheet Id: ", res.data.id);
 

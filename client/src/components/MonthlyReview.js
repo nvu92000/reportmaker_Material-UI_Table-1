@@ -10,13 +10,13 @@ import {
   DatePicker,
   message,
   Row,
-  Col,
+  Col
 } from "antd";
 import axios from "axios";
 import moment from "moment";
 import { TableContainer } from "@material-ui/core";
 
-const MonthlyReview = (props) => {
+const MonthlyReview = props => {
   const myContext = useContext(MyContext);
   const authContext = useContext(AuthContext);
   const langContext = useContext(LangContext);
@@ -24,18 +24,18 @@ const MonthlyReview = (props) => {
   const { currentLangData } = langContext;
   const {
     alert: { _pleaseSelectMonth },
-    monthlyReview: { _reportMonth, _selectMonth, _downloadTimeSheet },
+    monthlyReview: { _reportMonth, _selectMonth, _downloadTimeSheet }
   } = currentLangData
     ? currentLangData
     : {
         alert: {
-          _pleaseSelectMonth: "Please select a month!",
+          _pleaseSelectMonth: "Please select a month!"
         },
         monthlyReview: {
           _reportMonth: "Report Month:",
           _selectMonth: "Select Month",
-          _downloadTimeSheet: "Download Time Sheet",
-        },
+          _downloadTimeSheet: "Download Time Sheet"
+        }
       };
 
   const { Content } = Layout;
@@ -50,12 +50,12 @@ const MonthlyReview = (props) => {
   useEffect(() => {
     dispatch({
       type: SELECT_PAGE,
-      payload: "/monthlyreview",
+      payload: "/monthlyreview"
     });
     // eslint-disable-next-line
   }, []);
 
-  const onChangeDate = async (date) => {
+  const onChangeDate = async date => {
     if (date !== null) {
       const monthStartDate = date
         .startOf("month")
@@ -64,8 +64,8 @@ const MonthlyReview = (props) => {
       await axios.get(`api/timesheet/get`, {
         params: {
           name,
-          monthStartDate,
-        },
+          monthStartDate
+        }
       });
       setMonthSelect(monthStartDate);
     }
@@ -78,13 +78,13 @@ const MonthlyReview = (props) => {
         //Force to receive data in a Blob Format
         params: {
           name,
-          monthStartDate: monthSelect,
-        },
+          monthStartDate: monthSelect
+        }
       });
 
       //Create a Blob from the PDF Stream
       const file = new Blob([res.data], {
-        type: "application/xlsx",
+        type: "application/xlsx"
       });
       //Build a URL from the file
       const fileURL = URL.createObjectURL(file);
@@ -108,14 +108,14 @@ const MonthlyReview = (props) => {
   };
 
   return (
-    <Layout style={{ padding: "24px 15px 15px" }}>
+    <Layout style={{ padding: "2vh" }}>
       <Breadcrumb />
       <Content
         style={{
-          padding: "20px 20px",
+          padding: "2vh",
           borderRadius: "2px",
           position: "relative",
-          transition: "all .3s",
+          transition: "all .3s"
         }}
       >
         <Row style={{ justifyContent: "space-evenly" }}>
@@ -127,7 +127,7 @@ const MonthlyReview = (props) => {
               placeholder={_selectMonth}
               picker="month"
               bordered={true}
-              onChange={(date) => {
+              onChange={date => {
                 onChangeDate(date);
               }}
             />
@@ -156,7 +156,7 @@ const MonthlyReview = (props) => {
                 title="monthlyframe"
                 id="monthlyframe"
                 // src="https://docs.google.com/spreadsheets/d/0B4t1BAVd8n24Z2E3TFh0eTRPZWc/edit#gid=1485113290"
-                height="700"
+                height="650"
                 width="1200"
               />
             </TableContainer>

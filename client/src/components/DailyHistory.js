@@ -9,7 +9,7 @@ import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 import LoadingOverlay from "react-loading-overlay";
 
-const DailyHistory = (props) => {
+const DailyHistory = props => {
   const myContext = useContext(MyContext);
   const dailyContext = useContext(DailyContext);
   const authContext = useContext(AuthContext);
@@ -31,8 +31,8 @@ const DailyHistory = (props) => {
       _startHour,
       _startMin,
       _endHour,
-      _endMin,
-    },
+      _endMin
+    }
   } = langContext.currentLangData
     ? langContext.currentLangData
     : {
@@ -52,8 +52,8 @@ const DailyHistory = (props) => {
           _startHour: "Start Hour",
           _startMin: "Start Min",
           _endHour: "End Hour",
-          _endMin: "End Min",
-        },
+          _endMin: "End Min"
+        }
       };
 
   const { user } = authContext;
@@ -78,7 +78,7 @@ const DailyHistory = (props) => {
     members,
     getMembers,
     getDailyData,
-    dailySource,
+    dailySource
   } = dailyContext;
 
   useEffect(() => {
@@ -109,21 +109,21 @@ const DailyHistory = (props) => {
 
   let searchInput;
 
-  const getColumnSearchProps = (dataIndex) => ({
+  const getColumnSearchProps = dataIndex => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
       confirm,
-      clearFilters,
+      clearFilters
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={(node) => {
+          ref={node => {
             searchInput = node;
           }}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) =>
+          onChange={e =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -147,17 +147,20 @@ const DailyHistory = (props) => {
         </Button>
       </div>
     ),
-    filterIcon: (filtered) => (
+    filterIcon: filtered => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: visible => {
       if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: (text) =>
+    render: text =>
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -167,7 +170,7 @@ const DailyHistory = (props) => {
         />
       ) : (
         text
-      ),
+      )
   });
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -176,7 +179,7 @@ const DailyHistory = (props) => {
     setSearchedColumn(dataIndex);
   };
 
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
     setSearchText("");
   };
@@ -187,109 +190,109 @@ const DailyHistory = (props) => {
       dataIndex: "Date",
       key: "Date",
       align: "center",
-      ...getColumnSearchProps("Date"),
+      ...getColumnSearchProps("Date")
     },
     {
       title: _projectId,
       dataIndex: "Project ID",
       key: "Project ID",
       align: "center",
-      ...getColumnSearchProps("Project ID"),
+      ...getColumnSearchProps("Project ID")
     },
     {
       title: _projectName,
       dataIndex: "Project Name",
       key: "Project Name",
       align: "center",
-      ...getColumnSearchProps("Project Name"),
+      ...getColumnSearchProps("Project Name")
     },
     {
       title: _deadline,
       dataIndex: "Deadline",
       key: "Deadline",
       align: "center",
-      ...getColumnSearchProps("Deadline"),
+      ...getColumnSearchProps("Deadline")
     },
     {
       title: _expectedDate,
       dataIndex: "Expected Date",
       key: "Expected Date",
-      ...getColumnSearchProps("Expected Date"),
+      ...getColumnSearchProps("Expected Date")
     },
     {
       title: _subId,
       dataIndex: "SubId",
       key: "SubId",
       align: "center",
-      ...getColumnSearchProps("SubId"),
+      ...getColumnSearchProps("SubId")
     },
     {
       title: _subName,
       dataIndex: "SubName",
       key: "SubName",
       align: "center",
-      ...getColumnSearchProps("SubName"),
+      ...getColumnSearchProps("SubName")
     },
     {
       title: _status,
       dataIndex: "Status (%)",
       key: "Status (%)",
       align: "center",
-      ...getColumnSearchProps("Status (%)"),
+      ...getColumnSearchProps("Status (%)")
     },
     {
       title: _comment,
       dataIndex: "Comment",
       key: "Comment",
       align: "center",
-      ...getColumnSearchProps("Comment"),
+      ...getColumnSearchProps("Comment")
     },
     {
       title: _workTime,
       dataIndex: "Work Time",
       key: "Work Time",
       align: "center",
-      ...getColumnSearchProps("Work Time"),
+      ...getColumnSearchProps("Work Time")
     },
     {
       title: _startHour,
       dataIndex: "Start Hour",
       key: "Start Hour",
       align: "center",
-      ...getColumnSearchProps("Start Hour"),
+      ...getColumnSearchProps("Start Hour")
     },
     {
       title: _startMin,
       dataIndex: "Start Min",
       key: "Start Min",
       align: "center",
-      ...getColumnSearchProps("Start Min"),
+      ...getColumnSearchProps("Start Min")
     },
     {
       title: _endHour,
       dataIndex: "End Hour",
       key: "End Hour",
       align: "center",
-      ...getColumnSearchProps("End Hour"),
+      ...getColumnSearchProps("End Hour")
     },
     {
       title: _endMin,
       dataIndex: "End Min",
       key: "End Min",
       align: "center",
-      ...getColumnSearchProps("End Min"),
-    },
+      ...getColumnSearchProps("End Min")
+    }
   ];
 
   return (
-    <Layout style={{ padding: "24px 15px 15px" }}>
+    <Layout style={{ padding: "2vh" }}>
       <Breadcrumb />
       <Content
         style={{
-          padding: "20px 20px",
+          padding: "2vh",
           borderRadius: "2px",
           position: "relative",
-          transition: "all .3s",
+          transition: "all .3s"
         }}
       >
         <Button
@@ -306,7 +309,7 @@ const DailyHistory = (props) => {
           style={{ width: 120 }}
           optionFilterProp="children"
           value={memberSelect}
-          onChange={(member) => {
+          onChange={member => {
             setMemberSelect(member);
           }}
           filterOption={(input, option) =>
@@ -319,10 +322,10 @@ const DailyHistory = (props) => {
           active={loading}
           spinner
           styles={{
-            overlay: (base) => ({
+            overlay: base => ({
               ...base,
-              background: "rgba(24, 144, 255, 0.5)",
-            }),
+              background: "rgba(24, 144, 255, 0.5)"
+            })
           }}
         >
           <Table
