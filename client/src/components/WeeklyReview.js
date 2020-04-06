@@ -11,14 +11,14 @@ import {
   message,
   Select,
   Row,
-  Col
+  Col,
 } from "antd";
 import "antd/dist/antd.css";
 import axios from "axios";
 import moment from "moment";
 import { TableContainer } from "@material-ui/core";
 
-const WeeklyReview = props => {
+const WeeklyReview = (props) => {
   const myContext = useContext(MyContext);
   const authContext = useContext(AuthContext);
   const langContext = useContext(LangContext);
@@ -26,20 +26,20 @@ const WeeklyReview = props => {
   const { currentLangData } = langContext;
   const {
     alert: { _pleaseSelectWeek, _pleaseSelectRole },
-    weeklyReview: { _reportWeek, _selectWeek, _role, _downloadReport }
+    weeklyReview: { _reportWeek, _selectWeek, _role, _downloadReport },
   } = currentLangData
     ? currentLangData
     : {
         alert: {
           _pleaseSelectWeek: "Please select a week!",
-          _pleaseSelectRole: "Please select a role!"
+          _pleaseSelectRole: "Please select a role!",
         },
         weeklyReview: {
           _reportWeek: "Report Week:",
           _selectWeek: "Select Week",
           _role: "Select Role",
-          _downloadReport: "Download Report"
-        }
+          _downloadReport: "Download Report",
+        },
       };
 
   const { Content } = Layout;
@@ -57,36 +57,33 @@ const WeeklyReview = props => {
     // eslint-disable-next-line
   }, []);
 
-  const onChangeDate = async date => {
+  const onChangeDate = async (date) => {
     if (date !== null) {
-      const sunday = date
-        .startOf("week")
-        .format("YYYYMMDD")
-        .toString();
+      const sunday = date.startOf("week").format("YYYYMMDD").toString();
       if (roleSelect !== "") {
         const res = await axios.get(`api/weekly/get`, {
           params: {
             name,
             sunday,
-            role: roleSelect
-          }
+            role: roleSelect,
+          },
         });
-        console.log(res);
+        // console.log(res);
       }
       SetWeekSelect(sunday);
     }
   };
 
-  const onChangeRole = async role => {
+  const onChangeRole = async (role) => {
     if (weekSelect !== "") {
       const res = await axios.get(`api/weekly/get`, {
         params: {
           name,
           sunday: weekSelect,
-          role
-        }
+          role,
+        },
       });
-      console.log(res);
+      // console.log(res);
     }
     setRoleSelect(role);
   };
@@ -98,13 +95,13 @@ const WeeklyReview = props => {
         //Force to receive data in a Blob Format
         params: {
           name,
-          sunday: weekSelect
-        }
+          sunday: weekSelect,
+        },
       });
 
       //Create a Blob from the PDF Stream
       const file = new Blob([res.data], {
-        type: "application/xlsx"
+        type: "application/xlsx",
       });
       //Build a URL from the file
       const fileURL = URL.createObjectURL(file);
@@ -136,7 +133,7 @@ const WeeklyReview = props => {
           padding: "2vh",
           borderRadius: "2px",
           position: "relative",
-          transition: "all .3s"
+          transition: "all .3s",
         }}
       >
         <Row style={{ justifyContent: "space-evenly" }}>
@@ -148,7 +145,7 @@ const WeeklyReview = props => {
               placeholder={_selectWeek}
               bordered={true}
               picker="week"
-              onChange={date => {
+              onChange={(date) => {
                 onChangeDate(date);
               }}
             />
@@ -159,7 +156,7 @@ const WeeklyReview = props => {
               style={{ width: 120 }}
               optionFilterProp="children"
               value={roleSelect ? roleSelect : _role}
-              onChange={role => {
+              onChange={(role) => {
                 onChangeRole(role);
               }}
               filterOption={(input, option) =>
