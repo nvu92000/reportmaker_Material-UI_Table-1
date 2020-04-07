@@ -588,7 +588,7 @@ const AppTable = () => {
                                       <Popconfirm
                                         title={_sureToDelete}
                                         onConfirm={() => {
-                                          console.log(row, row.key, rowIndex);
+                                          // console.log(row, row.key, rowIndex);
                                           onDelete(row.key);
                                         }}
                                         okText="OK"
