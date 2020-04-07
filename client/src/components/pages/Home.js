@@ -55,7 +55,7 @@ import MenuBookIcon from "@material-ui/icons/MenuBook";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import ClearIcon from "@material-ui/icons/Clear";
 import CancelIcon from "@material-ui/icons/Cancel";
-import { ReactComponent as Language } from "./Language.svg";
+import TranslateIcon from "@material-ui/icons/Translate";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
@@ -295,7 +295,7 @@ const Home = () => {
                               color: " #fff",
                             }}
                           >
-                            <Language style={{ marginRight: "5px" }} />
+                            <TranslateIcon style={{ marginRight: "5px" }} />
                             {lang === "en-US"
                               ? "English"
                               : lang === "ja"
