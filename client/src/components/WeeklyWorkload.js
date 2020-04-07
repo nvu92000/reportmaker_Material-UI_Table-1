@@ -8,7 +8,7 @@ import axios from "axios";
 import { StackColumn } from "@antv/g2plot";
 import moment from "moment";
 
-const WeeklyWorkload = props => {
+const WeeklyWorkload = (props) => {
   const myContext = useContext(MyContext);
   const langContext = useContext(LangContext);
 
@@ -25,8 +25,8 @@ const WeeklyWorkload = props => {
       _byProjects,
       _workloadByMembers,
       _workloadByProjects,
-      _hours
-    }
+      _hours,
+    },
   } = currentLangData
     ? currentLangData
     : {
@@ -37,8 +37,8 @@ const WeeklyWorkload = props => {
           _byProjects: "By Projects",
           _workloadByMembers: "Workload By Members",
           _workloadByProjects: "Workload By Projects",
-          _hours: "Hours"
-        }
+          _hours: "Hours",
+        },
       };
 
   const [weekSelect, setWeekSelect] = useState(moment().subtract(6, "days"));
@@ -64,7 +64,7 @@ const WeeklyWorkload = props => {
       title: {
         visible: true,
         text:
-          bySelect === "By Members" ? _workloadByMembers : _workloadByProjects
+          bySelect === "By Members" ? _workloadByMembers : _workloadByProjects,
       },
       padding: "auto",
       data:
@@ -75,16 +75,16 @@ const WeeklyWorkload = props => {
       yField: "worktime",
       xAxis: {
         title: false,
-        autoRotateLabel: true
+        autoRotateLabel: true,
       },
       yAxis: {
         title: { text: _hours },
-        min: 0
+        min: 0,
       },
       label: {
-        visible: false
+        visible: false,
       },
-      stackField: bySelect === "By Members" ? "pjid" : "name"
+      stackField: bySelect === "By Members" ? "pjid" : "name",
     });
 
     columnPlot.render();
@@ -94,17 +94,14 @@ const WeeklyWorkload = props => {
     };
   }, [dataSource, bySelect, _workloadByMembers, _workloadByProjects, _hours]);
 
-  const onChangeDate = async date => {
+  const onChangeDate = async (date) => {
     if (date !== null) {
-      const sunday = date
-        .startOf("week")
-        .format("YYYYMMDD")
-        .toString();
+      const sunday = date.startOf("week").format("YYYYMMDD").toString();
 
       const res = await axios.get(`api/workload/get`, {
         params: {
-          sunday
-        }
+          sunday,
+        },
       });
 
       const res1 = res.data.data.reduce((group, itm) => {
@@ -142,14 +139,14 @@ const WeeklyWorkload = props => {
   };
 
   return (
-    <Layout style={{ padding: "2vh" }}>
+    <Layout style={{ padding: "24px 15px 15px" }}>
       <Breadcrumb />
       <Content
         style={{
-          padding: "2vh",
+          padding: "20px 20px",
           borderRadius: "2px",
           position: "relative",
-          transition: "all .3s"
+          transition: "all .3s",
         }}
       >
         <Row style={{ justifyContent: "space-evenly" }}>
@@ -161,7 +158,7 @@ const WeeklyWorkload = props => {
               bordered={true}
               picker="week"
               value={weekSelect}
-              onChange={date => {
+              onChange={(date) => {
                 onChangeDate(date);
               }}
             />
@@ -176,7 +173,7 @@ const WeeklyWorkload = props => {
               style={{ width: 140 }}
               optionFilterProp="children"
               value={bySelect ? bySelect : "Select Role"}
-              onChange={value => {
+              onChange={(value) => {
                 setBySelect(value);
               }}
               filterOption={(input, option) =>

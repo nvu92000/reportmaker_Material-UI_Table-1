@@ -3,13 +3,13 @@ import React, {
   useContext,
   useEffect,
   useLayoutEffect,
-  Fragment
+  Fragment,
 } from "react";
 import { Row, Layout, Menu, Dropdown, message, Drawer, Card } from "antd";
 import {
   LogoutOutlined,
   MenuUnfoldOutlined,
-  MenuFoldOutlined
+  MenuFoldOutlined,
 } from "@ant-design/icons";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { QUOTES, RESET_PROJECTS } from "../../context/types";
@@ -49,7 +49,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField
+  TextField,
 } from "@material-ui/core";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import FilterListIcon from "@material-ui/icons/FilterList";
@@ -71,7 +71,7 @@ const Home = () => {
     dispatch,
     isDataEdited,
     projects,
-    getProject
+    getProject,
   } = myContext;
 
   const { clearDailyLogout } = dailyContext;
@@ -80,7 +80,7 @@ const Home = () => {
   const {
     home: { _myAccount, _logOut, _projectList, _close },
     alert: { _pleaseChangeData, _logout },
-    inputDailyData: { _projectId, _projectName, _filter, _cancel }
+    inputDailyData: { _projectId, _projectName, _filter, _cancel },
   } = currentLangData
     ? currentLangData
     : {
@@ -88,18 +88,18 @@ const Home = () => {
           _myAccount: "My Account",
           _logOut: "Log out",
           _projectList: "Project List",
-          _close: "Close"
+          _close: "Close",
         },
         alert: {
           _pleaseChangeData: "Please save your data or cancel changes first!",
-          _logout: "LOGGED OUT"
+          _logout: "LOGGED OUT",
         },
         inputDailyData: {
           _projectId: "Project ID",
           _projectName: "Project Name",
           _filter: "Filter",
-          _cancel: "Cancel"
-        }
+          _cancel: "Cancel",
+        },
       };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -116,13 +116,13 @@ const Home = () => {
     if (idFiltered && idValue !== "") {
       setMyPJ(
         projects.filter(
-          obj => obj.pjid.toLowerCase().indexOf(idValue.toLowerCase()) >= 0
+          (obj) => obj.pjid.toLowerCase().indexOf(idValue.toLowerCase()) >= 0
         )
       );
     } else if (nameFiltered && nameValue !== "") {
       setMyPJ(
         projects.filter(
-          obj =>
+          (obj) =>
             (lang === "ja" ? obj.pjname_jp : obj.pjname_en)
               .toLowerCase()
               .indexOf(nameValue.toLowerCase()) >= 0
@@ -249,9 +249,9 @@ const Home = () => {
     setVisible(false);
   };
 
-  const handleClick = newPlacement => event => {
+  const handleClick = (newPlacement) => (event) => {
     setAnchorEl(event.currentTarget);
-    setOpen(prev => placement !== newPlacement || !prev);
+    setOpen((prev) => placement !== newPlacement || !prev);
     setPlacement(newPlacement);
   };
 
@@ -271,7 +271,7 @@ const Home = () => {
             <AppSider isCollapsed={collapsed} />
             <Layout>
               <Layout>
-                <Header style={{ height: "7.5vh" }}>
+                <Header>
                   <AppBar
                     className="AppBar"
                     position="relative"
@@ -282,7 +282,7 @@ const Home = () => {
                         collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
                         {
                           className: "trigger",
-                          onClick: toggle
+                          onClick: toggle,
                         }
                       )}
                       <Toolbar
@@ -292,7 +292,7 @@ const Home = () => {
                           <Button
                             style={{
                               marginRight: "20px",
-                              color: " #fff"
+                              color: " #fff",
                             }}
                           >
                             <Language style={{ marginRight: "5px" }} />
@@ -326,7 +326,7 @@ const Home = () => {
                           width="305px"
                           bodyStyle={{
                             backgroundColor: "#faf9f8",
-                            padding: "0 0"
+                            padding: "0 0",
                           }}
                           headerStyle={{ backgroundColor: "#faf9f8" }}
                         >
@@ -340,7 +340,7 @@ const Home = () => {
                               borderBottomColor: "#e8e7e7",
                               width: "305px",
                               padding: "0 0",
-                              textAlign: "center"
+                              textAlign: "center",
                             }}
                             bordered={true}
                           >
@@ -392,7 +392,7 @@ const Home = () => {
                 exact
                 component={WeeklyWorkload}
               />
-              <Footer style={{ height: "10.5vh" }}>
+              <Footer>
                 <Paper elevation={10}>
                   <AppBar
                     position="relative"
@@ -415,7 +415,7 @@ const Home = () => {
                   position: "fixed",
                   bottom: 20,
                   right: 20,
-                  zIndex: 200
+                  zIndex: 200,
                 }}
               >
                 <Popper
@@ -431,7 +431,7 @@ const Home = () => {
                         <TableContainer
                           style={{
                             maxHeight: "550px",
-                            overflowY: "scroll"
+                            overflowY: "scroll",
                           }}
                         >
                           <Table stickyHeader aria-label="sticky table">
@@ -474,9 +474,9 @@ const Home = () => {
                                     <TextField
                                       autoFocus
                                       style={{
-                                        width: "60px"
+                                        width: "60px",
                                       }}
-                                      onChange={event =>
+                                      onChange={(event) =>
                                         setIdValue(event.target.value)
                                       }
                                     />
@@ -519,7 +519,7 @@ const Home = () => {
                                     <TextField
                                       autoFocus
                                       style={{ width: "100px" }}
-                                      onChange={event =>
+                                      onChange={(event) =>
                                         setNameValue(event.target.value)
                                       }
                                     />
@@ -536,7 +536,7 @@ const Home = () => {
                                     align="right"
                                     style={{
                                       width: "160px",
-                                      height: "53px"
+                                      height: "53px",
                                     }}
                                   >
                                     Not
@@ -545,7 +545,7 @@ const Home = () => {
                                     align="left"
                                     style={{
                                       width: "200px",
-                                      height: "53x"
+                                      height: "53x",
                                     }}
                                   >
                                     found
@@ -590,7 +590,7 @@ const Home = () => {
                         style={{
                           width: "40px",
                           height: "40px",
-                          color: "#73a0fa"
+                          color: "#73a0fa",
                         }}
                       />
                     </IconButton>
@@ -605,7 +605,7 @@ const Home = () => {
                         style={{
                           width: "40px",
                           height: "40px",
-                          color: "#ff1818"
+                          color: "#ff1818",
                         }}
                       />
                     </IconButton>

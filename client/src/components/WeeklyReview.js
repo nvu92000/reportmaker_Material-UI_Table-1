@@ -61,14 +61,13 @@ const WeeklyReview = (props) => {
     if (date !== null) {
       const sunday = date.startOf("week").format("YYYYMMDD").toString();
       if (roleSelect !== "") {
-        const res = await axios.get(`api/weekly/get`, {
+        await axios.get(`api/weekly/get`, {
           params: {
             name,
             sunday,
             role: roleSelect,
           },
         });
-        // console.log(res);
       }
       SetWeekSelect(sunday);
     }
@@ -76,14 +75,13 @@ const WeeklyReview = (props) => {
 
   const onChangeRole = async (role) => {
     if (weekSelect !== "") {
-      const res = await axios.get(`api/weekly/get`, {
+      await axios.get(`api/weekly/get`, {
         params: {
           name,
           sunday: weekSelect,
           role,
         },
       });
-      // console.log(res);
     }
     setRoleSelect(role);
   };
@@ -126,11 +124,11 @@ const WeeklyReview = (props) => {
   };
 
   return (
-    <Layout style={{ padding: "2vh" }}>
+    <Layout style={{ padding: "24px 15px 15px" }}>
       <Breadcrumb />
       <Content
         style={{
-          padding: "2vh",
+          padding: "20px 20px",
           borderRadius: "2px",
           position: "relative",
           transition: "all .3s",
@@ -200,7 +198,7 @@ const WeeklyReview = (props) => {
                 title="weeklyframe"
                 id="weeklyframe"
                 // src="https://docs.google.com/spreadsheets/d/0B4t1BAVd8n24Z2E3TFh0eTRPZWc/edit#gid=1485113290"
-                height="650"
+                height="700"
                 width="1200"
               />
             </TableContainer>

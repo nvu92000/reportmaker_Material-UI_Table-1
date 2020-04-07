@@ -6,9 +6,6 @@ const util = require("util");
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 
-const readline = require("readline");
-const { google } = require("googleapis");
-
 const CreateReportEng = require("./reports/CreateReportEng");
 const CreateReportDev = require("./reports/CreateReportDev");
 const CreateReportDevEng = require("./reports/CreateReportDevEng");
@@ -40,20 +37,20 @@ app.use(cookieParser());
 // app.use("/api/auth", require("./routes/auth"));
 
 // mySQL;
-// const db_config = {
-//   host: "localhost",
-//   user: "root",
-//   password: "123456789",
-//   database: "projectdata"
-// };
-
 const db_config = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASS,
-  port: process.env.DB_PORT,
+  host: "localhost",
+  user: "root",
+  password: "123456789",
+  database: "projectdata",
 };
+
+// const db_config = {
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   database: process.env.DB_DATABASE,
+//   password: process.env.DB_PASS,
+//   port: process.env.DB_PORT
+// };
 
 let connection;
 
@@ -159,29 +156,6 @@ app.get("/api/weekly/get", async (req, res) => {
     } else if (role === "Eng & Dev") {
       CreateReportDevEng(name, sunday, results);
     }
-
-    const filename = `${sunday}_${moment(sunday, "YYYYMMDD")
-      .add(6, "days")
-      .format("YYYYMMDD")
-      .toString()}_${name}.xlsx`;
-
-    const path = `./public/output/${sunday}_${moment(sunday, "YYYYMMDD")
-      .add(6, "days")
-      .format("YYYYMMDD")
-      .toString()}_${name}.xlsx`;
-
-    // Load client secrets from a local file.
-    // const readFile = util.promisify(fs.readFile);
-
-    // const content = await readFile("credentials.json");
-
-    // const sheetId = await authorize(
-    //   JSON.parse(content),
-    //   filename,
-    //   path,
-    //   uploadFile
-    // );
-
     return res.json({
       data: results,
     });
@@ -714,135 +688,6 @@ app.put(
     }
   }
 );
-
-// Google API
-const SCOPES = ["https://www.googleapis.com/auth/drive"];
-const TOKEN_PATH = "token.json";
-
-/**
- * Create an OAuth2 client with the given credentials, and then execute the
- * given callback function.
- * @param {Object} credentials The authorization client credentials.
- * @param {function} callback The callback to call with the authorized client.
- */
-const authorize = async (credentials, filename, path, callback) => {
-  const { client_secret, client_id, redirect_uris } = credentials.installed;
-  const oAuth2Client = new google.auth.OAuth2(
-    client_id,
-    client_secret,
-    redirect_uris[0]
-  );
-
-  // Check if we have previously stored a token.
-  const readFile = util.promisify(fs.readFile);
-
-  const token = await readFile(TOKEN_PATH);
-
-  oAuth2Client.setCredentials(JSON.parse(token));
-
-  return callback(oAuth2Client, filename, path); //list files and upload file
-};
-
-/**
- * Get and store new token after prompting for user authorization, and then
- * execute the given callback with the authorized OAuth2 client.
- * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
- * @param {getEventsCallback} callback The callback for the authorized client.
- */
-function getAccessToken(oAuth2Client, filename, path, callback) {
-  const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: "offline",
-    scope: SCOPES,
-  });
-  console.log("Authorize this app by visiting this url:", authUrl);
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  rl.question("Enter the code from that page here: ", (code) => {
-    rl.close();
-    oAuth2Client.getToken(code, (err, token) => {
-      if (err) return console.error("Error retrieving access token", err);
-      oAuth2Client.setCredentials(token);
-      // Store the token to disk for later program executions
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-        if (err) return console.error(err);
-        console.log("Token stored to", TOKEN_PATH);
-      });
-      callback(oAuth2Client, filename, path);
-    });
-  });
-}
-
-/**
- * Lists the names and IDs of up to 10 files.
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */
-function listFiles(auth) {
-  const drive = google.drive({ version: "v3", auth });
-  getList(drive, "");
-}
-function getList(drive, pageToken) {
-  drive.files.list(
-    {
-      corpora: "user",
-      pageSize: 10,
-      //q: "name='elvis233424234'", // file name
-      pageToken: pageToken ? pageToken : "",
-      fields: "nextPageToken, files(*)", //files(id,name)
-    },
-    (err, res) => {
-      if (err) return console.log("The API returned an error: " + err);
-      const files = res.data.files;
-      if (files.length) {
-        console.log("Files:");
-        processList(files);
-        if (res.data.nextPageToken) {
-          getList(drive, res.data.nextPageToken);
-        }
-
-        // files.map((file) => {
-        //     console.log(`${file.name} (${file.id})`);
-        // });
-      } else {
-        console.log("No files found.");
-      }
-    }
-  );
-}
-function processList(files) {
-  console.log("Processing....");
-  files.forEach((file) => {
-    // console.log(file.name + '|' + file.size + '|' + file.createdTime + '|' + file.modifiedTime);
-    console.log(file);
-  });
-}
-const uploadFile = async (auth, filename, path) => {
-  const drive = google.drive({ version: "v3", auth });
-  const fileMetadata = {
-    name: filename,
-  };
-  const media = {
-    mimeType:
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    body: fs.createReadStream(path),
-  };
-  const res = await drive.files.create({
-    resource: fileMetadata,
-    media: media,
-    fields: "id",
-  });
-  console.log("Sheet Id: ", res.data.id);
-
-  return res.data.id;
-};
-function getFile(auth, fileId) {
-  const drive = google.drive({ version: "v3", auth });
-  drive.files.get({ fileId: fileId, fields: "*" }, (err, res) => {
-    if (err) return console.log("The API returned an error: " + err);
-    console.log(res.data);
-  });
-}
 
 let PORT;
 
