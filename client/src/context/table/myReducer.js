@@ -95,6 +95,7 @@ export default (state, action) => {
         isDataEdited: false,
         oldCount: action.dataLength,
         loading: false,
+        sameAsDate: null,
       };
 
     case SELECT_PJID:
