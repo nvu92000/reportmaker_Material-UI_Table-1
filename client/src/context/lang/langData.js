@@ -13,6 +13,7 @@ const langData = {
       _pleaseSelectMonth: "Please select a month!",
       _loginSuccess: "LOGIN SUCCESSFUL!",
       _sureToDelete: "Are you sure you want to delete this row?",
+      _exceed256Chars: "Each comment must not exceed 256 characters!",
     },
     login: {
       _reportMaker: "Report Maker",
@@ -140,6 +141,7 @@ const langData = {
       _pleaseSelectMonth: "月を選択してください！",
       _loginSuccess: "ログイン成功！",
       _sureToDelete: "この行を削除してもよろしいですか？",
+      _exceed256Chars: "各コメントは256文字を超えてはなりません！",
     },
     login: {
       _reportMaker: "レポートメーカー",
@@ -270,6 +272,7 @@ const langData = {
       _pleaseSelectMonth: "Vui lòng chọn một tháng!",
       _loginSuccess: "ĐĂNG NHẬP THÀNH CÔNG!",
       _sureToDelete: "Bạn có chắc chắn muốn xóa hàng này?",
+      _exceed256Chars: "Mỗi bình luận không được vượt quá 256 ký tự!",
     },
     login: {
       _reportMaker: "Trình Tạo Báo Cáo",
@@ -396,6 +399,7 @@ const langData = {
       _pleaseSelectMonth: "请选择一个月！",
       _loginSuccess: "登陆成功！",
       _sureToDelete: "您确定要删除此行吗？",
+      _exceed256Chars: "每个注释不得超过256个字符！",
     },
     login: {
       _reportMaker: "报告制作者",
@@ -522,6 +526,7 @@ const langData = {
       _pleaseSelectMonth: "한달을 선택하십시오!",
       _loginSuccess: "성공적 로그인!",
       _sureToDelete: "이 행을 삭제 하시겠습니까?",
+      _exceed256Chars: "각 의견은 256자를 초과해서는 안됩니다!",
     },
 
     login: {

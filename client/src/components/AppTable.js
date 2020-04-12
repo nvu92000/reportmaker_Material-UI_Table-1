@@ -64,6 +64,7 @@ const AppTable = () => {
       _saved,
       _pleaseChangeData,
       _sureToDelete,
+      _exceed256Chars,
     },
     inputDailyData: {
       _addARow,
@@ -98,6 +99,7 @@ const AppTable = () => {
           _saved: "SUCCESSFULLY SAVED!",
           _pleaseChangeData: "Please save your data or cancel changes first!",
           _sureToDelete: "Are you sure you want to delete this row?",
+          _exceed256Chars: "Each comment must not exceed 256 characters!",
         },
         inputDailyData: {
           _addARow: "Add a row",
@@ -227,7 +229,8 @@ const AppTable = () => {
       _cannotBeEmpty,
       _inputCorrectTime,
       _pleaseSelectDate,
-      _saved
+      _saved,
+      _exceed256Chars
     );
   };
 

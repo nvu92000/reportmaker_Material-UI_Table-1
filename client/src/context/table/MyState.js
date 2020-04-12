@@ -201,7 +201,8 @@ const MyState = (props) => {
     _cannotBeEmpty,
     _inputCorrectTime,
     _pleaseSelectDate,
-    _saved
+    _saved,
+    _exceed256Chars
   ) => {
     if (
       dataSource.some(
@@ -242,6 +243,8 @@ const MyState = (props) => {
       })
     ) {
       message.warning(_inputCorrectTime);
+    } else if (dataSource.some((obj) => obj.comment.length > 256)) {
+      message.warning(_exceed256Chars);
     } else {
       if (selectedDate === null) {
         message.warning(_pleaseSelectDate);
