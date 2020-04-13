@@ -36,9 +36,7 @@ const CreateReportDevEng = async (name, sunday, results) => {
     row2.getCell(8).value = Number(sunday.slice(4, 6));
     row2.getCell(9).value =
       moment(sunday, "YYYYMMDD").week() -
-      moment(sunday, "YYYYMMDD")
-        .startOf("month")
-        .week() +
+      moment(sunday, "YYYYMMDD").startOf("month").week() +
       1;
     row2.getCell(10).value = Number(sunday.slice(6, 8));
     row2.getCell(11).value = Number(
@@ -77,13 +75,13 @@ const CreateReportDevEng = async (name, sunday, results) => {
         top: { style: "medium" },
         left: { style: "medium" },
         bottom: { style: "medium" },
-        right: { style: "medium" }
+        right: { style: "medium" },
       };
     }
 
     worksheet2.getRow(resultsHr.length + 8).getCell(7).value = {
       formula: `=SUM(G${8}:G${resultsHr.length + 7})`,
-      result: resultsHr.map(obj => obj.worktime).reduce((sum, i) => sum + i)
+      result: resultsHr.map((obj) => obj.worktime).reduce((sum, i) => sum + i),
     };
 
     worksheet2.mergeCells(`B${resultsHr.length + 8}:F${resultsHr.length + 8}`);
@@ -91,7 +89,7 @@ const CreateReportDevEng = async (name, sunday, results) => {
       top: { style: "medium" },
       left: { style: "medium" },
       bottom: { style: "medium" },
-      right: { style: "medium" }
+      right: { style: "medium" },
     };
 
     worksheet2.mergeCells(`H${resultsHr.length + 8}:K${resultsHr.length + 8}`);
@@ -99,16 +97,16 @@ const CreateReportDevEng = async (name, sunday, results) => {
       top: { style: "medium" },
       left: { style: "medium" },
       bottom: { style: "medium" },
-      right: { style: "medium" }
+      right: { style: "medium" },
     };
 
     for (let i = 1; i < 13; i++) {
-      worksheet2.getColumn(i).eachCell(cell => {
+      worksheet2.getColumn(i).eachCell((cell) => {
         if (cell.value === null) {
           cell.fill = {
             type: "pattern",
             pattern: "solid",
-            fgColor: { argb: "FFFFFF" }
+            fgColor: { argb: "FFFFFF" },
           };
         }
       });
@@ -118,7 +116,7 @@ const CreateReportDevEng = async (name, sunday, results) => {
       worksheet2.getRow(resultsHr.length + 9).getCell(i).fill = {
         type: "pattern",
         pattern: "solid",
-        fgColor: { argb: "FFFFFF" }
+        fgColor: { argb: "FFFFFF" },
       };
     }
 
@@ -140,22 +138,29 @@ const CreateReportDevEng = async (name, sunday, results) => {
 
       worksheet3.getRow(i).getCell(4).value = resultsHr
         .filter(
-          a =>
+          (a) =>
             moment(a.workdate, "YYYYMMDD")
               .subtract(i - 5, "days")
               .format("YYYYMMDD")
               .toString() === sunday
         )
-        .reduce((s, itm) => {
-          return s + itm.pjname + ": " + itm.comment + "\n";
+        .reduce((s, itm, idx, arr) => {
+          if (
+            arr
+              .filter((a, i) => i !== idx)
+              .some((a) => a.pjname === itm.pjname && a.comment === itm.comment)
+          ) {
+            arr[idx] = {};
+            return s;
+          } else return s + itm.pjname + ": " + itm.comment + "\n";
         }, "");
     }
 
     const pjGroup = resultsHr
-      .map(a => ({
+      .map((a) => ({
         pjid: a.pjid,
         pjname: a.pjname,
-        worktime: a.worktime
+        worktime: a.worktime,
       }))
       .reduce((group, itm) => {
         group[itm.pjid] = group[itm.pjid]
