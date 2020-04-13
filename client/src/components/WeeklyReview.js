@@ -50,7 +50,9 @@ const WeeklyReview = (props) => {
   const name = user && user.name;
 
   const [weekSelect, SetWeekSelect] = useState("");
-  const [roleSelect, setRoleSelect] = useState("");
+  const [roleSelect, setRoleSelect] = useState(
+    window.localStorage.getItem("role") || ""
+  );
 
   useEffect(() => {
     dispatch({ type: SELECT_PAGE, payload: "/weeklyreview" });
@@ -84,6 +86,7 @@ const WeeklyReview = (props) => {
       });
     }
     setRoleSelect(role);
+    window.localStorage.setItem("role", role);
   };
 
   const onDownload = async (name, weekSelect) => {
