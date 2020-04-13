@@ -49,22 +49,29 @@ const CreateReportEng = async (name, sunday, results) => {
 
       worksheet3.getRow(i).getCell(4).value = resultsHr
         .filter(
-          a =>
+          (a) =>
             moment(a.workdate, "YYYYMMDD")
               .subtract(i - 5, "days")
               .format("YYYYMMDD")
               .toString() === sunday
         )
-        .reduce((s, itm) => {
-          return s + itm.pjname + ": " + itm.comment + "\n";
+        .reduce((s, itm, idx, arr) => {
+          if (
+            arr
+              .filter((a, i) => i !== idx)
+              .some((a) => a.pjname === itm.pjname && a.comment === itm.comment)
+          ) {
+            arr[idx] = {};
+            return s;
+          } else return s + itm.pjname + ": " + itm.comment + "\n";
         }, "");
     }
 
     const pjGroup = resultsHr
-      .map(a => ({
+      .map((a) => ({
         pjid: a.pjid,
         pjname: a.pjname,
-        worktime: a.worktime
+        worktime: a.worktime,
       }))
       .reduce((group, itm) => {
         group[itm.pjid] = group[itm.pjid]
