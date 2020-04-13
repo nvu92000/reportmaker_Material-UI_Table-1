@@ -2,7 +2,8 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import MyContext from "../context/table/myContext";
 import LangContext from "../context/lang/langContext";
 import { SELECT_PAGE } from "../context/types";
-import { Layout, Breadcrumb, DatePicker, Row, Col, Select } from "antd";
+import { Layout, Breadcrumb, DatePicker, Row, Col, Select, Empty } from "antd";
+import { Paper } from "@material-ui/core";
 import "antd/dist/antd.css";
 import axios from "axios";
 import { StackColumn } from "@antv/g2plot";
@@ -27,6 +28,7 @@ const WeeklyWorkload = (props) => {
       _workloadByProjects,
       _hours,
     },
+    inputDailyData: { _noData },
   } = currentLangData
     ? currentLangData
     : {
@@ -38,6 +40,9 @@ const WeeklyWorkload = (props) => {
           _workloadByMembers: "Workload By Members",
           _workloadByProjects: "Workload By Projects",
           _hours: "Hours",
+        },
+        inputDailyData: {
+          _noData: "No data",
         },
       };
 
@@ -57,41 +62,47 @@ const WeeklyWorkload = (props) => {
   }, []);
 
   useEffect(() => {
-    const element = G1.current;
+    if (dataSource.length !== 0) {
+      const element = G1.current;
 
-    const columnPlot = new StackColumn(element, {
-      forceFit: true,
-      title: {
-        visible: true,
-        text:
-          bySelect === "By Members" ? _workloadByMembers : _workloadByProjects,
-      },
-      padding: "auto",
-      data:
-        bySelect === "By Members"
-          ? dataSource
-          : dataSource.slice().sort((a, b) => Number(a.pjid) - Number(b.pjid)),
-      xField: bySelect === "By Members" ? "name" : "pjid",
-      yField: "worktime",
-      xAxis: {
-        title: false,
-        autoRotateLabel: true,
-      },
-      yAxis: {
-        title: { text: _hours },
-        min: 0,
-      },
-      label: {
-        visible: false,
-      },
-      stackField: bySelect === "By Members" ? "pjid" : "name",
-    });
+      const columnPlot = new StackColumn(element, {
+        forceFit: true,
+        title: {
+          visible: true,
+          text:
+            bySelect === "By Members"
+              ? _workloadByMembers
+              : _workloadByProjects,
+        },
+        padding: "auto",
+        data:
+          bySelect === "By Members"
+            ? dataSource
+            : dataSource
+                .slice()
+                .sort((a, b) => Number(a.pjid) - Number(b.pjid)),
+        xField: bySelect === "By Members" ? "name" : "pjid",
+        yField: "worktime",
+        xAxis: {
+          title: false,
+          autoRotateLabel: true,
+        },
+        yAxis: {
+          title: { text: _hours },
+          min: 0,
+        },
+        label: {
+          visible: false,
+        },
+        stackField: bySelect === "By Members" ? "pjid" : "name",
+      });
 
-    columnPlot.render();
+      columnPlot.render();
 
-    return () => {
-      columnPlot.destroy();
-    };
+      return () => {
+        columnPlot.destroy();
+      };
+    }
   }, [dataSource, bySelect, _workloadByMembers, _workloadByProjects, _hours]);
 
   const onChangeDate = async (date) => {
@@ -197,7 +208,20 @@ const WeeklyWorkload = (props) => {
             </Select>
           </Col>
         </Row>
-        <div ref={G1} style={{ height: "40rem" }} />
+        {dataSource.length !== 0 ? (
+          <div ref={G1} style={{ height: "40rem" }} />
+        ) : (
+          <Paper elevation={3}>
+            <Empty
+              description={_noData}
+              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+              imageStyle={{
+                height: 100,
+              }}
+              style={{ padding: "20px 0 20px 0", marginTop: "16px" }}
+            />
+          </Paper>
+        )}
       </Content>
     </Layout>
   );
