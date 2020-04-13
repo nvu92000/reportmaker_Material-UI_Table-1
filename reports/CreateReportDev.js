@@ -53,7 +53,7 @@ const CreateReportDev = async (name, sunday, results) => {
       return obj;
     });
 
-    const pjGroup = _resultsHr
+    const _pjGroup = _resultsHr
       .map((a) => ({
         pjname: a.pjname,
         comment: a.comment,
@@ -78,7 +78,7 @@ const CreateReportDev = async (name, sunday, results) => {
             };
         return group;
       }, {});
-    // console.log(pjGroup);
+    // console.log(_pjGroup);
 
     const resultsHr = _resultsHr.slice().reduce((s, itm, idx, arr) => {
       if (
@@ -89,7 +89,7 @@ const CreateReportDev = async (name, sunday, results) => {
         arr[idx] = {};
         return s;
       } else {
-        arr[idx].worktime = pjGroup[itm.pjname][`${itm.comment}`];
+        arr[idx].worktime = _pjGroup[itm.pjname][`${itm.comment}`];
         s.push(arr[idx]);
         return s;
       }

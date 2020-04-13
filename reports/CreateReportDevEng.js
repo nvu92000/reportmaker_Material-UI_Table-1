@@ -48,18 +48,74 @@ const CreateReportDevEng = async (name, sunday, results) => {
     );
     row2.commit();
 
-    if (results.length > 1) {
-      worksheet2.duplicateRow(8, results.length - 1, true);
-    }
-
-    const resultsHr = results.map((obj, idx) => {
+    const _resultsHr = results.map((obj, idx) => {
       obj.worktime = obj.worktime / 60;
       return obj;
     });
 
+    const _pjGroup = _resultsHr
+      .map((a) => ({
+        pjname: a.pjname,
+        comment: a.comment,
+        worktime: a.worktime,
+      }))
+      .reduce((group, itm, idx, arr) => {
+        group[itm.pjname] = group[itm.pjname]
+          ? {
+              ...group[itm.pjname],
+              [itm.comment]: arr
+                .filter(
+                  (a) => a.pjname === itm.pjname && a.comment === itm.comment
+                )
+                .reduce((a, i) => a + i.worktime, 0),
+            }
+          : {
+              [itm.comment]: arr
+                .filter(
+                  (a) => a.pjname === itm.pjname && a.comment === itm.comment
+                )
+                .reduce((a, i) => a + i.worktime, 0),
+            };
+        return group;
+      }, {});
+    // console.log(_pjGroup);
+
+    const resultsHr = _resultsHr.slice().reduce((s, itm, idx, arr) => {
+      if (
+        arr
+          .filter((a, i) => i !== idx)
+          .some((a) => a.pjname === itm.pjname && a.comment === itm.comment)
+      ) {
+        arr[idx] = {};
+        return s;
+      } else {
+        arr[idx].worktime = _pjGroup[itm.pjname][`${itm.comment}`];
+        s.push(arr[idx]);
+        return s;
+      }
+    }, []);
+
+    // console.log(resultsHr);
+
+    if (resultsHr.length > 1) {
+      worksheet2.duplicateRow(8, resultsHr.length - 1, true);
+    }
+
     for (let i = 8; i <= resultsHr.length + 7; i++) {
       const _row2 = worksheet2.getRow(i);
-      _row2.height = 40;
+      if (resultsHr[i - 8].comment.length < 40) {
+        _row2.height = 15;
+      } else if (resultsHr[i - 8].comment.length < 79) {
+        _row2.height = 30;
+      } else if (resultsHr[i - 8].comment.length < 118) {
+        _row2.height = 45;
+      } else if (resultsHr[i - 8].comment.length < 157) {
+        _row2.height = 60;
+      } else if (resultsHr[i - 8].comment.length < 196) {
+        _row2.height = 75;
+      } else if (resultsHr[i - 8].comment.length < 235) {
+        _row2.height = 90;
+      } else _row2.height = 105;
 
       for (let j = 2; j <= 8; j++) {
         _row2.getCell(j).value = isNaN(
