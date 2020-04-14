@@ -27,8 +27,7 @@ const CreateReportEng = async (name, sunday, results) => {
     }
 
     const resultsHr = results.map((obj, idx) => {
-      obj.worktime = obj.worktime / 60;
-      return obj;
+      return { ...obj, worktime: obj.worktime / 60 };
     });
 
     // Format Engineer

@@ -49,8 +49,7 @@ const CreateReportDev = async (name, sunday, results) => {
     row2.commit();
 
     const _resultsHr = results.map((obj, idx) => {
-      obj.worktime = obj.worktime / 60;
-      return obj;
+      return { ...obj, worktime: obj.worktime / 60 };
     });
 
     const _pjGroup = _resultsHr
@@ -89,8 +88,10 @@ const CreateReportDev = async (name, sunday, results) => {
         arr[idx] = {};
         return s;
       } else {
-        arr[idx].worktime = _pjGroup[itm.pjname][`${itm.comment}`];
-        s.push(arr[idx]);
+        s.push({
+          ...arr[idx],
+          worktime: _pjGroup[itm.pjname][`${itm.comment}`],
+        });
         return s;
       }
     }, []);

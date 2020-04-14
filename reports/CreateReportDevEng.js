@@ -49,8 +49,7 @@ const CreateReportDevEng = async (name, sunday, results) => {
     row2.commit();
 
     const _resultsHr = results.map((obj, idx) => {
-      obj.worktime = obj.worktime / 60;
-      return obj;
+      return { ...obj, worktime: obj.worktime / 60 };
     });
 
     const _pjGroup = _resultsHr
@@ -89,8 +88,10 @@ const CreateReportDevEng = async (name, sunday, results) => {
         arr[idx] = {};
         return s;
       } else {
-        arr[idx].worktime = _pjGroup[itm.pjname][`${itm.comment}`];
-        s.push(arr[idx]);
+        s.push({
+          ...arr[idx],
+          worktime: _pjGroup[itm.pjname][`${itm.comment}`],
+        });
         return s;
       }
     }, []);
@@ -192,7 +193,7 @@ const CreateReportDevEng = async (name, sunday, results) => {
         4
       )}/${_date.slice(4, 6)}/${_date.slice(6, 8)}`;
 
-      worksheet3.getRow(i).getCell(4).value = resultsHr
+      worksheet3.getRow(i).getCell(4).value = _resultsHr
         .filter(
           (a) =>
             moment(a.workdate, "YYYYMMDD")
@@ -212,7 +213,7 @@ const CreateReportDevEng = async (name, sunday, results) => {
         }, "");
     }
 
-    const pjGroup = resultsHr
+    const pjGroup = _resultsHr
       .map((a) => ({
         pjid: a.pjid,
         pjname: a.pjname,
