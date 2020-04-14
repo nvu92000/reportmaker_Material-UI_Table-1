@@ -1,3 +1,3 @@
 # Report Maker
-Fullstack app using React, Express, MongoDB and MySQL.
-React UI Component Library used: Ant Design.
+Fullstack app using React, Express and MySQL.
+React UI Component Libraries used: Material UI and Ant Design.
