@@ -43,7 +43,7 @@ const MonthlyReview = (props) => {
   const { dispatch } = myContext;
 
   const { user } = authContext;
-  const name = user && user.name;
+  const name = user && user.name.charAt(0).toUpperCase() + user.name.slice(1);
 
   const [monthSelect, setMonthSelect] = useState("");
 

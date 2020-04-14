@@ -60,7 +60,7 @@ const DailyHistory = (props) => {
 
   const [memberSelect, setMemberSelect] = useState("");
 
-  const name = user && user.name;
+  const name = user && user.name.charAt(0).toUpperCase() + user.name.slice(1);
 
   useEffect(() => {
     setMemberSelect(name);
@@ -98,8 +98,12 @@ const DailyHistory = (props) => {
 
   const mySelect = members.map((obj, index) => {
     return (
-      <Select.Option key={index} id={index} value={obj.name}>
-        {obj.name}
+      <Select.Option
+        key={index}
+        id={index}
+        value={obj.name.charAt(0).toUpperCase() + obj.name.slice(1)}
+      >
+        {obj.name.charAt(0).toUpperCase() + obj.name.slice(1)}
       </Select.Option>
     );
   });
