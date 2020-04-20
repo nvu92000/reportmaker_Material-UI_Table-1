@@ -79,22 +79,52 @@ const CreateReportDev = async (name, sunday, results) => {
       }, {});
     // console.log(_pjGroup);
 
-    const resultsHr = _resultsHr.slice().reduce((s, itm, idx, arr) => {
-      if (
-        arr
-          .filter((a, i) => i !== idx)
-          .some((a) => a.pjname === itm.pjname && a.comment === itm.comment)
-      ) {
-        arr[idx] = {};
-        return s;
-      } else {
-        s.push({
-          ...arr[idx],
-          worktime: _pjGroup[itm.pjname][`${itm.comment}`],
-        });
-        return s;
-      }
-    }, []);
+    const resultsHr = _resultsHr
+      .slice()
+      .reduce((s, itm, idx, arr) => {
+        if (
+          arr
+            .filter((a, i) => i !== idx)
+            .some((a) => a.pjname === itm.pjname && a.comment === itm.comment)
+        ) {
+          arr[idx] = {};
+          return s;
+        } else {
+          s.push({
+            ...arr[idx],
+            worktime: _pjGroup[itm.pjname][`${itm.comment}`],
+          });
+          return s;
+        }
+      }, [])
+      .sort((a, b) => a.pjid - b.pjid)
+      .reduce((s, itm, idx, arr) => {
+        if (arr[idx + 1] && itm.pjid === arr[idx + 1].pjid) {
+          s.push(itm);
+          return s;
+        } else {
+          s.push(itm);
+          s.push({
+            workdate: "",
+            pjid: "",
+            pjname: "",
+            deadline: "",
+            expecteddate: "",
+            percent: "",
+            worktime: "",
+            comment: "",
+            starthour: "",
+            startmin: "",
+            endhour: "",
+            endmin: "",
+            count: "",
+            name: "",
+            subid: "",
+            subname: "",
+          });
+          return s;
+        }
+      }, []);
 
     // console.log(resultsHr);
 
@@ -104,26 +134,28 @@ const CreateReportDev = async (name, sunday, results) => {
 
     for (let i = 8; i <= resultsHr.length + 7; i++) {
       const _row2 = worksheet2.getRow(i);
-      if (resultsHr[i - 8].comment.length < 40) {
-        _row2.height = 15;
-      } else if (resultsHr[i - 8].comment.length < 79) {
-        _row2.height = 30;
-      } else if (resultsHr[i - 8].comment.length < 118) {
-        _row2.height = 45;
-      } else if (resultsHr[i - 8].comment.length < 157) {
-        _row2.height = 60;
-      } else if (resultsHr[i - 8].comment.length < 196) {
-        _row2.height = 75;
-      } else if (resultsHr[i - 8].comment.length < 235) {
-        _row2.height = 90;
-      } else _row2.height = 105;
+      if (resultsHr[i - 8].comment) {
+        if (resultsHr[i - 8].comment.length < 40) {
+          _row2.height = 15;
+        } else if (resultsHr[i - 8].comment.length < 79) {
+          _row2.height = 30;
+        } else if (resultsHr[i - 8].comment.length < 118) {
+          _row2.height = 45;
+        } else if (resultsHr[i - 8].comment.length < 157) {
+          _row2.height = 60;
+        } else if (resultsHr[i - 8].comment.length < 196) {
+          _row2.height = 75;
+        } else if (resultsHr[i - 8].comment.length < 235) {
+          _row2.height = 90;
+        } else _row2.height = 105;
+      }
 
       for (let j = 2; j <= 8; j++) {
-        _row2.getCell(j).value = isNaN(
-          Object.values(resultsHr[i - 8]).slice(1, 8)[j - 2]
-        )
-          ? Object.values(resultsHr[i - 8]).slice(1, 8)[j - 2]
-          : Number(Object.values(resultsHr[i - 8]).slice(1, 8)[j - 2]);
+        _row2.getCell(j).value =
+          resultsHr[i - 8].pjid &&
+          (isNaN(Object.values(resultsHr[i - 8]).slice(1, 8)[j - 2])
+            ? Object.values(resultsHr[i - 8]).slice(1, 8)[j - 2]
+            : Number(Object.values(resultsHr[i - 8]).slice(1, 8)[j - 2]));
       }
 
       _row2.commit();
