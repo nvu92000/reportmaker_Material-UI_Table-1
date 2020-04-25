@@ -41,14 +41,14 @@ const Register = (props) => {
           _confirmPassword: "Confirm Password",
           _register: "Register",
           _usernamePrompt: "Please input your username!",
-          _emailPrompt: "Please input your TechnoStar's email!",
+          _emailPrompt: "Please input your TechnoStar email!",
           _passwordPrompt: "Please input your password!",
           _confirmPasswordPrompt: "Please confirm your password!",
           _usernameAlreadyExists: "Username already exists",
           _emailAlreadyinUse: "This email is already in use",
           _whatIsYourUsername: "What is your username in the old desktop app?",
-          _whatIsYourEmail: "What is your TechnoStar's email?",
-          _notaValidEmail: "The input is not a valid Email!",
+          _whatIsYourEmail: "What is your TechnoStar email?",
+          _notaValidEmail: "The input is not a valid TechnoStar email!",
           _enterMorethan6: "Please enter a password with 6 or more characters",
           _passwordNotMatch: "The two passwords that you entered do not match!",
         },
@@ -166,7 +166,13 @@ const Register = (props) => {
             </span>
           }
           name="name"
-          rules={[{ required: true, message: _usernamePrompt }]}
+          rules={[
+            {
+              required: true,
+              message: _usernamePrompt,
+              validateTrigger: "onClick",
+            },
+          ]}
         >
           <Input ref={usernameRef} />
         </Form.Item>
@@ -184,10 +190,14 @@ const Register = (props) => {
             {
               required: true,
               message: _emailPrompt,
+              validateTrigger: "onClick",
             },
             {
-              type: "email",
+              pattern: new RegExp(
+                "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(e-technostar|etechnostar.onmicrosoft).com(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+              ),
               message: _notaValidEmail,
+              validateTrigger: "onClick",
             },
           ]}
         >
@@ -201,10 +211,12 @@ const Register = (props) => {
             {
               required: true,
               message: _passwordPrompt,
+              validateTrigger: "onClick",
             },
             {
               min: 6,
               message: _enterMorethan6,
+              validateTrigger: "onClick",
             },
           ]}
         >
@@ -220,6 +232,7 @@ const Register = (props) => {
             {
               required: true,
               message: _confirmPasswordPrompt,
+              validateTrigger: "onClick",
             },
             ({ getFieldValue }) => ({
               validator(rule, value) {
