@@ -168,10 +168,12 @@ const ResetPassword = (props) => {
                 {
                   required: true,
                   message: _passwordPrompt,
+                  validateTrigger: "onClick",
                 },
                 {
                   min: 6,
                   message: _enterMorethan6,
+                  validateTrigger: "onClick",
                 },
               ]}
             >
