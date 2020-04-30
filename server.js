@@ -581,10 +581,10 @@ app.post("/api/auth/forgotpassword", async (req, res) => {
     await query(UPDATE_RESET);
 
     // Create reset url
-    const resetUrl = `http://192.168.1.32:3000/resetpassword/${resetToken}`;
+    const resetUrl = `http://akasaka2.e-technostar.com:14789/resetpassword/${resetToken}`;
 
     const message = `Hi ${search_res[0].name},
-\nYou are receiving this email because we received a password reset request for your account.
+\nYou are receiving this email because we received a password reset request for your Report Maker account.
 \nPlease click the link below to reset your password:
 \n${resetUrl}\n\nIf you did not request a password reset, no further action is required.
 \n
@@ -594,7 +594,7 @@ TechnoStar Email Service
 
     await sendEmail({
       email: req.body.email,
-      subject: "Reset Password Notification",
+      subject: "Reset Password Notification - Report Maker",
       message,
     });
     res.status(200).json({ data: "Email sent" });
@@ -700,7 +700,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
   );
 
-  PORT = process.env.PORT_PROD || 3000;
+  PORT = process.env.PORT_PROD || 14789;
 } else {
   PORT = process.env.PORT_DEV || 4000;
 }
