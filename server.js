@@ -425,6 +425,17 @@ app.post(
     const { name, email, password } = req.body;
 
     try {
+      const SEARCH_VALID_EMAIL = `SELECT * FROM projectdata.emaillist
+      WHERE email ='${email}'`;
+      const search_valid_email = await query(SEARCH_VALID_EMAIL);
+
+      if (!search_valid_email[0]) {
+        return res.status(400).json({
+          msg:
+            "This email does not exist in TechnoStar's database. Please contact your admin for assistance!",
+        });
+      }
+
       const SEARCH_USER = `SELECT * FROM projectdata.namelist
       WHERE name ='${name}'`;
       const search_res = await query(SEARCH_USER);

@@ -51,6 +51,8 @@ const langData = {
       _resetPassword: "Reset Password",
       _newPassword: "New Password",
       _confirmNewPassword: "Confirm New Password",
+      _emailNotExists:
+        "This email does not exist in TechnoStar's database. Please contact your admin for assistance!",
     },
     home: {
       _editProfile: "Edit Profile",
@@ -180,6 +182,8 @@ const langData = {
       _resetPassword: "パスワードを再設定",
       _newPassword: "新しいパスワード",
       _confirmNewPassword: "新しいパスワードを確認",
+      _emailNotExists:
+        "このメールは、テクノスターのデータベースには存在しません。 管理者にお問い合わせください。",
     },
     home: {
       _editProfile: "プロファイル編集",
@@ -310,6 +314,8 @@ const langData = {
       _resetPassword: "Đặt lại mật khẩu",
       _newPassword: "Mật khẩu mới",
       _confirmNewPassword: "Xác nhận mật khẩu mới",
+      _emailNotExists:
+        "Email này không tồn tại trong cơ sở dữ liệu của TechnoStar. Vui lòng liên hệ với admin để được hỗ trợ!",
     },
     home: {
       _editProfile: "Chỉnh sửa hồ sơ",
@@ -437,6 +443,8 @@ const langData = {
       _resetPassword: "重设密码",
       _newPassword: "新密码",
       _confirmNewPassword: "确认新密码",
+      _emailNotExists:
+        "该电子邮件在TechnoStar的数据库中不存在。 请与您的管理员联系以获取帮助！",
     },
     home: {
       _editProfile: "编辑个人资料",
@@ -566,6 +574,8 @@ const langData = {
       _resetPassword: "암호를 재설정",
       _newPassword: "새 비밀번호",
       _confirmNewPassword: "새 암호를 확인합니다",
+      _emailNotExists:
+        "이 이메일은 TechnoStar의 데이터베이스에 없습니다. 도움이 필요하면 관리자에게 문의하십시오!",
     },
 
     home: {

@@ -29,6 +29,7 @@ const Register = (props) => {
       _notaValidEmail,
       _enterMorethan6,
       _passwordNotMatch,
+      _emailNotExists,
     },
   } = langContext.currentLangData
     ? langContext.currentLangData
@@ -51,6 +52,8 @@ const Register = (props) => {
           _notaValidEmail: "The input is not a valid TechnoStar email!",
           _enterMorethan6: "Please enter a password with 6 or more characters",
           _passwordNotMatch: "The two passwords that you entered do not match!",
+          _emailNotExists:
+            "This email does not exist in TechnoStar's database. Please contact your admin for assistance!",
         },
       };
 
@@ -67,6 +70,14 @@ const Register = (props) => {
   useEffect(() => {
     if (isAuthenticated) {
       props.history.push("/");
+    }
+
+    if (
+      error ===
+      "This email does not exist in TechnoStar's database. Please contact your admin for assistance!"
+    ) {
+      message.error(_emailNotExists);
+      clearErrors();
     }
 
     if (error === "Username already exists") {
