@@ -19,17 +19,17 @@ import {
   FORGOT_FAIL,
   CLEAR_MSG,
   RESET_SUCCESS,
-  SET_LOADING
+  SET_LOADING,
 } from "../types";
 
-const AuthState = props => {
+const AuthState = (props) => {
   const initialState = {
     token: localStorage.getItem("token"),
     isAuthenticated: null,
     loading: true,
     user: null,
     error: null,
-    msg: null
+    msg: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -43,7 +43,7 @@ const AuthState = props => {
 
       dispatch({
         type: USER_LOADED,
-        payload: res.data
+        payload: res.data,
       });
     } catch (err) {
       dispatch({ type: AUTH_ERROR, payload: err.response.data.msg });
@@ -51,11 +51,11 @@ const AuthState = props => {
   };
 
   // Register User
-  const register = async formData => {
+  const register = async (formData) => {
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
@@ -63,14 +63,14 @@ const AuthState = props => {
 
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data
+        payload: res.data,
       });
 
       loadUser();
     } catch (err) {
       dispatch({
         type: REGISTER_FAIL,
-        payload: err.response.data.msg
+        payload: err.response.data.msg,
       });
     }
   };
@@ -79,8 +79,8 @@ const AuthState = props => {
   const login = async (formData, _loginSuccess) => {
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
@@ -88,7 +88,7 @@ const AuthState = props => {
 
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data
+        payload: res.data,
       });
       message.success(_loginSuccess);
 
@@ -96,19 +96,19 @@ const AuthState = props => {
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
-        payload: err.response.data.msg
+        payload: err.response.data.msg,
       });
     }
   };
 
   // Forgot Password
-  const forgotPassword = async formData => {
+  const forgotPassword = async (formData) => {
     setLoading();
 
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
@@ -117,27 +117,26 @@ const AuthState = props => {
         formData,
         config
       );
-      console.log(res.data);
       dispatch({
         type: FORGOT_PASSWORD,
-        msg: res.data.data
+        msg: res.data.data,
       });
     } catch (err) {
       dispatch({
         type: FORGOT_FAIL,
-        msg: err.response.data.msg
+        msg: err.response.data.msg,
       });
     }
   };
 
   // Request Reset Password
-  const resetRequest = async resetToken => {
+  const resetRequest = async (resetToken) => {
     setLoading();
 
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
@@ -145,49 +144,47 @@ const AuthState = props => {
         `/api/auth/resetpassword`,
         {
           params: {
-            resetToken
-          }
+            resetToken,
+          },
         },
         config
       );
-      console.log(res.data);
 
       dispatch({
         type: RESET_PASSWORD,
-        msg: res.data.msg
+        msg: res.data.msg,
       });
     } catch (err) {
       dispatch({
         type: RESET_FAIL,
-        msg: err.response.data.msg
+        msg: err.response.data.msg,
       });
     }
   };
 
   // Reset Password
-  const updatePassword = async formData => {
+  const updatePassword = async (formData) => {
     setLoading();
 
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
       const res = await axios.put(`/api/auth/updatepassword`, formData, config);
-      console.log(res.data);
 
       dispatch({
         type: RESET_SUCCESS,
-        payload: res.data
+        payload: res.data,
       });
 
       loadUser();
     } catch (err) {
       dispatch({
         type: RESET_FAIL,
-        msg: err.response.data.msg
+        msg: err.response.data.msg,
       });
     }
   };
@@ -220,7 +217,7 @@ const AuthState = props => {
         forgotPassword,
         resetRequest,
         updatePassword,
-        clearMsg
+        clearMsg,
       }}
     >
       {props.children}

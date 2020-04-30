@@ -2,18 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import "antd/dist/antd.css";
 import "../Style.css";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import {
-  Form,
-  Input,
-  Button,
-  Checkbox,
-  Card,
-  message,
-  Row,
-  Col,
-  Divider,
-} from "antd";
-import { cypher, decypher } from "./Cypher";
+import { Form, Input, Button, Card, message, Row, Col, Divider } from "antd";
 import US_flag from "./flags/us_flag.png";
 import JP_flag from "./flags/jp_flag.png";
 import VN_flag from "./flags/vn_flag.png";
@@ -36,7 +25,6 @@ const Login = (props) => {
       _reportMaker,
       _username,
       _password,
-      _rememberMe,
       _forgotPassword,
       _login,
       _or,
@@ -55,7 +43,6 @@ const Login = (props) => {
           _reportMaker: "Report Maker",
           _username: "Username",
           _password: "Password",
-          _rememberMe: "Remember me",
           _forgotPassword: "Forgot password?",
           _login: "Log in",
           _or: "or",
@@ -70,9 +57,6 @@ const Login = (props) => {
 
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
-
-  const myCypher = cypher("myscrets");
-  const myDecypher = decypher("myscrets");
 
   useEffect(() => {
     usernameRef.current.focus();
@@ -90,45 +74,7 @@ const Login = (props) => {
     // eslint-disable-next-line
   }, [error, isAuthenticated, props.history]);
 
-  const getCookie = (name) => {
-    const re = new RegExp(name + "=([^;]+)");
-    const value = re.exec(document.cookie);
-
-    return value !== null ? myDecypher(unescape(value[1])) : null;
-  };
-
   const onFinish = (values) => {
-    // console.log("Received values of form: ", values);
-
-    if (values.remember === true) {
-      const today = new Date();
-      const expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000); // plus 30 days
-
-      const setCookie = (name, value) => {
-        document.cookie =
-          name +
-          "=" +
-          escape(value) +
-          "; path=/; expires=" +
-          expiry.toGMTString();
-      };
-
-      setCookie("gaz9me37", myCypher(values.username));
-      setCookie("tu01dfr43", myCypher(values.password));
-    }
-
-    if (values.remember === false) {
-      const today = new Date();
-      const expired = new Date(today.getTime() - 24 * 3600 * 1000); // less 24 hours
-
-      const deleteCookie = (name) => {
-        document.cookie =
-          name + "=null; path=/; expires=" + expired.toGMTString();
-      };
-      deleteCookie("gaz9me37");
-      deleteCookie("tu01dfr43");
-    }
-
     login(
       {
         name: values.username,
@@ -185,16 +131,7 @@ const Login = (props) => {
       >
         {_reportMaker}
       </h1>
-      <Form
-        name="normal_login"
-        className="login-form"
-        initialValues={{
-          username: getCookie("gaz9me37"),
-          password: getCookie("tu01dfr43"),
-          remember: true,
-        }}
-        onFinish={onFinish}
-      >
+      <Form name="normal_login" className="login-form" onFinish={onFinish}>
         <Form.Item
           name="username"
           rules={[{ required: true, message: _usernamePrompt }]}
@@ -222,12 +159,7 @@ const Login = (props) => {
           />
         </Form.Item>
         <Row>
-          <Col span={12}>
-            <Form.Item name="remember" valuePropName="checked">
-              <Checkbox>{_rememberMe}</Checkbox>
-            </Form.Item>
-          </Col>
-          <Col span={12}>
+          <Col span={24}>
             <Form.Item>
               <Link className="login-form-forgot" to="/forgotpassword">
                 {_forgotPassword}

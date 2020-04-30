@@ -6,15 +6,15 @@ import {
   SET_LOADING,
   GET_MEMBERS,
   GET_DAILY_DATA,
-  CLEAR_DAILY_LOGOUT
+  CLEAR_DAILY_LOGOUT,
 } from "../types";
 
-const DailyState = props => {
+const DailyState = (props) => {
   const initialState = {
     loading: false,
     members: [],
     dailySource: [],
-    sort: true
+    sort: true,
   };
 
   const [state, dispatch] = useReducer(DailyReducer, initialState);
@@ -25,7 +25,7 @@ const DailyState = props => {
 
     dispatch({
       type: GET_MEMBERS,
-      payload: res.data.data
+      payload: res.data.data,
     });
   };
 
@@ -37,11 +37,9 @@ const DailyState = props => {
     const res = await axios.get(`api/daily`, {
       params: {
         name,
-        sortBy
-      }
+        sortBy,
+      },
     });
-
-    // console.log("daily: ", res.data.data);
 
     const newData = res.data.data.map((item, index) => {
       return {
@@ -59,13 +57,13 @@ const DailyState = props => {
         "Start Hour": item.starthour,
         "Start Min": item.startmin,
         "End Hour": item.endhour,
-        "End Min": item.endmin
+        "End Min": item.endmin,
       };
     });
-    // console.log(newData);
+
     dispatch({
       type: GET_DAILY_DATA,
-      payload: newData
+      payload: newData,
     });
   };
 
@@ -85,7 +83,7 @@ const DailyState = props => {
         members: state.members,
         getMembers,
         getDailyData,
-        clearDailyLogout
+        clearDailyLogout,
       }}
     >
       {props.children}
