@@ -99,9 +99,10 @@ const ResetPassword = (props) => {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        borderRadius: "8px",
         borderColor: "#1890ff",
         borderWidth: "1.5px",
-        padding: "40px 20px",
+        padding: "10px 10px",
         textAlign: "center",
         width: "600px",
       }}
@@ -129,7 +130,7 @@ const ResetPassword = (props) => {
           <h2
             style={{
               color: "red",
-              marginBottom: "50px",
+              marginBottom: "30px",
             }}
           >
             {_codeExpired}
@@ -148,7 +149,7 @@ const ResetPassword = (props) => {
           <h1
             style={{
               color: "#1890ff",
-              marginBottom: "50px",
+              marginBottom: "30px",
             }}
           >
             {_resetPassword}

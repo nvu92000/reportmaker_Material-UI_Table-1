@@ -17,7 +17,7 @@ const Login = (props) => {
   const authContext = useContext(AuthContext);
   const langContext = useContext(LangContext);
 
-  const { switchLang, lang, currentLangData } = langContext;
+  const { switchLang, currentLangData } = langContext;
 
   const {
     alert: { _loginSuccess },
@@ -99,11 +99,12 @@ const Login = (props) => {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        borderRadius: "8px",
         borderColor: "#1890ff",
         borderWidth: "1.5px",
-        padding: "40px 20px",
+        padding: "10px 10px",
         textAlign: "center",
-        width: lang === "ja" ? "500px" : "450px",
+        width: "450px",
       }}
       className="responsive-card"
       bordered={true}
@@ -126,7 +127,7 @@ const Login = (props) => {
       <h1
         style={{
           color: "#1890ff",
-          marginBottom: "50px",
+          marginBottom: "30px",
         }}
       >
         {_reportMaker}
