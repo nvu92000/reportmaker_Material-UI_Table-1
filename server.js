@@ -432,7 +432,7 @@ app.post(
       if (!search_valid_email[0]) {
         return res.status(400).json({
           msg:
-            "This email does not exist in TechnoStar's database. Please contact your admin for assistance!",
+            "This email does not exist in database. Please contact your admin for assistance!",
         });
       }
 

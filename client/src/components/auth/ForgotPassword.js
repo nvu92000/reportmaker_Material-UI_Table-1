@@ -28,8 +28,8 @@ const ForgotPassword = (props) => {
         login: {
           _accountRecovery: "Account Recovery",
           _email: "Email",
-          _whatIsYourEmail: "What is your TechnoStar's email?",
-          _emailPrompt: "Please input your TechnoStar's email!",
+          _whatIsYourEmail: "What is your email?",
+          _emailPrompt: "Please input your email!",
           _notaValidEmail: "The input is not a valid Email!",
           _sendPasswordResetEmail: "Send Password Reset Email",
           _noUserWithThatEmail: "There is no user with that email",

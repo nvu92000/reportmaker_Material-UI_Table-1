@@ -42,18 +42,18 @@ const Register = (props) => {
           _confirmPassword: "Confirm Password",
           _register: "Register",
           _usernamePrompt: "Please input your username!",
-          _emailPrompt: "Please input your TechnoStar email!",
+          _emailPrompt: "Please input your email!",
           _passwordPrompt: "Please input your password!",
           _confirmPasswordPrompt: "Please confirm your password!",
           _usernameAlreadyExists: "Username already exists",
           _emailAlreadyinUse: "This email is already in use",
           _whatIsYourUsername: "What is your username in the old desktop app?",
-          _whatIsYourEmail: "What is your TechnoStar email?",
-          _notaValidEmail: "The input is not a valid TechnoStar email!",
+          _whatIsYourEmail: "What is your email?",
+          _notaValidEmail: "The input is not a valid email!",
           _enterMorethan6: "Please enter a password with 6 or more characters",
           _passwordNotMatch: "The two passwords that you entered do not match!",
           _emailNotExists:
-            "This email does not exist in TechnoStar's database. Please contact your admin for assistance!",
+            "This email does not exist in database. Please contact your admin for assistance!",
         },
       };
 
@@ -74,7 +74,7 @@ const Register = (props) => {
 
     if (
       error ===
-      "This email does not exist in TechnoStar's database. Please contact your admin for assistance!"
+      "This email does not exist in database. Please contact your admin for assistance!"
     ) {
       message.error(_emailNotExists);
       clearErrors();
