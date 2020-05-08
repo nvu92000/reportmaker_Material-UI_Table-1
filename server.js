@@ -147,7 +147,7 @@ app.get("/api/weekly/get", async (req, res) => {
       .add(6, "days")
       .format("YYYYMMDD")
       .toString()})
-      ORDER BY workdate ASC`;
+      ORDER BY workdate ASC, CAST(count AS UNSIGNED) ASC`;
     const results = await query(QUERY_WEEKLY);
     if (role === "Engineer") {
       CreateReportEng(name, sunday, results);
@@ -179,7 +179,7 @@ app.get("/api/timesheet/get", async (req, res) => {
       .subtract(1, "days")
       .format("YYYYMMDD")
       .toString()})
-      ORDER BY workdate ASC`;
+      ORDER BY workdate ASC, CAST(count AS UNSIGNED) ASC`;
     const results = await query(QUERY_MONTHLY);
     CreateTimeSheet(name, monthStartDate, results);
     return res.json({

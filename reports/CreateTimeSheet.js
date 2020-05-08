@@ -18,12 +18,6 @@ const CreateTimeSheet = async (name, monthStartDate, results) => {
   if (results.length > 0) {
     // Time Sheet
     const worksheet5 = workbook.getWorksheet(5);
-    console.log(
-      "duration",
-      moment
-        .duration(moment("10:00", "HH:mm").diff(moment("09:23", "HH:mm")))
-        .asMinutes()
-    );
 
     worksheet5.getRow(2).getCell(2).value = new Date(
       Number(monthStartDate.slice(0, 4)),
@@ -36,7 +30,7 @@ const CreateTimeSheet = async (name, monthStartDate, results) => {
       Number(monthEndDate.slice(4, 6)) - 1,
       Number(monthEndDate.slice(6, 8)) + 1
     );
-    //年月日〜
+
     worksheet5.getRow(3).getCell(3).value = name;
 
     if (Number(monthEndDate.slice(6, 8)) > 28) {
@@ -44,11 +38,11 @@ const CreateTimeSheet = async (name, monthStartDate, results) => {
 
       for (let i = 34; i <= Number(monthEndDate.slice(6, 8)) + 5; i++) {
         worksheet5.getRow(i).getCell(2).value = {
-          formula: `=B${i - 1}+1`
+          formula: `=B${i - 1}+1`,
         };
 
         worksheet5.getRow(i).getCell(3).value = {
-          formula: `=WEEKDAY(B${i})`
+          formula: `=WEEKDAY(B${i})`,
         };
       }
     }
@@ -64,8 +58,8 @@ const CreateTimeSheet = async (name, monthStartDate, results) => {
                 .toString(),
               endtime: moment(`${itm.endhour}:${itm.endmin}`, "HH:mm")
                 .format("HH:mm")
-                .toString()
-            }
+                .toString(),
+            },
           ]
         : [
             {
@@ -75,16 +69,28 @@ const CreateTimeSheet = async (name, monthStartDate, results) => {
                 .toString(),
               endtime: moment(`${itm.endhour}:${itm.endmin}`, "HH:mm")
                 .format("HH:mm")
-                .toString()
-            }
+                .toString(),
+            },
           ];
       return group;
     }, {});
 
-    console.log(dateGroup);
+    let totalWorkTime = 0;
+    let countWeekend = 0;
+    let numWorkDay = 0;
 
     for (let i = 6; i <= Number(monthEndDate.slice(6, 8)) + 5; i++) {
       const tempDate = (Number(monthStartDate) + i - 6).toString();
+      if (
+        moment(monthStartDate, "YYYYMMDD")
+          .add(i - 6, "days")
+          .weekday() === 0 ||
+        moment(monthStartDate, "YYYYMMDD")
+          .add(i - 6, "days")
+          .weekday() === 6
+      ) {
+        countWeekend++;
+      }
 
       if (dateGroup[tempDate]) {
         const duration = dateGroup[tempDate].reduce(
@@ -116,16 +122,51 @@ const CreateTimeSheet = async (name, monthStartDate, results) => {
           .toString();
 
         worksheet5.getRow(i).getCell(7).value = {
-          formula: `=E${i}-D${i}-F${i}`
+          formula: `=E${i}-D${i}-F${i}`,
         };
+
+        totalWorkTime += dateGroup[tempDate].reduce((s, a) => {
+          return s + a.worktime;
+        }, 0);
+
+        numWorkDay++;
       }
     }
+    const numNormDay = Number(monthEndDate.slice(6, 8)) - countWeekend;
 
-    // worksheet5.getRow(37).getCell(7).value = {
-    //   formula: `=SUM(G${6}:G${Number(monthEndDate.slice(6, 8)) + 5}`
-    // };
+    worksheet5.getRow(Number(monthEndDate.slice(6, 8)) + 6).getCell(4).value = {
+      formula: `${numWorkDay}`,
+    };
 
-    //moment("00:00", "HH:mm")
+    worksheet5.getRow(Number(monthEndDate.slice(6, 8)) + 6).getCell(7).value = {
+      formula: `${totalWorkTime / 1440}`,
+    };
+
+    worksheet5
+      .getRow(Number(monthEndDate.slice(6, 8)) + 10)
+      .getCell(4).value = {
+      formula: `${(numNormDay * 450) / 1440}`,
+    };
+
+    worksheet5
+      .getRow(Number(monthEndDate.slice(6, 8)) + 10)
+      .getCell(6).value = {
+      formula: `${totalWorkTime / 1440}`,
+    };
+
+    const diff =
+      totalWorkTime - numNormDay * 450 > 0
+        ? Math.floor((totalWorkTime - numNormDay * 450) / 60) +
+          ":" +
+          ((totalWorkTime - numNormDay * 450) % 60)
+        : "-" +
+          Math.floor((numNormDay * 450 - totalWorkTime) / 60) +
+          ":" +
+          ((numNormDay * 450 - totalWorkTime) % 60);
+
+    worksheet5
+      .getRow(Number(monthEndDate.slice(6, 8)) + 10)
+      .getCell(8).value = `${diff.toString()}`;
   }
 
   await workbook.xlsx.writeFile(
