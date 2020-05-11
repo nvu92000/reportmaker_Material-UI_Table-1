@@ -525,12 +525,18 @@ app.post(
     const { name, password } = req.body;
 
     try {
+      let search_res;
       const SEARCH_USER = `SELECT * FROM projectdata.namelist
       WHERE name ='${name}'`;
-      const search_res = await query(SEARCH_USER);
+      search_res = await query(SEARCH_USER);
 
       if (!search_res[0]) {
-        return res.status(400).json({ msg: "Invalid Credentials" });
+        const SEARCH_EMAIL = `SELECT * FROM projectdata.namelist
+        WHERE email ='${name}'`;
+        search_res = await query(SEARCH_EMAIL);
+        if (!search_res[0]) {
+          return res.status(400).json({ msg: "Invalid Credentials" });
+        }
       }
 
       const isMatch = await bcrypt.compare(password, search_res[0].password);
