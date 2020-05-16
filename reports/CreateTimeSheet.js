@@ -93,20 +93,34 @@ const CreateTimeSheet = async (name, monthStartDate, results) => {
       }
 
       if (dateGroup[tempDate]) {
-        const duration = dateGroup[tempDate].reduce(
-          (sum, itm, idx, arr) =>
-            idx === arr.length - 1
-              ? sum
-              : sum +
-                moment
-                  .duration(
-                    moment(arr[idx + 1].starttime, "HH:mm").diff(
-                      moment(itm.endtime, "HH:mm")
+        const duration = dateGroup[tempDate]
+          .sort(
+            (a, b) =>
+              moment
+                .duration(
+                  moment(a.starttime, "HH:mm").diff(moment("0:0", "HH:mm"))
+                )
+                .asMinutes() -
+              moment
+                .duration(
+                  moment(b.starttime, "HH:mm").diff(moment("0:0", "HH:mm"))
+                )
+                .asMinutes()
+          )
+          .reduce(
+            (sum, itm, idx, arr) =>
+              idx === arr.length - 1
+                ? sum
+                : sum +
+                  moment
+                    .duration(
+                      moment(arr[idx + 1].starttime, "HH:mm").diff(
+                        moment(itm.endtime, "HH:mm")
+                      )
                     )
-                  )
-                  .asMinutes(),
-          0
-        );
+                    .asMinutes(),
+            0
+          );
 
         worksheet5.getRow(i).getCell(4).value =
           dateGroup[tempDate][0].starttime;

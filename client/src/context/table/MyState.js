@@ -76,39 +76,47 @@ const MyState = (props) => {
         },
       });
 
-      const newData = res.data.data.map((item, index) => {
-        return {
-          key: index,
-          selectedProjectId: item.pjid,
-          selectedProjectName:
-            lang === "ja"
-              ? projects.find((element) => element.pjid === item.pjid).pjname_jp
-              : projects.find((element) => element.pjid === item.pjid)
-                  .pjname_en,
-          selectedSubId: item.subid,
-          selectedSubName:
-            lang === "ja"
-              ? subs.find((element) => element.subid === item.subid).subname_jp
-              : subs.find((element) => element.subid === item.subid).subname_en,
-          startTime: moment(
-            `"${item.starthour}:${item.startmin}:00"`,
-            "HH:mm:ss"
-          ),
-          endTime: moment(`"${item.endhour}:${item.endmin}:00"`, "HH:mm:ss"),
-          workTime: `${
-            parseInt(item.worktime / 60) < 10
-              ? "0" + parseInt(item.worktime / 60).toString()
-              : parseInt(item.worktime / 60)
-          }:${
-            item.worktime % 60 < 10
-              ? "0" + (item.worktime % 60).toString()
-              : item.worktime % 60
-          }`,
-          status: item.percent,
-          comment: item.comment,
-          option: options[item.pjid] ? options[item.pjid] : [],
-        };
-      });
+      const newData = res.data.data
+        .sort(
+          (a, b) =>
+            a.starthour * 60 + a.startmin - (b.starthour * 60 + b.startmin)
+        )
+        .map((item, index) => {
+          return {
+            key: index,
+            selectedProjectId: item.pjid,
+            selectedProjectName:
+              lang === "ja"
+                ? projects.find((element) => element.pjid === item.pjid)
+                    .pjname_jp
+                : projects.find((element) => element.pjid === item.pjid)
+                    .pjname_en,
+            selectedSubId: item.subid,
+            selectedSubName:
+              lang === "ja"
+                ? subs.find((element) => element.subid === item.subid)
+                    .subname_jp
+                : subs.find((element) => element.subid === item.subid)
+                    .subname_en,
+            startTime: moment(
+              `"${item.starthour}:${item.startmin}:00"`,
+              "HH:mm:ss"
+            ),
+            endTime: moment(`"${item.endhour}:${item.endmin}:00"`, "HH:mm:ss"),
+            workTime: `${
+              parseInt(item.worktime / 60) < 10
+                ? "0" + parseInt(item.worktime / 60).toString()
+                : parseInt(item.worktime / 60)
+            }:${
+              item.worktime % 60 < 10
+                ? "0" + (item.worktime % 60).toString()
+                : item.worktime % 60
+            }`,
+            status: item.percent,
+            comment: item.comment,
+            option: options[item.pjid] ? options[item.pjid] : [],
+          };
+        });
 
       dispatch({
         type: GET_DATA_FROM_DATE,
@@ -149,39 +157,47 @@ const MyState = (props) => {
         },
       });
 
-      const newData = res.data.data.map((item, index) => {
-        return {
-          key: index,
-          selectedProjectId: item.pjid,
-          selectedProjectName:
-            lang === "ja"
-              ? projects.find((element) => element.pjid === item.pjid).pjname_jp
-              : projects.find((element) => element.pjid === item.pjid)
-                  .pjname_en,
-          selectedSubId: item.subid,
-          selectedSubName:
-            lang === "ja"
-              ? subs.find((element) => element.subid === item.subid).subname_jp
-              : subs.find((element) => element.subid === item.subid).subname_en,
-          startTime: moment(
-            `"${item.starthour}:${item.startmin}:00"`,
-            "HH:mm:ss"
-          ),
-          endTime: moment(`"${item.endhour}:${item.endmin}:00"`, "HH:mm:ss"),
-          workTime: `${
-            parseInt(item.worktime / 60) < 10
-              ? "0" + parseInt(item.worktime / 60).toString()
-              : parseInt(item.worktime / 60)
-          }:${
-            item.worktime % 60 < 10
-              ? "0" + (item.worktime % 60).toString()
-              : item.worktime % 60
-          }`,
-          status: item.percent,
-          comment: item.comment,
-          option: options[item.pjid] ? options[item.pjid] : [],
-        };
-      });
+      const newData = res.data.data
+        .sort(
+          (a, b) =>
+            a.starthour * 60 + a.startmin - (b.starthour * 60 + b.startmin)
+        )
+        .map((item, index) => {
+          return {
+            key: index,
+            selectedProjectId: item.pjid,
+            selectedProjectName:
+              lang === "ja"
+                ? projects.find((element) => element.pjid === item.pjid)
+                    .pjname_jp
+                : projects.find((element) => element.pjid === item.pjid)
+                    .pjname_en,
+            selectedSubId: item.subid,
+            selectedSubName:
+              lang === "ja"
+                ? subs.find((element) => element.subid === item.subid)
+                    .subname_jp
+                : subs.find((element) => element.subid === item.subid)
+                    .subname_en,
+            startTime: moment(
+              `"${item.starthour}:${item.startmin}:00"`,
+              "HH:mm:ss"
+            ),
+            endTime: moment(`"${item.endhour}:${item.endmin}:00"`, "HH:mm:ss"),
+            workTime: `${
+              parseInt(item.worktime / 60) < 10
+                ? "0" + parseInt(item.worktime / 60).toString()
+                : parseInt(item.worktime / 60)
+            }:${
+              item.worktime % 60 < 10
+                ? "0" + (item.worktime % 60).toString()
+                : item.worktime % 60
+            }`,
+            status: item.percent,
+            comment: item.comment,
+            option: options[item.pjid] ? options[item.pjid] : [],
+          };
+        });
 
       dispatch({
         type: GET_DATA_FROM_SAME_AS_DATE,
