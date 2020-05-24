@@ -105,10 +105,10 @@ const WeeklyWorkload = (props) => {
         dispatch({ type: SET_COLLAPSED, payload: true });
       };
 
-      element.addEventListener("mouseenter", setCollapsed);
+      element.addEventListener("mousedown", setCollapsed);
 
       return () => {
-        element.removeEventListener("mouseenter", setCollapsed);
+        element.removeEventListener("mousedown", setCollapsed);
         columnPlot.destroy();
       };
     }

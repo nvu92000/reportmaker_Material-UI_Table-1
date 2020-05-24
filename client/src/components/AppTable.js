@@ -168,7 +168,7 @@ const AppTable = () => {
         mouseRef.removeEventListener("mousedown", setCollapsed);
       };
     }
-    
+
     // eslint-disable-next-line
   }, []);
 
@@ -602,10 +602,7 @@ const AppTable = () => {
                                     >
                                       <Input.TextArea
                                         style={{ height: 30 }}
-                                        autoSize={{ minRows: 1, maxRows: 3 }}
-                                        onResize={(w, h) => {
-                                          console.log(w, h);
-                                        }}
+                                        autoSize
                                       />
                                     </AutoComplete>
                                   </DraggableCell>
