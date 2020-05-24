@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import MyContext from "../context/table/myContext";
 import LangContext from "../context/lang/langContext";
-import { SELECT_PAGE } from "../context/types";
+import { SELECT_PAGE, SET_COLLAPSED } from "../context/types";
 import { Layout, Breadcrumb, DatePicker, Row, Col, Select, Empty } from "antd";
 import { Paper } from "@material-ui/core";
 import "antd/dist/antd.css";
@@ -101,10 +101,19 @@ const WeeklyWorkload = (props) => {
 
       columnPlot.render();
 
+      const setCollapsed = () => {
+        dispatch({ type: SET_COLLAPSED, payload: true });
+      };
+
+      element.addEventListener("mouseenter", setCollapsed);
+
       return () => {
+        element.removeEventListener("mouseenter", setCollapsed);
         columnPlot.destroy();
       };
     }
+
+    // eslint-disable-next-line
   }, [dataSource, bySelect, _workloadByMembers, _workloadByProjects, _hours]);
 
   const onChangeDate = async (date) => {

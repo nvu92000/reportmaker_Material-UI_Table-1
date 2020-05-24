@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useContext } from "react";
+import React, { Fragment, useEffect, useContext, useRef } from "react";
 import MyContext from "../context/table/myContext";
 import AuthContext from "../context/auth/authContext";
 import LangContext from "../context/lang/langContext";
@@ -15,6 +15,7 @@ import {
   COMMENT,
   SET_SAME_AS_DATE,
   DRAG_ROW,
+  SET_COLLAPSED,
 } from "../context/types";
 import {
   Button,
@@ -53,6 +54,7 @@ const AppTable = () => {
   const myContext = useContext(MyContext);
   const authContext = useContext(AuthContext);
   const langContext = useContext(LangContext);
+  const focusRef = useRef(null);
 
   const { lang, currentLangData } = langContext;
   const {
@@ -152,6 +154,23 @@ const AppTable = () => {
     getDataFromSameAsDate(name, sameAsDate, lang);
     // eslint-disable-next-line
   }, [name, sameAsDate, lang]);
+
+  useEffect(() => {
+    const setCollapsed = () => {
+      dispatch({ type: SET_COLLAPSED, payload: true });
+    };
+
+    if (focusRef.current !== null) {
+      const mouseRef = focusRef.current;
+      mouseRef.addEventListener("mousedown", setCollapsed);
+
+      return () => {
+        mouseRef.removeEventListener("mousedown", setCollapsed);
+      };
+    }
+    
+    // eslint-disable-next-line
+  }, []);
 
   const pjidSelect = projects.map((obj, index) => {
     return (
@@ -303,7 +322,7 @@ const AppTable = () => {
         <DragDropContext onDragEnd={onDragEnd}>
           <Paper elevation={3}>
             <TableContainer>
-              <Table>
+              <Table ref={focusRef}>
                 <TableHead>
                   <TableRow>
                     <TableCell />

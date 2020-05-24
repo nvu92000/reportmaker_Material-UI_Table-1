@@ -47,7 +47,7 @@ const AppSider = (props) => {
         },
       };
 
-  const { selectedKeys, dispatch, isDataEdited } = myContext;
+  const { selectedKeys, dispatch, isDataEdited, collapsed } = myContext;
 
   const { Sider } = Layout;
 
@@ -63,7 +63,7 @@ const AppSider = (props) => {
       trigger={null}
       collapsible
       collapsedWidth={0}
-      collapsed={props.isCollapsed}
+      collapsed={collapsed}
     >
       <div className="logo">
         <h2>

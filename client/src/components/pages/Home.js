@@ -12,8 +12,12 @@ import {
   MenuFoldOutlined,
 } from "@ant-design/icons";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { QUOTES, RESET_PROJECTS } from "../../context/types";
-
+import {
+  SET_LANG,
+  SET_COLLAPSED,
+  QUOTES,
+  RESET_PROJECTS,
+} from "../../context/types";
 import Login from "../auth/Login";
 import PrivateRoute from "../routing/PrivateRoute";
 import AppContent from "../AppContent";
@@ -29,7 +33,6 @@ import MyContext from "../../context/table/myContext";
 import DailyContext from "../../context/daily/dailyContext";
 import LangContext from "../../context/lang/langContext";
 import axios from "axios";
-import { SET_LANG } from "../../context/types";
 import Register from "../auth/Register";
 import ForgotPassword from "../auth/ForgotPassword";
 import ResetPassword from "../auth/ResetPassword";
@@ -72,6 +75,7 @@ const Home = () => {
     isDataEdited,
     projects,
     getProject,
+    collapsed,
   } = myContext;
 
   const { clearDailyLogout } = dailyContext;
@@ -177,13 +181,12 @@ const Home = () => {
     setVisible(false);
   };
 
-  const [collapsed, setCollapsed] = useState(true);
   const [visible, setVisible] = useState(false);
 
   const { Header, Footer } = Layout;
 
   const toggle = () => {
-    setCollapsed(!collapsed);
+    dispatch({ type: SET_COLLAPSED, payload: !collapsed });
   };
 
   const onNameClick = () => {
@@ -268,7 +271,7 @@ const Home = () => {
         />
         <Fragment>
           <Layout>
-            <AppSider isCollapsed={collapsed} />
+            <AppSider />
             <Layout>
               <Layout>
                 <Header>

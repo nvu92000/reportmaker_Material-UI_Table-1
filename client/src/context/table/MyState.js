@@ -27,6 +27,7 @@ const MyState = (props) => {
     quotes: null,
     options: {},
     isDataEdited: false,
+    collapsed: true
   };
 
   const [state, dispatch] = useReducer(MyReducer, initialState);
@@ -421,6 +422,7 @@ const MyState = (props) => {
         quotes: state.quotes,
         options: state.options,
         isDataEdited: state.isDataEdited,
+        collapsed: state.collapsed,
         dispatch,
         getProject,
         getDataFromDate,

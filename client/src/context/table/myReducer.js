@@ -21,11 +21,18 @@ import {
   RESET_PROJECTS,
   QUOTES,
   DRAG_ROW,
+  SET_COLLAPSED,
 } from "../types";
 import moment from "moment";
 
 export default (state, action) => {
   switch (action.type) {
+    case SET_COLLAPSED:
+      return {
+        ...state,
+        collapsed: action.payload,
+      };
+
     case DRAG_ROW:
       return {
         ...state,

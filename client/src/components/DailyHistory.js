@@ -3,7 +3,7 @@ import MyContext from "../context/table/myContext";
 import DailyContext from "../context/daily/dailyContext";
 import AuthContext from "../context/auth/authContext";
 import LangContext from "../context/lang/langContext";
-import { SELECT_PAGE, SORT } from "../context/types";
+import { SELECT_PAGE, SORT, SET_COLLAPSED } from "../context/types";
 import { Layout, Breadcrumb, Table, Input, Button, Select } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
@@ -330,6 +330,20 @@ const DailyHistory = (props) => {
           }}
         >
           <Table
+            onRow={(record, rowIndex) => {
+              return {
+                onClick: (event) => {
+                  myDispatch({ type: SET_COLLAPSED, payload: true });
+                },
+              };
+            }}
+            onHeaderRow={(column) => {
+              return {
+                onClick: () => {
+                  myDispatch({ type: SET_COLLAPSED, payload: true });
+                },
+              };
+            }}
             columns={columns}
             dataSource={dailySource}
             bordered
