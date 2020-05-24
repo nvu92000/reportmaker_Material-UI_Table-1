@@ -405,8 +405,8 @@ const AppTable = () => {
                                       }
                                       style={
                                         lang === "ja"
-                                          ? { width: "300px" }
-                                          : { width: "200px" }
+                                          ? { minWidth: "300px" }
+                                          : { minWidth: "200px" }
                                       }
                                       value={
                                         row.selectedProjectName
@@ -581,7 +581,13 @@ const AppTable = () => {
                                         });
                                       }}
                                     >
-                                      <Input.TextArea style={{ height: 30 }} />
+                                      <Input.TextArea
+                                        style={{ height: 30 }}
+                                        autoSize={{ minRows: 1, maxRows: 3 }}
+                                        onResize={(w, h) => {
+                                          console.log(w, h);
+                                        }}
+                                      />
                                     </AutoComplete>
                                   </DraggableCell>
                                   <DraggableCell

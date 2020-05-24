@@ -283,10 +283,24 @@ export default (state, action) => {
           ...state.dataSource,
           {
             key: state.rowCount,
-            selectedProjectId: null,
-            selectedProjectName: null,
-            selectedSubId: null,
-            selectedSubName: null,
+            selectedProjectId:
+              state.dataSource.length > 0
+                ? state.dataSource[state.dataSource.length - 1]
+                    .selectedProjectId
+                : null,
+            selectedProjectName:
+              state.dataSource.length > 0
+                ? state.dataSource[state.dataSource.length - 1]
+                    .selectedProjectName
+                : null,
+            selectedSubId:
+              state.dataSource.length > 0
+                ? state.dataSource[state.dataSource.length - 1].selectedSubId
+                : null,
+            selectedSubName:
+              state.dataSource.length > 0
+                ? state.dataSource[state.dataSource.length - 1].selectedSubName
+                : null,
             startTime:
               state.dataSource.length > 0
                 ? state.dataSource[state.dataSource.length - 1].endTime
