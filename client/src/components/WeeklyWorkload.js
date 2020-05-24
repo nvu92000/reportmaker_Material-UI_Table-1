@@ -8,6 +8,7 @@ import "antd/dist/antd.css";
 import axios from "axios";
 import { StackColumn } from "@antv/g2plot";
 import moment from "moment";
+import LoadingOverlay from "react-loading-overlay";
 
 const WeeklyWorkload = (props) => {
   const myContext = useContext(MyContext);
@@ -49,6 +50,7 @@ const WeeklyWorkload = (props) => {
   const [weekSelect, setWeekSelect] = useState(moment().subtract(6, "days"));
   const [dataSource, setDataSource] = useState([]);
   const [bySelect, setBySelect] = useState("By Members");
+  const [loading, setLoading] = useState(false);
   const G1 = useRef(null);
 
   useEffect(() => {
@@ -109,6 +111,7 @@ const WeeklyWorkload = (props) => {
     if (date !== null) {
       const sunday = date.startOf("week").format("YYYYMMDD").toString();
 
+      setLoading(true);
       const res = await axios.get(`api/workload/get`, {
         params: {
           sunday,
@@ -145,6 +148,7 @@ const WeeklyWorkload = (props) => {
       // console.log(res2);
 
       setDataSource(res2);
+      setLoading(false);
       setWeekSelect(date);
     }
   };
@@ -211,16 +215,27 @@ const WeeklyWorkload = (props) => {
         {dataSource.length !== 0 ? (
           <div ref={G1} style={{ height: "40rem" }} />
         ) : (
-          <Paper elevation={3}>
-            <Empty
-              description={_noData}
-              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-              imageStyle={{
-                height: 100,
-              }}
-              style={{ padding: "20px 0 20px 0", marginTop: "16px" }}
-            />
-          </Paper>
+          <LoadingOverlay
+            active={loading}
+            spinner
+            styles={{
+              overlay: (base) => ({
+                ...base,
+                background: "rgba(24, 144, 255, 0.5)",
+              }),
+            }}
+          >
+            <Paper elevation={3}>
+              <Empty
+                description={_noData}
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                imageStyle={{
+                  height: 100,
+                }}
+                style={{ padding: "20px 0 20px 0", marginTop: "16px" }}
+              />
+            </Paper>{" "}
+          </LoadingOverlay>
         )}
       </Content>
     </Layout>

@@ -260,7 +260,7 @@ const AppTable = () => {
 
   return (
     <Fragment>
-      <Row style={{ marginTop: "8px" }}>
+      <Row style={{ marginTop: "16px" }} justify="space-between">
         <Col>
           <Tooltip title={_addARow} aria-label="add">
             <Fab
