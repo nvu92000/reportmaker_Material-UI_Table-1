@@ -22,11 +22,18 @@ import {
   QUOTES,
   DRAG_ROW,
   SET_COLLAPSED,
+  SET_DARK,
 } from "../types";
 import moment from "moment";
 
 export default (state, action) => {
   switch (action.type) {
+    case SET_DARK:
+      return {
+        ...state,
+        isDark: action.payload,
+      };
+
     case SET_COLLAPSED:
       return {
         ...state,

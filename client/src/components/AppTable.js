@@ -49,6 +49,7 @@ import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import LoadingOverlay from "react-loading-overlay";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { DraggableCell } from "./helpers/DraggableCell.js";
+import { makeStyles } from "@material-ui/core/styles";
 
 const AppTable = () => {
   const myContext = useContext(MyContext);
@@ -143,6 +144,7 @@ const AppTable = () => {
     getDataFromSameAsDate,
     onSave,
     isDataEdited,
+    isDark,
   } = myContext;
 
   useEffect(() => {
@@ -172,9 +174,39 @@ const AppTable = () => {
     // eslint-disable-next-line
   }, []);
 
+  const useStyles = makeStyles({
+    draggableRow: {
+      borderRadius: "2px",
+      transition: "background-color 0.2s ease",
+      backgroundColor: isDark ? "#515151" : "#fff",
+      "&:hover": {
+        backgroundColor: isDark ? "#303031 !important" : "inherit",
+      },
+    },
+    draggableRowDragging: {
+      borderRadius: "2px",
+      transition: "background-color 0.2s ease",
+      backgroundColor: isDark
+        ? "rgba(48, 48, 49, 0.7)"
+        : "rgba(24, 144, 255, 0.5)",
+    },
+    draggableRowDraggingOver: {
+      borderRadius: "2px",
+      transition: "background-color 0.2s ease",
+      backgroundColor: isDark ? "#515151" : "inherit",
+    },
+  });
+
+  const classes = useStyles();
+
   const pjidSelect = projects.map((obj, index) => {
     return (
-      <Select.Option key={index} id={index} value={obj.pjid}>
+      <Select.Option
+        key={index}
+        id={index}
+        value={obj.pjid}
+        className={isDark && "optionstyle"}
+      >
         {obj.pjid}
       </Select.Option>
     );
@@ -186,6 +218,7 @@ const AppTable = () => {
         key={index}
         id={index}
         value={lang === "ja" ? obj.pjname_jp : obj.pjname_en}
+        className={isDark && "optionstyle"}
       >
         {lang === "ja" ? obj.pjname_jp : obj.pjname_en}
       </Select.Option>
@@ -194,7 +227,12 @@ const AppTable = () => {
 
   const subidSelect = subs.map((obj, index) => {
     return (
-      <Select.Option key={index} id={index} value={obj.subid}>
+      <Select.Option
+        key={index}
+        id={index}
+        value={obj.subid}
+        className={isDark && "optionstyle"}
+      >
         {obj.subid}
       </Select.Option>
     );
@@ -206,6 +244,7 @@ const AppTable = () => {
         key={index}
         id={index}
         value={lang === "ja" ? obj.subname_jp : obj.subname_en}
+        className={isDark && "optionstyle"}
       >
         {lang === "ja" ? obj.subname_jp : obj.subname_en}
       </Select.Option>
@@ -298,6 +337,11 @@ const AppTable = () => {
             {_sameAsDate}
           </span>
           <DatePicker
+            className={isDark && "datestyle"}
+            style={{
+              backgroundColor: isDark ? "#666666" : "inherit",
+              color: isDark ? "#fffcec" : "inherit",
+            }}
             showToday={false}
             placeholder={_selectDate}
             value={sameAsDate}
@@ -325,17 +369,38 @@ const AppTable = () => {
               <Table ref={focusRef}>
                 <TableHead>
                   <TableRow>
-                    <TableCell />
-                    <TableCell align="center">{_projectId}</TableCell>
-                    <TableCell align="center">{_projectName}</TableCell>
-                    <TableCell align="center">{_subId}</TableCell>
-                    <TableCell align="center">{_subName}</TableCell>
-                    <TableCell align="center">{_startTime}</TableCell>
-                    <TableCell align="center">{_endTime}</TableCell>
-                    <TableCell align="center">{_workTime}</TableCell>
-                    <TableCell align="center">{_status}</TableCell>
-                    <TableCell align="center">{_comment}</TableCell>
-                    <TableCell align="center"></TableCell>
+                    <TableCell className={isDark && "cellstyle"} />
+                    <TableCell align="center" className={isDark && "cellstyle"}>
+                      {_projectId}
+                    </TableCell>
+                    <TableCell align="center" className={isDark && "cellstyle"}>
+                      {_projectName}
+                    </TableCell>
+                    <TableCell align="center" className={isDark && "cellstyle"}>
+                      {_subId}
+                    </TableCell>
+                    <TableCell align="center" className={isDark && "cellstyle"}>
+                      {_subName}
+                    </TableCell>
+                    <TableCell align="center" className={isDark && "cellstyle"}>
+                      {_startTime}
+                    </TableCell>
+                    <TableCell align="center" className={isDark && "cellstyle"}>
+                      {_endTime}
+                    </TableCell>
+                    <TableCell align="center" className={isDark && "cellstyle"}>
+                      {_workTime}
+                    </TableCell>
+                    <TableCell align="center" className={isDark && "cellstyle"}>
+                      {_status}
+                    </TableCell>
+                    <TableCell align="center" className={isDark && "cellstyle"}>
+                      {_comment}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      className={isDark && "cellstyle"}
+                    ></TableCell>
                   </TableRow>
                 </TableHead>
                 <Droppable droppableId="droppable">
@@ -359,14 +424,17 @@ const AppTable = () => {
                                   key={rowIndex}
                                   className={
                                     snapshot.isDragging
-                                      ? "draggable-row-dragging"
-                                      : "draggable-row"
+                                      ? classes.draggableRowDragging
+                                      : droppableSnapshot.isDraggingOver
+                                      ? classes.draggableRowDraggingOver
+                                      : classes.draggableRow
                                   }
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                 >
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
+                                    isDark={isDark}
                                   >
                                     <Tooltip title={_drag}>
                                       <IconButton
@@ -383,8 +451,13 @@ const AppTable = () => {
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
+                                    isDark={isDark}
                                   >
                                     <Select
+                                      className={isDark && "selectstyle"}
+                                      dropdownClassName={
+                                        isDark && "selectdropdownstyle"
+                                      }
                                       showSearch
                                       optionFilterProp="children"
                                       filterOption={(input, option) =>
@@ -392,7 +465,9 @@ const AppTable = () => {
                                           .toLowerCase()
                                           .indexOf(input.toLowerCase()) >= 0
                                       }
-                                      style={{ width: "100px" }}
+                                      style={{
+                                        width: "100px",
+                                      }}
                                       value={
                                         row.selectedProjectId
                                           ? row.selectedProjectId
@@ -413,8 +488,13 @@ const AppTable = () => {
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
+                                    isDark={isDark}
                                   >
                                     <Select
+                                      className={isDark && "selectstyle"}
+                                      dropdownClassName={
+                                        isDark && "selectdropdownstyle"
+                                      }
                                       showSearch
                                       optionFilterProp="children"
                                       filterOption={(input, option) =>
@@ -447,8 +527,13 @@ const AppTable = () => {
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
+                                    isDark={isDark}
                                   >
                                     <Select
+                                      className={isDark && "selectstyle"}
+                                      dropdownClassName={
+                                        isDark && "selectdropdownstyle"
+                                      }
                                       showSearch
                                       optionFilterProp="children"
                                       filterOption={(input, option) =>
@@ -477,8 +562,13 @@ const AppTable = () => {
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
+                                    isDark={isDark}
                                   >
                                     <Select
+                                      className={isDark && "selectstyle"}
+                                      dropdownClassName={
+                                        isDark && "selectdropdownstyle"
+                                      }
                                       showSearch
                                       optionFilterProp="children"
                                       filterOption={(input, option) =>
@@ -507,6 +597,7 @@ const AppTable = () => {
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
+                                    isDark={isDark}
                                   >
                                     <KeyboardTimePicker
                                       ampm={false}
@@ -528,6 +619,7 @@ const AppTable = () => {
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
+                                    isDark={isDark}
                                   >
                                     <KeyboardTimePicker
                                       ampm={false}
@@ -549,20 +641,30 @@ const AppTable = () => {
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
+                                    isDark={isDark}
                                   >
                                     <Button
                                       className="noHover"
                                       size="middle"
                                       type="default"
+                                      style={{
+                                        backgroundColor: isDark && "#424242",
+                                        color: isDark && "#fff",
+                                      }}
                                     >
                                       {row.workTime}
                                     </Button>
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
+                                    isDark={isDark}
                                   >
                                     <InputNumber
-                                      style={{ width: "60px" }}
+                                      style={{
+                                        width: "60px",
+                                        backgroundColor: isDark && "#424242",
+                                        color: isDark && "#fff",
+                                      }}
                                       min={0}
                                       max={100}
                                       value={row.status}
@@ -577,6 +679,7 @@ const AppTable = () => {
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
+                                    isDark={isDark}
                                   >
                                     <AutoComplete
                                       style={
@@ -601,13 +704,18 @@ const AppTable = () => {
                                       }}
                                     >
                                       <Input.TextArea
-                                        style={{ height: 30 }}
+                                        style={{
+                                          height: 30,
+                                          backgroundColor: isDark && "#424242",
+                                          color: isDark && "#fff",
+                                        }}
                                         autoSize
                                       />
                                     </AutoComplete>
                                   </DraggableCell>
                                   <DraggableCell
                                     isDragOccurring={snapshot.isDragging}
+                                    isDark={isDark}
                                   >
                                     {dataSource.length >= 1 && (
                                       <Popconfirm
@@ -618,6 +726,7 @@ const AppTable = () => {
                                         }}
                                         okText="OK"
                                         cancelText={_cancel}
+                                        className="popupstyle"
                                       >
                                         <Tooltip title={_delete}>
                                           <IconButton
@@ -665,7 +774,11 @@ const AppTable = () => {
             className="noHover"
             size="large"
             type="default"
-            style={{ margin: "2px 2px 0 0" }}
+            style={{
+              margin: "2px 2px 0 0",
+              backgroundColor: isDark && "#424242",
+              color: isDark && "#fff",
+            }}
           >
             {_totalWorkTime}:
           </Button>
@@ -673,7 +786,11 @@ const AppTable = () => {
             className="noHover"
             size="large"
             type="default"
-            style={{ marginTop: "2px" }}
+            style={{
+              marginTop: "2px",
+              backgroundColor: isDark && "#424242",
+              color: isDark && "#fff",
+            }}
           >
             {totalWorkTime > 0 ? totalWorkTime.toPrecision(3) : 0}{" "}
             {lang === "en-US" && totalWorkTime <= 1 ? "hour" : _hours}

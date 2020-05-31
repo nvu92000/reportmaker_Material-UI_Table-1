@@ -69,7 +69,7 @@ const DailyHistory = (props) => {
 
   const { Content } = Layout;
 
-  const { dispatch: myDispatch } = myContext;
+  const { dispatch: myDispatch, isDark } = myContext;
 
   const {
     dispatch: dailyDispatch,
@@ -286,7 +286,12 @@ const DailyHistory = (props) => {
   ];
 
   return (
-    <Layout style={{ padding: "24px 15px 15px" }}>
+    <Layout
+      style={{
+        padding: "24px 15px 15px",
+        backgroundColor: isDark ? "#303030" : "inherit",
+      }}
+    >
       <Breadcrumb />
       <Content
         style={{
@@ -294,6 +299,9 @@ const DailyHistory = (props) => {
           borderRadius: "2px",
           position: "relative",
           transition: "all .3s",
+          backgroundColor: isDark ? "#424242" : "#fff",
+          borderColor: isDark ? "#424242" : "#fff",
+          color: isDark ? "#C7C7C7" : "#000",
         }}
       >
         <Button
@@ -306,6 +314,8 @@ const DailyHistory = (props) => {
           {_sortDate}
         </Button>
         <Select
+          className={isDark && "selectstyle"}
+          dropdownClassName={isDark && "selectdropdownstyle"}
           showSearch
           style={{ width: 120 }}
           optionFilterProp="children"

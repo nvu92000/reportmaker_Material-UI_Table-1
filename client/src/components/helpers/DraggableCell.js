@@ -68,7 +68,11 @@ class DraggableCell extends React.Component {
 
   render() {
     return (
-      <TableCell ref={this.setRef} align="center">
+      <TableCell
+        ref={this.setRef}
+        align="center"
+        className={this.props.isDark && "cellstyle"}
+      >
         {this.props.children}
       </TableCell>
     );

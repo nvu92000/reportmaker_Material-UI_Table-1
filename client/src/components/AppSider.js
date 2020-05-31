@@ -47,7 +47,7 @@ const AppSider = (props) => {
         },
       };
 
-  const { selectedKeys, dispatch, isDataEdited, collapsed } = myContext;
+  const { selectedKeys, dispatch, isDataEdited, collapsed, isDark } = myContext;
 
   const { Sider } = Layout;
 
@@ -59,7 +59,10 @@ const AppSider = (props) => {
   return (
     <Sider
       width={lang === "vi" ? "210px" : "190px"}
-      style={{ background: "#fff" }}
+      style={{
+        backgroundColor: isDark ? "#424242" : "#fff",
+        borderColor: isDark ? "#424242" : "#fff",
+      }}
       trigger={null}
       collapsible
       collapsedWidth={0}
@@ -83,6 +86,12 @@ const AppSider = (props) => {
       <Menu
         mode="inline"
         selectedKeys={selectedKeys}
+        style={{
+          backgroundColor: isDark ? "#424242" : "#fff",
+          borderColor: isDark ? "#424242" : "#fff",
+          color: isDark ? "#fff" : "#595959",
+        }}
+        className={isDark && "menustyle"}
         onClick={({ key }) => {
           switch (key) {
             case "/":

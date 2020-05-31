@@ -40,7 +40,7 @@ const MonthlyReview = (props) => {
 
   const { Content } = Layout;
 
-  const { dispatch } = myContext;
+  const { dispatch, isDark } = myContext;
 
   const { user } = authContext;
   const name = user && user.name.charAt(0).toUpperCase() + user.name.slice(1);
@@ -108,7 +108,12 @@ const MonthlyReview = (props) => {
   };
 
   return (
-    <Layout style={{ padding: "24px 15px 15px" }}>
+    <Layout
+      style={{
+        padding: "24px 15px 15px",
+        backgroundColor: isDark ? "#303030" : "inherit",
+      }}
+    >
       <Breadcrumb />
       <Content
         style={{
@@ -116,6 +121,9 @@ const MonthlyReview = (props) => {
           borderRadius: "2px",
           position: "relative",
           transition: "all .3s",
+          backgroundColor: isDark ? "#424242" : "#fff",
+          borderColor: isDark ? "#424242" : "#fff",
+          color: isDark ? "#C7C7C7" : "#000",
         }}
       >
         <Row style={{ justifyContent: "space-evenly" }}>
@@ -124,6 +132,8 @@ const MonthlyReview = (props) => {
               {_reportMonth}
             </span>
             <DatePicker
+              className={isDark && "datestyle"}
+              style={{ backgroundColor: isDark ? "#666666" : "inherit" }}
               placeholder={_selectMonth}
               picker="month"
               bordered={true}

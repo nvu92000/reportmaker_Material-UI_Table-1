@@ -24,7 +24,7 @@ const AppContent = () => {
         },
       };
 
-  const { dispatch, isDataEdited, selectedDate } = myContext;
+  const { dispatch, isDataEdited, selectedDate, isDark } = myContext;
 
   const { Content } = Layout;
   const onChange = (date) => {
@@ -36,7 +36,12 @@ const AppContent = () => {
   };
 
   return (
-    <Layout style={{ padding: "24px 15px 15px" }}>
+    <Layout
+      style={{
+        padding: "24px 15px 15px",
+        backgroundColor: isDark ? "#303030" : "inherit",
+      }}
+    >
       <Breadcrumb />
       <Content
         style={{
@@ -44,6 +49,9 @@ const AppContent = () => {
           borderRadius: "2px",
           position: "relative",
           transition: "all .3s",
+          backgroundColor: isDark ? "#424242" : "#fff",
+          borderColor: isDark ? "#424242" : "#fff",
+          color: isDark ? "#C7C7C7" : "inherit",
         }}
       >
         <Row type="flex" justify="end">
@@ -52,6 +60,8 @@ const AppContent = () => {
               {_reportDate}
             </span>
             <DatePicker
+              className={isDark && "datestyle"}
+              style={{ backgroundColor: isDark ? "#666666" : "inherit" }}
               showToday={false}
               placeholder={_selectDate}
               value={selectedDate}

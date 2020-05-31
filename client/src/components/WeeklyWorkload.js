@@ -16,7 +16,7 @@ const WeeklyWorkload = (props) => {
 
   const { Content } = Layout;
 
-  const { dispatch } = myContext;
+  const { dispatch, isDark } = myContext;
 
   const { currentLangData } = langContext;
   const {
@@ -163,7 +163,12 @@ const WeeklyWorkload = (props) => {
   };
 
   return (
-    <Layout style={{ padding: "24px 15px 15px" }}>
+    <Layout
+      style={{
+        padding: "24px 15px 15px",
+        backgroundColor: isDark ? "#303030" : "inherit",
+      }}
+    >
       <Breadcrumb />
       <Content
         style={{
@@ -171,6 +176,9 @@ const WeeklyWorkload = (props) => {
           borderRadius: "2px",
           position: "relative",
           transition: "all .3s",
+          backgroundColor: isDark ? "#424242" : "#fff",
+          borderColor: isDark ? "#424242" : "#fff",
+          color: isDark ? "#C7C7C7" : "#000",
         }}
       >
         <Row style={{ justifyContent: "space-evenly" }}>
@@ -179,6 +187,8 @@ const WeeklyWorkload = (props) => {
               {_week}
             </span>
             <DatePicker
+              className={isDark && "datestyle"}
+              style={{ backgroundColor: isDark ? "#666666" : "inherit" }}
               bordered={true}
               picker="week"
               value={weekSelect}
@@ -187,12 +197,13 @@ const WeeklyWorkload = (props) => {
               }}
             />
           </Col>
-
           <Col>
             <span style={{ margin: "5px 10px 0 0", fontSize: "17px" }}>
               {_workload}
             </span>
             <Select
+              className={isDark && "selectstyle"}
+              dropdownClassName={isDark && "selectdropdownstyle"}
               showSearch
               style={{ width: 140 }}
               optionFilterProp="children"

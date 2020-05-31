@@ -17,6 +17,7 @@ import {
   SET_COLLAPSED,
   QUOTES,
   RESET_PROJECTS,
+  SET_DARK,
 } from "../../context/types";
 import Login from "../auth/Login";
 import PrivateRoute from "../routing/PrivateRoute";
@@ -53,12 +54,14 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Switch as SwitchTheme,
 } from "@material-ui/core";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import ClearIcon from "@material-ui/icons/Clear";
 import CancelIcon from "@material-ui/icons/Cancel";
 import TranslateIcon from "@material-ui/icons/Translate";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
@@ -76,6 +79,7 @@ const Home = () => {
     projects,
     getProject,
     collapsed,
+    isDark,
   } = myContext;
 
   const { clearDailyLogout } = dailyContext;
@@ -194,14 +198,22 @@ const Home = () => {
   };
 
   const langMenu = (
-    <Menu>
+    <Menu
+      style={{
+        backgroundColor: isDark ? "#424242" : "#fff",
+      }}
+    >
       <Menu.Item
         key="1"
         onClick={() =>
           isDataEdited ? message.error(_pleaseChangeData) : switchLang("en-US")
         }
       >
-        <Typography variant="body1" noWrap style={{ marginLeft: "5px" }}>
+        <Typography
+          variant="body1"
+          noWrap
+          style={{ marginLeft: "5px", color: isDark ? "#fff" : "#595959" }}
+        >
           English
         </Typography>
       </Menu.Item>
@@ -211,7 +223,11 @@ const Home = () => {
           isDataEdited ? message.error(_pleaseChangeData) : switchLang("ja")
         }
       >
-        <Typography variant="body1" noWrap style={{ marginLeft: "5px" }}>
+        <Typography
+          variant="body1"
+          noWrap
+          style={{ marginLeft: "5px", color: isDark ? "#fff" : "#595959" }}
+        >
           日本語
         </Typography>
       </Menu.Item>
@@ -221,7 +237,11 @@ const Home = () => {
           isDataEdited ? message.error(_pleaseChangeData) : switchLang("vi")
         }
       >
-        <Typography variant="body1" noWrap style={{ marginLeft: "5px" }}>
+        <Typography
+          variant="body1"
+          noWrap
+          style={{ marginLeft: "5px", color: isDark ? "#fff" : "#595959" }}
+        >
           Tiếng Việt
         </Typography>
       </Menu.Item>
@@ -231,7 +251,11 @@ const Home = () => {
           isDataEdited ? message.error(_pleaseChangeData) : switchLang("zh")
         }
       >
-        <Typography variant="body1" noWrap style={{ marginLeft: "5px" }}>
+        <Typography
+          variant="body1"
+          noWrap
+          style={{ marginLeft: "5px", color: isDark ? "#fff" : "#595959" }}
+        >
           中文
         </Typography>
       </Menu.Item>
@@ -241,7 +265,11 @@ const Home = () => {
           isDataEdited ? message.error(_pleaseChangeData) : switchLang("ko")
         }
       >
-        <Typography variant="body1" noWrap style={{ marginLeft: "5px" }}>
+        <Typography
+          variant="body1"
+          noWrap
+          style={{ marginLeft: "5px", color: isDark ? "#fff" : "#595959" }}
+        >
           한국어
         </Typography>
       </Menu.Item>
@@ -258,368 +286,410 @@ const Home = () => {
     setPlacement(newPlacement);
   };
 
+  const darkTheme = createMuiTheme({
+    palette: {
+      type: isDark ? "dark" : "light",
+    },
+  });
+
+  const onThemeChange = () => {
+    dispatch({ type: SET_DARK, payload: !isDark });
+    window.localStorage.setItem("theme", !isDark ? "dark" : "light");
+  };
+
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/forgotpassword" component={ForgotPassword} />
-        <Route
-          exact
-          path="/resetpassword/:resetToken"
-          component={ResetPassword}
-        />
-        <Fragment>
-          <Layout>
-            <AppSider />
+    <ThemeProvider theme={darkTheme}>
+      <Router>
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/forgotpassword" component={ForgotPassword} />
+          <Route
+            exact
+            path="/resetpassword/:resetToken"
+            component={ResetPassword}
+          />
+          <Fragment>
             <Layout>
+              <AppSider />
               <Layout>
-                <Header>
-                  <AppBar
-                    className="AppBar"
-                    position="relative"
-                    color="transparent"
-                  >
-                    <Row type="flex" justify="space-between">
-                      {React.createElement(
-                        collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                        {
-                          className: "trigger",
-                          onClick: toggle,
-                        }
-                      )}
-                      <Toolbar
-                        style={{ display: "flex", alignItems: "center" }}
-                      >
-                        <Dropdown overlay={langMenu}>
-                          <Button
-                            style={{
-                              marginRight: "20px",
-                              color: " #fff",
-                            }}
-                          >
-                            <TranslateIcon style={{ marginRight: "5px" }} />
-                            {lang === "en-US"
-                              ? "English"
-                              : lang === "ja"
-                              ? "日本語"
-                              : lang === "vi"
-                              ? "Tiếng Việt"
-                              : lang === "zh"
-                              ? "中文"
-                              : lang === "ko"
-                              ? "한국어"
-                              : "Language"}
-                          </Button>
-                        </Dropdown>
-                        <Tooltip title={_myAccount}>
-                          <Button
-                            style={{ marginRight: "10px", color: " #fff" }}
-                            onClick={onNameClick}
-                          >
-                            {user ? user.name : "Welcome!"}
-                          </Button>
-                        </Tooltip>
-                        <Drawer
-                          title={_myAccount}
-                          placement="right"
-                          closable={false}
-                          onClose={onClose}
-                          visible={visible}
-                          width="305px"
-                          bodyStyle={{
-                            backgroundColor: "#faf9f8",
-                            padding: "0 0",
-                          }}
-                          headerStyle={{ backgroundColor: "#faf9f8" }}
+                <Layout>
+                  <Header style={{ borderColor: isDark ? "#242526" : "#fff" }}>
+                    <AppBar
+                      className="AppBar"
+                      position="relative"
+                      style={{
+                        backgroundColor: isDark
+                          ? "#242526"
+                          : "rgba(24, 144, 255)",
+                      }}
+                    >
+                      <Row type="flex" justify="space-between">
+                        {React.createElement(
+                          collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                          {
+                            className: "trigger",
+                            onClick: toggle,
+                          }
+                        )}
+                        <Toolbar
+                          style={{ display: "flex", alignItems: "center" }}
                         >
-                          <Card
-                            style={{
-                              float: "left",
-                              position: "absolute",
-                              backgroundColor: "#fff",
-                              borderWidth: "2px",
-                              borderTopColor: "#e8e7e7",
-                              borderBottomColor: "#e8e7e7",
-                              width: "305px",
-                              padding: "0 0",
-                              textAlign: "center",
-                            }}
-                            bordered={true}
-                          >
-                            <p style={{ fontSize: "20px", fontWeight: "bold" }}>
-                              {user ? user.name : "Welcome!"}
-                            </p>
-                            <p style={{ fontSize: "16px" }}>
-                              {user ? user.email : "Your email here"}
-                            </p>
+                          <Dropdown overlay={langMenu}>
                             <Button
-                              size="large"
-                              variant="contained"
-                              color="primary"
-                              onClick={onLogout}
-                              className="logout-button"
+                              style={{
+                                marginRight: "20px",
+                                color: " #fff",
+                              }}
                             >
-                              {_logOut}
-                              <LogoutOutlined style={{ marginLeft: "5px" }} />
+                              <TranslateIcon style={{ marginRight: "5px" }} />
+                              {lang === "en-US"
+                                ? "English"
+                                : lang === "ja"
+                                ? "日本語"
+                                : lang === "vi"
+                                ? "Tiếng Việt"
+                                : lang === "zh"
+                                ? "中文"
+                                : lang === "ko"
+                                ? "한국어"
+                                : "Language"}
                             </Button>
-                          </Card>
-                        </Drawer>
-                      </Toolbar>
-                    </Row>
-                  </AppBar>
-                </Header>
-              </Layout>
-              <PrivateRoute key="/" path="/" exact component={AppContent} />
-              <PrivateRoute
-                key="/weeklyreview"
-                path="/weeklyreview"
-                exact
-                component={WeeklyReview}
-              />
-              <PrivateRoute
-                key="/monthlyreview"
-                path="/monthlyreview"
-                exact
-                component={MonthlyReview}
-              />
-              <PrivateRoute
-                key="/dailyhistory"
-                path="/dailyhistory"
-                exact
-                component={DailyHistory}
-              />
-              <PrivateRoute
-                key="/weeklyworkload"
-                path="/weeklyworkload"
-                exact
-                component={WeeklyWorkload}
-              />
-              <Footer>
-                <Paper elevation={10}>
-                  <AppBar
-                    position="relative"
-                    color="transparent"
-                    style={{ zIndex: 10 }}
-                  >
-                    <h3 style={{ margin: "20px 10px 5px" }}>
-                      {quotes === null ? null : `"${quotes}"`}
-                    </h3>
-                    <h3 style={{ margin: "5px 10px 20px" }}>
-                      {lang === "ja"
-                        ? "© 2002-2020 株式会社テクノスター"
-                        : "© 2002-2020 TechnoStar Co., Ltd."}
-                    </h3>
-                  </AppBar>
-                </Paper>
-              </Footer>
-              <div
-                style={{
-                  position: "fixed",
-                  bottom: 20,
-                  right: 20,
-                  zIndex: 200,
-                }}
-              >
-                <Popper
-                  open={open}
-                  anchorEl={anchorEl}
-                  placement={placement}
-                  transition
-                  style={{ zIndex: 800 }}
+                          </Dropdown>
+                          <Tooltip title={isDark ? "Dark Mode" : "Light Mode"}>
+                            <SwitchTheme
+                              checked={isDark}
+                              onChange={onThemeChange}
+                            />
+                          </Tooltip>
+                          <Tooltip title={_myAccount}>
+                            <Button
+                              style={{
+                                marginLeft: "20px",
+                                marginRight: "10px",
+                                color: " #fff",
+                              }}
+                              onClick={onNameClick}
+                            >
+                              {user ? user.name : "Welcome!"}
+                            </Button>
+                          </Tooltip>
+                          <Drawer
+                            title={_myAccount}
+                            placement="right"
+                            closable={false}
+                            onClose={onClose}
+                            visible={visible}
+                            width="305px"
+                            bodyStyle={{
+                              backgroundColor: "#faf9f8",
+                              padding: "0 0",
+                            }}
+                            headerStyle={{ backgroundColor: "#faf9f8" }}
+                          >
+                            <Card
+                              style={{
+                                float: "left",
+                                position: "absolute",
+                                backgroundColor: "#fff",
+                                borderWidth: "2px",
+                                borderTopColor: "#e8e7e7",
+                                borderBottomColor: "#e8e7e7",
+                                width: "305px",
+                                padding: "0 0",
+                                textAlign: "center",
+                              }}
+                              bordered={true}
+                            >
+                              <p
+                                style={{ fontSize: "20px", fontWeight: "bold" }}
+                              >
+                                {user ? user.name : "Welcome!"}
+                              </p>
+                              <p style={{ fontSize: "16px" }}>
+                                {user ? user.email : "Your email here"}
+                              </p>
+                              <Button
+                                size="large"
+                                variant="contained"
+                                color="primary"
+                                onClick={onLogout}
+                                className="logout-button"
+                              >
+                                {_logOut}
+                                <LogoutOutlined style={{ marginLeft: "5px" }} />
+                              </Button>
+                            </Card>
+                          </Drawer>
+                        </Toolbar>
+                      </Row>
+                    </AppBar>
+                  </Header>
+                </Layout>
+                <PrivateRoute key="/" path="/" exact component={AppContent} />
+                <PrivateRoute
+                  key="/weeklyreview"
+                  path="/weeklyreview"
+                  exact
+                  component={WeeklyReview}
+                />
+                <PrivateRoute
+                  key="/monthlyreview"
+                  path="/monthlyreview"
+                  exact
+                  component={MonthlyReview}
+                />
+                <PrivateRoute
+                  key="/dailyhistory"
+                  path="/dailyhistory"
+                  exact
+                  component={DailyHistory}
+                />
+                <PrivateRoute
+                  key="/weeklyworkload"
+                  path="/weeklyworkload"
+                  exact
+                  component={WeeklyWorkload}
+                />
+                <Footer style={{ borderColor: isDark ? "#424242" : "#fff" }}>
+                  <Paper elevation={10}>
+                    <AppBar
+                      position="relative"
+                      color="transparent"
+                      style={{
+                        zIndex: 10,
+                        backgroundColor: isDark ? "#424242" : "inherit",
+                      }}
+                    >
+                      <h3
+                        style={{
+                          margin: "20px 10px 5px",
+                          color: isDark ? "#fff" : "inherit",
+                        }}
+                      >
+                        {quotes === null ? null : `"${quotes}"`}
+                      </h3>
+                      <h3
+                        style={{
+                          margin: "5px 10px 20px",
+                          color: isDark ? "#fff" : "inherit",
+                        }}
+                      >
+                        {lang === "ja"
+                          ? "© 2002-2020 株式会社テクノスター"
+                          : "© 2002-2020 TechnoStar Co., Ltd."}
+                      </h3>
+                    </AppBar>
+                  </Paper>
+                </Footer>
+                <div
+                  style={{
+                    position: "fixed",
+                    bottom: 20,
+                    right: 20,
+                    zIndex: 200,
+                  }}
                 >
-                  {({ TransitionProps }) => (
-                    <Fade {...TransitionProps} timeout={350}>
-                      <Paper elevation={2}>
-                        <TableContainer
-                          style={{
-                            maxHeight: "550px",
-                            overflowY: "scroll",
-                          }}
-                        >
-                          <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                              <TableRow>
-                                <TableCell align="center">
-                                  {!idFiltered ? (
-                                    <Tooltip
-                                      title={_filter}
-                                      aria-label="filter"
-                                    >
-                                      <IconButton
-                                        aria-label="projectlist"
-                                        onClick={() => {
-                                          setIdFiltered(true);
-                                          setNameFiltered(false);
-                                          setNameValue("");
-                                          setIdValue("");
+                  <Popper
+                    open={open}
+                    anchorEl={anchorEl}
+                    placement={placement}
+                    transition
+                    style={{ zIndex: 800 }}
+                  >
+                    {({ TransitionProps }) => (
+                      <Fade {...TransitionProps} timeout={350}>
+                        <Paper elevation={2}>
+                          <TableContainer
+                            style={{
+                              maxHeight: "550px",
+                              overflowY: "scroll",
+                            }}
+                          >
+                            <Table stickyHeader aria-label="sticky table">
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell align="center">
+                                    {!idFiltered ? (
+                                      <Tooltip
+                                        title={_filter}
+                                        aria-label="filter"
+                                      >
+                                        <IconButton
+                                          aria-label="projectlist"
+                                          onClick={() => {
+                                            setIdFiltered(true);
+                                            setNameFiltered(false);
+                                            setNameValue("");
+                                            setIdValue("");
+                                          }}
+                                        >
+                                          <FilterListIcon />
+                                        </IconButton>
+                                      </Tooltip>
+                                    ) : (
+                                      <Tooltip
+                                        title={_cancel}
+                                        aria-label="cancel"
+                                      >
+                                        <IconButton
+                                          aria-label="clear"
+                                          onClick={() => {
+                                            setIdFiltered(false);
+                                          }}
+                                        >
+                                          <ClearIcon />
+                                        </IconButton>
+                                      </Tooltip>
+                                    )}
+                                    {idFiltered ? (
+                                      <TextField
+                                        autoFocus
+                                        style={{
+                                          width: "60px",
                                         }}
-                                      >
-                                        <FilterListIcon />
-                                      </IconButton>
-                                    </Tooltip>
-                                  ) : (
-                                    <Tooltip
-                                      title={_cancel}
-                                      aria-label="cancel"
-                                    >
-                                      <IconButton
-                                        aria-label="clear"
-                                        onClick={() => {
-                                          setIdFiltered(false);
-                                        }}
-                                      >
-                                        <ClearIcon />
-                                      </IconButton>
-                                    </Tooltip>
-                                  )}
-                                  {idFiltered ? (
-                                    <TextField
-                                      autoFocus
-                                      style={{
-                                        width: "60px",
-                                      }}
-                                      onChange={(event) =>
-                                        setIdValue(event.target.value)
-                                      }
-                                    />
-                                  ) : (
-                                    _projectId
-                                  )}
-                                </TableCell>
-                                <TableCell align="center">
-                                  {!nameFiltered ? (
-                                    <Tooltip
-                                      title={_filter}
-                                      aria-label="filter"
-                                    >
-                                      <IconButton
-                                        aria-label="projectlist"
-                                        onClick={() => {
-                                          setNameFiltered(true);
-                                          setIdFiltered(false);
-                                          setIdValue("");
-                                          setNameValue("");
-                                        }}
-                                      >
-                                        <FilterListIcon />
-                                      </IconButton>
-                                    </Tooltip>
-                                  ) : (
-                                    <Tooltip
-                                      title={_cancel}
-                                      aria-label="cancel"
-                                    >
-                                      <IconButton
-                                        aria-label="clear"
-                                        onClick={() => setNameFiltered(false)}
-                                      >
-                                        <ClearIcon />
-                                      </IconButton>
-                                    </Tooltip>
-                                  )}
-                                  {nameFiltered ? (
-                                    <TextField
-                                      autoFocus
-                                      style={{ width: "100px" }}
-                                      onChange={(event) =>
-                                        setNameValue(event.target.value)
-                                      }
-                                    />
-                                  ) : (
-                                    _projectName
-                                  )}
-                                </TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {myPJ.length === 0 ? (
-                                <TableRow key={"empty"} hover>
-                                  <TableCell
-                                    align="right"
-                                    style={{
-                                      width: "160px",
-                                      height: "53px",
-                                    }}
-                                  >
-                                    Not
+                                        onChange={(event) =>
+                                          setIdValue(event.target.value)
+                                        }
+                                      />
+                                    ) : (
+                                      _projectId
+                                    )}
                                   </TableCell>
-                                  <TableCell
-                                    align="left"
-                                    style={{
-                                      width: "200px",
-                                      height: "53x",
-                                    }}
-                                  >
-                                    found
+                                  <TableCell align="center">
+                                    {!nameFiltered ? (
+                                      <Tooltip
+                                        title={_filter}
+                                        aria-label="filter"
+                                      >
+                                        <IconButton
+                                          aria-label="projectlist"
+                                          onClick={() => {
+                                            setNameFiltered(true);
+                                            setIdFiltered(false);
+                                            setIdValue("");
+                                            setNameValue("");
+                                          }}
+                                        >
+                                          <FilterListIcon />
+                                        </IconButton>
+                                      </Tooltip>
+                                    ) : (
+                                      <Tooltip
+                                        title={_cancel}
+                                        aria-label="cancel"
+                                      >
+                                        <IconButton
+                                          aria-label="clear"
+                                          onClick={() => setNameFiltered(false)}
+                                        >
+                                          <ClearIcon />
+                                        </IconButton>
+                                      </Tooltip>
+                                    )}
+                                    {nameFiltered ? (
+                                      <TextField
+                                        autoFocus
+                                        style={{ width: "100px" }}
+                                        onChange={(event) =>
+                                          setNameValue(event.target.value)
+                                        }
+                                      />
+                                    ) : (
+                                      _projectName
+                                    )}
                                   </TableCell>
                                 </TableRow>
-                              ) : (
-                                myPJ.map((obj, index) => {
-                                  return (
-                                    <TableRow key={index} hover>
-                                      <TableCell
-                                        align="center"
-                                        style={{ width: "160px" }}
-                                      >
-                                        {obj.pjid}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{ width: "200px" }}
-                                      >
-                                        {lang === "ja"
-                                          ? obj.pjname_jp
-                                          : obj.pjname_en}
-                                      </TableCell>
-                                    </TableRow>
-                                  );
-                                })
-                              )}
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
-                      </Paper>
-                    </Fade>
+                              </TableHead>
+                              <TableBody>
+                                {myPJ.length === 0 ? (
+                                  <TableRow key={"empty"} hover>
+                                    <TableCell
+                                      align="right"
+                                      style={{
+                                        width: "160px",
+                                        height: "53px",
+                                      }}
+                                    >
+                                      Not
+                                    </TableCell>
+                                    <TableCell
+                                      align="left"
+                                      style={{
+                                        width: "200px",
+                                        height: "53x",
+                                      }}
+                                    >
+                                      found
+                                    </TableCell>
+                                  </TableRow>
+                                ) : (
+                                  myPJ.map((obj, index) => {
+                                    return (
+                                      <TableRow key={index} hover>
+                                        <TableCell
+                                          align="center"
+                                          style={{ width: "160px" }}
+                                        >
+                                          {obj.pjid}
+                                        </TableCell>
+                                        <TableCell
+                                          align="center"
+                                          style={{ width: "200px" }}
+                                        >
+                                          {lang === "ja"
+                                            ? obj.pjname_jp
+                                            : obj.pjname_en}
+                                        </TableCell>
+                                      </TableRow>
+                                    );
+                                  })
+                                )}
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                        </Paper>
+                      </Fade>
+                    )}
+                  </Popper>
+                  {!open ? (
+                    <Tooltip title={_projectList}>
+                      <IconButton
+                        aria-label="projectlist"
+                        onClick={handleClick("top-end")}
+                      >
+                        <MenuBookIcon
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            color: isDark ? "#fff" : "#73a0fa",
+                          }}
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip title={_close}>
+                      <IconButton
+                        aria-label="projectlist"
+                        onClick={handleClick("top-end")}
+                      >
+                        <CancelIcon
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            color: "#ff1818",
+                          }}
+                        />
+                      </IconButton>
+                    </Tooltip>
                   )}
-                </Popper>
-                {!open ? (
-                  <Tooltip title={_projectList}>
-                    <IconButton
-                      aria-label="projectlist"
-                      onClick={handleClick("top-end")}
-                    >
-                      <MenuBookIcon
-                        style={{
-                          width: "40px",
-                          height: "40px",
-                          color: "#73a0fa",
-                        }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                ) : (
-                  <Tooltip title={_close}>
-                    <IconButton
-                      aria-label="projectlist"
-                      onClick={handleClick("top-end")}
-                    >
-                      <CancelIcon
-                        style={{
-                          width: "40px",
-                          height: "40px",
-                          color: "#ff1818",
-                        }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                )}
-              </div>
+                </div>
+              </Layout>
             </Layout>
-          </Layout>
-        </Fragment>
-      </Switch>
-    </Router>
+          </Fragment>
+        </Switch>
+      </Router>
+    </ThemeProvider>
   );
 };
 

@@ -27,7 +27,10 @@ const MyState = (props) => {
     quotes: null,
     options: {},
     isDataEdited: false,
-    collapsed: true
+    collapsed: true,
+    isDark:
+      window.localStorage.getItem("theme") === "dark" ? true
+        : false,
   };
 
   const [state, dispatch] = useReducer(MyReducer, initialState);
@@ -423,6 +426,7 @@ const MyState = (props) => {
         options: state.options,
         isDataEdited: state.isDataEdited,
         collapsed: state.collapsed,
+        isDark: state.isDark,
         dispatch,
         getProject,
         getDataFromDate,

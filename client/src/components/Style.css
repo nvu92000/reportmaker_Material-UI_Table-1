@@ -82,18 +82,6 @@ body {
   background-color: #e7ebf0;
 }
 
-.draggable-row {
-  border-radius: 2px;
-  transition: background-color 0.2s ease;
-  background-color: white;
-}
-
-.draggable-row-dragging {
-  border-radius: 2px;
-  transition: background-color 0.2s ease;
-  background-color: rgba(24, 144, 255, 0.5);
-}
-
 .noHover {
   pointer-events: none;
 }
@@ -108,11 +96,14 @@ body {
 
 .AppBar {
   z-index: 10 !important;
-  background-color: rgba(24, 144, 255) !important;
 }
 
 .MuiTableCell-root {
   padding: 16px 2px !important;
+}
+
+.cellstyle.MuiTableCell-root {
+  border-bottom: 1px solid rgb(163, 163, 163);
 }
 
 .MuiTableCell-head {
@@ -133,3 +124,104 @@ body {
     width: 95% !important;
   }
 }
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  color: #424242;
+  font-weight: 1;
+  background-color: #40a9ff;
+}
+
+.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+  -webkit-transition: none;
+  transition: none;
+}
+
+.selectstyle.ant-select-single:not(.ant-select-customize-input)
+  .ant-select-selector {
+  color: #fff;
+  background-color: #424242;
+  border: 1px solid #d9d9d9;
+  -webkit-transition: none;
+  transition: none;
+}
+
+.selectstyle .ant-select-arrow {
+  color: #fff;
+}
+
+.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background-color: rgb(207, 207, 207);
+}
+
+.optionstyle.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background-color: #303031;
+  color: #fffcec;
+}
+
+.optionstyle.ant-select-dropdown {
+  color: #fffcec;
+  background-color: #515151;
+}
+
+.selectdropdownstyle {
+  background-color: #666666;
+}
+
+.selectdropdownstyle * {
+  color: #fffcec;
+}
+
+.datestyle > div.ant-picker-input > input {
+  color: #fffcec;
+  font-size: 14px;
+  background-color: #666666;
+  background-image: none;
+}
+
+.datestyle > div > span.ant-picker-suffix {
+  color: #fff;
+}
+
+.datestyle > div > span.ant-picker-clear {
+  color: #fff;
+  background: #666666;
+  -webkit-transition: opacity 0.3s, color 0.3s;
+  transition: opacity 0.3s, color 0.3s;
+}
+
+.menustyle.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #515151;
+}
+
+.ant-btn {
+  -webkit-transition: none;
+  transition: none;
+}
+
+.ant-input-number {
+  -webkit-transition: none;
+  transition: none;
+}
+
+.ant-select-multiple .ant-select-selection-search-input,
+.ant-select-multiple .ant-select-selection-search-mirror {
+  -webkit-transition: none;
+  transition: none;
+}
+
+.ant-picker-input > input {
+  -webkit-transition: none;
+  transition: none;
+}
+
+/* .popupstyle div.ant-popover-inner {
+  background-color: #303030;
+}
+
+.popupstyle div.ant-popover-inner > div > * {
+  color: #fffcec;
+} */
+
+/* .ant-popover-arrow {
+  background: red;
+} */
