@@ -199,6 +199,7 @@ const Home = () => {
 
   const langMenu = (
     <Menu
+      className={isDark && "menu-dark"}
       style={{
         backgroundColor: isDark ? "#424242" : "#fff",
       }}

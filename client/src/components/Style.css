@@ -251,6 +251,11 @@ body {
   transition: none;
 }
 
+.menu-dark .ant-dropdown-menu-item:hover,
+.ant-dropdown-menu-submenu-title:hover {
+  background-color: #303031;
+}
+
 /* .popupstyle div.ant-popover-inner {
   background-color: #303030;
 }
