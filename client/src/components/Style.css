@@ -82,6 +82,25 @@ body {
   background-color: #e7ebf0;
 }
 
+.table-striped-rows-dark thead tr th {
+  background-color: #424242;
+  color: white;
+}
+
+.table-striped-rows-dark tr:nth-child(n) td {
+  background-color: #4d4d4d;
+  color: white;
+}
+
+.table-striped-rows-dark tr:nth-child(2n) td {
+  background-color: #3e3e3f;
+  color: white;
+}
+
+.table-striped-rows-dark .ant-table-tbody > tr.ant-table-row:hover > td {
+  background: rgb(133, 133, 133);
+}
+
 .noHover {
   pointer-events: none;
 }
@@ -119,6 +138,19 @@ body {
   background-color: rgb(2, 32, 60) !important;
 }
 
+.logout-button-dark {
+  width: 100%;
+  background-color: rgba(30, 133, 228) !important;
+}
+
+.logout-button-dark:hover {
+  background-color: rgba(32, 128, 217, 0.8) !important;
+}
+
+.header-text .ant-drawer-title {
+  color: #fffcec;
+}
+
 @media (max-width: 500px) {
   .responsive-card {
     width: 95% !important;
@@ -147,6 +179,11 @@ body {
 
 .selectstyle .ant-select-arrow {
   color: #fff;
+}
+
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: #40a9ff;
+  border-right-width: 1px !important;
 }
 
 .ant-select-item-option-active:not(.ant-select-item-option-disabled) {

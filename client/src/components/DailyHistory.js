@@ -357,7 +357,9 @@ const DailyHistory = (props) => {
             columns={columns}
             dataSource={dailySource}
             bordered
-            className="table-striped-rows"
+            className={
+              isDark ? "table-striped-rows-dark" : "table-striped-rows"
+            }
             style={{ overflowX: "auto" }}
           />
         </LoadingOverlay>

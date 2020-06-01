@@ -176,9 +176,9 @@ const WeeklyWorkload = (props) => {
           borderRadius: "2px",
           position: "relative",
           transition: "all .3s",
-          backgroundColor: isDark ? "#424242" : "#fff",
-          borderColor: isDark ? "#424242" : "#fff",
-          color: isDark ? "#C7C7C7" : "#000",
+          backgroundColor: isDark ? "#b9b9b9" : "#fff",
+          borderColor: isDark ? "#b9b9b9" : "#fff",
+          color: "#000",
         }}
       >
         <Row style={{ justifyContent: "space-evenly" }}>

@@ -54,7 +54,6 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Switch as SwitchTheme,
 } from "@material-ui/core";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import FilterListIcon from "@material-ui/icons/FilterList";
@@ -62,6 +61,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import CancelIcon from "@material-ui/icons/Cancel";
 import TranslateIcon from "@material-ui/icons/Translate";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import IOSSwitch from "../helpers/IOSSwitch";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
@@ -357,7 +357,7 @@ const Home = () => {
                             </Button>
                           </Dropdown>
                           <Tooltip title={isDark ? "Dark Mode" : "Light Mode"}>
-                            <SwitchTheme
+                            <IOSSwitch
                               checked={isDark}
                               onChange={onThemeChange}
                             />
@@ -381,17 +381,20 @@ const Home = () => {
                             onClose={onClose}
                             visible={visible}
                             width="305px"
+                            className={isDark && "header-text"}
                             bodyStyle={{
-                              backgroundColor: "#faf9f8",
+                              backgroundColor: isDark ? "#424242" : "#faf9f8",
                               padding: "0 0",
                             }}
-                            headerStyle={{ backgroundColor: "#faf9f8" }}
+                            headerStyle={{
+                              backgroundColor: isDark ? "#424242" : "#faf9f8",
+                            }}
                           >
                             <Card
                               style={{
                                 float: "left",
                                 position: "absolute",
-                                backgroundColor: "#fff",
+                                backgroundColor: isDark ? "#515151" : "#fff",
                                 borderWidth: "2px",
                                 borderTopColor: "#e8e7e7",
                                 borderBottomColor: "#e8e7e7",
@@ -402,11 +405,20 @@ const Home = () => {
                               bordered={true}
                             >
                               <p
-                                style={{ fontSize: "20px", fontWeight: "bold" }}
+                                style={{
+                                  fontSize: "20px",
+                                  fontWeight: "bold",
+                                  color: isDark ? "#fff" : "inherit",
+                                }}
                               >
                                 {user ? user.name : "Welcome!"}
                               </p>
-                              <p style={{ fontSize: "16px" }}>
+                              <p
+                                style={{
+                                  fontSize: "16px",
+                                  color: isDark ? "#fff" : "inherit",
+                                }}
+                              >
                                 {user ? user.email : "Your email here"}
                               </p>
                               <Button
@@ -414,7 +426,11 @@ const Home = () => {
                                 variant="contained"
                                 color="primary"
                                 onClick={onLogout}
-                                className="logout-button"
+                                className={
+                                  isDark
+                                    ? "logout-button-dark"
+                                    : "logout-button"
+                                }
                               >
                                 {_logOut}
                                 <LogoutOutlined style={{ marginLeft: "5px" }} />
