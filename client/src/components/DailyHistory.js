@@ -314,8 +314,8 @@ const DailyHistory = (props) => {
           {_sortDate}
         </Button>
         <Select
-          className={isDark && "selectstyle"}
-          dropdownClassName={isDark && "selectdropdownstyle"}
+          className={isDark ? "selectstyle" : ""}
+          dropdownClassName={isDark ? "selectdropdownstyle" : ""}
           showSearch
           style={{ width: 120 }}
           optionFilterProp="children"

@@ -91,7 +91,7 @@ const AppSider = (props) => {
           borderColor: isDark ? "#424242" : "#fff",
           color: isDark ? "#fff" : "#595959",
         }}
-        className={isDark && "menustyle"}
+        className={isDark ? "menustyle" : ""}
         onClick={({ key }) => {
           switch (key) {
             case "/":

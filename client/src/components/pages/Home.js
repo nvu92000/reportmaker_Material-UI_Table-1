@@ -200,7 +200,7 @@ const Home = () => {
 
   const langMenu = (
     <Menu
-      className={isDark && "menu-dark"}
+      className={isDark ? "menu-dark" : ""}
       style={{
         backgroundColor: isDark ? "#424242" : "#fff",
       }}
@@ -383,7 +383,7 @@ const Home = () => {
                             onClose={onClose}
                             visible={visible}
                             width="305px"
-                            className={isDark && "header-text"}
+                            className={isDark ? "header-text" : ""}
                             bodyStyle={{
                               backgroundColor: isDark ? "#424242" : "#faf9f8",
                               padding: "0 0",

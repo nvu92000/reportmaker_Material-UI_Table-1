@@ -187,7 +187,7 @@ const WeeklyWorkload = (props) => {
               {_week}
             </span>
             <DatePicker
-              className={isDark && "datestyle"}
+              className={isDark ? "datestyle" : ""}
               style={{ backgroundColor: isDark ? "#666666" : "inherit" }}
               bordered={true}
               picker="week"
@@ -202,8 +202,8 @@ const WeeklyWorkload = (props) => {
               {_workload}
             </span>
             <Select
-              className={isDark && "selectstyle"}
-              dropdownClassName={isDark && "selectdropdownstyle"}
+              className={isDark ? "selectstyle" : ""}
+              dropdownClassName={isDark ? "selectdropdownstyle" : ""}
               showSearch
               style={{ width: 140 }}
               optionFilterProp="children"

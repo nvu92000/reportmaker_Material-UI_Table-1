@@ -205,7 +205,7 @@ const AppTable = () => {
         key={index}
         id={index}
         value={obj.pjid}
-        className={isDark && "optionstyle"}
+        className={isDark ? "optionstyle" : ""}
       >
         {obj.pjid}
       </Select.Option>
@@ -218,7 +218,7 @@ const AppTable = () => {
         key={index}
         id={index}
         value={lang === "ja" ? obj.pjname_jp : obj.pjname_en}
-        className={isDark && "optionstyle"}
+        className={isDark ? "optionstyle" : ""}
       >
         {lang === "ja" ? obj.pjname_jp : obj.pjname_en}
       </Select.Option>
@@ -231,7 +231,7 @@ const AppTable = () => {
         key={index}
         id={index}
         value={obj.subid}
-        className={isDark && "optionstyle"}
+        className={isDark ? "optionstyle" : ""}
       >
         {obj.subid}
       </Select.Option>
@@ -244,7 +244,7 @@ const AppTable = () => {
         key={index}
         id={index}
         value={lang === "ja" ? obj.subname_jp : obj.subname_en}
-        className={isDark && "optionstyle"}
+        className={isDark ? "optionstyle" : ""}
       >
         {lang === "ja" ? obj.subname_jp : obj.subname_en}
       </Select.Option>
@@ -337,7 +337,7 @@ const AppTable = () => {
             {_sameAsDate}
           </span>
           <DatePicker
-            className={isDark && "datestyle"}
+            className={isDark ? "datestyle" : ""}
             style={{
               backgroundColor: isDark ? "#666666" : "inherit",
               color: isDark ? "#fffcec" : "inherit",
@@ -369,64 +369,64 @@ const AppTable = () => {
               <Table ref={focusRef}>
                 <TableHead>
                   <TableRow>
-                    <TableCell className={isDark ? "cellstyle" : "none"} />
+                    <TableCell className={isDark ? "cellstyle" : ""} />
                     <TableCell
                       align="center"
-                      className={isDark ? "cellstyle" : "none"}
+                      className={isDark ? "cellstyle" : ""}
                     >
                       {_projectId}
                     </TableCell>
                     <TableCell
                       align="center"
-                      className={isDark ? "cellstyle" : "none"}
+                      className={isDark ? "cellstyle" : ""}
                     >
                       {_projectName}
                     </TableCell>
                     <TableCell
                       align="center"
-                      className={isDark ? "cellstyle" : "none"}
+                      className={isDark ? "cellstyle" : ""}
                     >
                       {_subId}
                     </TableCell>
                     <TableCell
                       align="center"
-                      className={isDark ? "cellstyle" : "none"}
+                      className={isDark ? "cellstyle" : ""}
                     >
                       {_subName}
                     </TableCell>
                     <TableCell
                       align="center"
-                      className={isDark ? "cellstyle" : "none"}
+                      className={isDark ? "cellstyle" : ""}
                     >
                       {_startTime}
                     </TableCell>
                     <TableCell
                       align="center"
-                      className={isDark ? "cellstyle" : "none"}
+                      className={isDark ? "cellstyle" : ""}
                     >
                       {_endTime}
                     </TableCell>
                     <TableCell
                       align="center"
-                      className={isDark ? "cellstyle" : "none"}
+                      className={isDark ? "cellstyle" : ""}
                     >
                       {_workTime}
                     </TableCell>
                     <TableCell
                       align="center"
-                      className={isDark ? "cellstyle" : "none"}
+                      className={isDark ? "cellstyle" : ""}
                     >
                       {_status}
                     </TableCell>
                     <TableCell
                       align="center"
-                      className={isDark ? "cellstyle" : "none"}
+                      className={isDark ? "cellstyle" : ""}
                     >
                       {_comment}
                     </TableCell>
                     <TableCell
                       align="center"
-                      className={isDark ? "cellstyle" : "none"}
+                      className={isDark ? "cellstyle" : ""}
                     ></TableCell>
                   </TableRow>
                 </TableHead>
@@ -481,9 +481,9 @@ const AppTable = () => {
                                     isDark={isDark}
                                   >
                                     <Select
-                                      className={isDark && "selectstyle"}
+                                      className={isDark ? "selectstyle" : ""}
                                       dropdownClassName={
-                                        isDark && "selectdropdownstyle"
+                                        isDark ? "selectdropdownstyle" : ""
                                       }
                                       showSearch
                                       optionFilterProp="children"
@@ -518,9 +518,9 @@ const AppTable = () => {
                                     isDark={isDark}
                                   >
                                     <Select
-                                      className={isDark && "selectstyle"}
+                                      className={isDark ? "selectstyle" : ""}
                                       dropdownClassName={
-                                        isDark && "selectdropdownstyle"
+                                        isDark ? "selectdropdownstyle" : ""
                                       }
                                       showSearch
                                       optionFilterProp="children"
@@ -557,9 +557,9 @@ const AppTable = () => {
                                     isDark={isDark}
                                   >
                                     <Select
-                                      className={isDark && "selectstyle"}
+                                      className={isDark ? "selectstyle" : ""}
                                       dropdownClassName={
-                                        isDark && "selectdropdownstyle"
+                                        isDark ? "selectdropdownstyle" : ""
                                       }
                                       showSearch
                                       optionFilterProp="children"
@@ -592,9 +592,9 @@ const AppTable = () => {
                                     isDark={isDark}
                                   >
                                     <Select
-                                      className={isDark && "selectstyle"}
+                                      className={isDark ? "selectstyle" : ""}
                                       dropdownClassName={
-                                        isDark && "selectdropdownstyle"
+                                        isDark ? "selectdropdownstyle" : ""
                                       }
                                       showSearch
                                       optionFilterProp="children"
@@ -675,8 +675,10 @@ const AppTable = () => {
                                       size="middle"
                                       type="default"
                                       style={{
-                                        backgroundColor: isDark && "#424242",
-                                        color: isDark && "#fff",
+                                        backgroundColor: isDark
+                                          ? "#424242"
+                                          : "inherit",
+                                        color: isDark ? "#fff" : "inherit",
                                       }}
                                     >
                                       {row.workTime}
@@ -689,8 +691,10 @@ const AppTable = () => {
                                     <InputNumber
                                       style={{
                                         width: "60px",
-                                        backgroundColor: isDark && "#424242",
-                                        color: isDark && "#fff",
+                                        backgroundColor: isDark
+                                          ? "#424242"
+                                          : "inherit",
+                                        color: isDark ? "#fff" : "inherit",
                                       }}
                                       min={0}
                                       max={100}
@@ -733,8 +737,10 @@ const AppTable = () => {
                                       <Input.TextArea
                                         style={{
                                           height: 30,
-                                          backgroundColor: isDark && "#424242",
-                                          color: isDark && "#fff",
+                                          backgroundColor: isDark
+                                            ? "#424242"
+                                            : "inherit",
+                                          color: isDark ? "#fff" : "inherit",
                                         }}
                                         autoSize
                                       />
@@ -803,8 +809,8 @@ const AppTable = () => {
             type="default"
             style={{
               margin: "2px 2px 0 0",
-              backgroundColor: isDark && "#424242",
-              color: isDark && "#fff",
+              backgroundColor: isDark ? "#424242" : "inherit",
+              color: isDark ? "#fff" : "inherit",
             }}
           >
             {_totalWorkTime}:
@@ -815,8 +821,8 @@ const AppTable = () => {
             type="default"
             style={{
               marginTop: "2px",
-              backgroundColor: isDark && "#424242",
-              color: isDark && "#fff",
+              backgroundColor: isDark ? "#424242" : "inherit",
+              color: isDark ? "#fff" : "inherit",
             }}
           >
             {totalWorkTime > 0 ? totalWorkTime.toPrecision(3) : 0}{" "}

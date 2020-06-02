@@ -181,6 +181,11 @@ body {
   color: #fff;
 }
 
+.selectdropdownstyle .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background-color: #303031;
+  color: #fffcec;
+}
+
 .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
   border-color: #40a9ff;
   border-right-width: 1px !important;

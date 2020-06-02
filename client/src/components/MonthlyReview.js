@@ -132,7 +132,7 @@ const MonthlyReview = (props) => {
               {_reportMonth}
             </span>
             <DatePicker
-              className={isDark && "datestyle"}
+              className={isDark ? "datestyle" : ""}
               style={{ backgroundColor: isDark ? "#666666" : "inherit" }}
               placeholder={_selectMonth}
               picker="month"

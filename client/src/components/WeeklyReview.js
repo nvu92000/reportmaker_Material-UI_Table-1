@@ -151,7 +151,7 @@ const WeeklyReview = (props) => {
               {_reportWeek}
             </span>
             <DatePicker
-              className={isDark && "datestyle"}
+              className={isDark ? "datestyle" : ""}
               style={{ backgroundColor: isDark ? "#666666" : "inherit" }}
               placeholder={_selectWeek}
               bordered={true}
@@ -163,8 +163,8 @@ const WeeklyReview = (props) => {
           </Col>
           <Col>
             <Select
-              className={isDark && "selectstyle"}
-              dropdownClassName={isDark && "selectdropdownstyle"}
+              className={isDark ? "selectstyle" : ""}
+              dropdownClassName={isDark ? "selectdropdownstyle" : ""}
               showSearch
               style={{ width: 120 }}
               optionFilterProp="children"

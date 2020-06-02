@@ -60,7 +60,7 @@ const AppContent = () => {
               {_reportDate}
             </span>
             <DatePicker
-              className={isDark && "datestyle"}
+              className={isDark ? "datestyle" : ""}
               style={{ backgroundColor: isDark ? "#666666" : "inherit" }}
               showToday={false}
               placeholder={_selectDate}
