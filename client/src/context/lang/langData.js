@@ -59,6 +59,7 @@ const langData = {
       _logOut: "Log out",
       _projectList: "Project List",
       _close: "Close",
+      _darkMode: "Dark Mode",
     },
     inputDailyData: {
       _inputDailyData: "Input Daily Data",
@@ -189,6 +190,7 @@ const langData = {
       _logOut: "ログアウト",
       _projectList: "プロジェクトリスト",
       _close: "閉じる",
+      _darkMode: "ダークモード",
     },
     inputDailyData: {
       _inputDailyData: "日次データの入力",
@@ -320,6 +322,7 @@ const langData = {
       _logOut: "Đăng xuất",
       _projectList: "Danh sách dự án",
       _close: "Đóng",
+      _darkMode: "Chế độ ban đêm",
     },
     inputDailyData: {
       _inputDailyData: "Nhập dữ liệu",
@@ -448,6 +451,7 @@ const langData = {
       _logOut: "登出",
       _projectList: "项目清单",
       _close: "关",
+      _darkMode: "暗模式",
     },
     inputDailyData: {
       _inputDailyData: "输入每日数据",
@@ -579,6 +583,7 @@ const langData = {
       _logOut: "로그 아웃",
       _projectList: "프로젝트 목록",
       _close: "닫기",
+      _darkMode: "어두운 모드",
     },
     inputDailyData: {
       _inputDailyData: "일일 데이터 입력",

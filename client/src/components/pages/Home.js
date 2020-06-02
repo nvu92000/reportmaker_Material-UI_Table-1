@@ -86,7 +86,7 @@ const Home = () => {
 
   const { switchLang, lang, currentLangData } = langContext;
   const {
-    home: { _myAccount, _logOut, _projectList, _close },
+    home: { _myAccount, _logOut, _projectList, _close, _darkMode },
     alert: { _pleaseChangeData, _logout },
     inputDailyData: { _projectId, _projectName, _filter, _cancel },
   } = currentLangData
@@ -97,6 +97,7 @@ const Home = () => {
           _logOut: "Log out",
           _projectList: "Project List",
           _close: "Close",
+          _darkMode: "Dark Mode",
         },
         alert: {
           _pleaseChangeData: "Please save your data or cancel changes first!",
@@ -357,7 +358,7 @@ const Home = () => {
                                 : "Language"}
                             </Button>
                           </Dropdown>
-                          <Tooltip title={isDark ? "Dark Mode" : "Light Mode"}>
+                          <Tooltip title={_darkMode}>
                             <IOSSwitch
                               checked={isDark}
                               onChange={onThemeChange}
