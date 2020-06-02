@@ -326,7 +326,10 @@ export default (state, action) => {
             workTime: "00:00",
             status: "0",
             comment: "-",
-            option: [],
+            option:
+              state.dataSource.length > 0
+                ? state.dataSource[state.dataSource.length - 1].option
+                : null,
           },
         ],
         rowCount: state.rowCount + 1,

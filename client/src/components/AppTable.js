@@ -369,37 +369,64 @@ const AppTable = () => {
               <Table ref={focusRef}>
                 <TableHead>
                   <TableRow>
-                    <TableCell className={isDark && "cellstyle"} />
-                    <TableCell align="center" className={isDark && "cellstyle"}>
+                    <TableCell className={isDark ? "cellstyle" : "none"} />
+                    <TableCell
+                      align="center"
+                      className={isDark ? "cellstyle" : "none"}
+                    >
                       {_projectId}
                     </TableCell>
-                    <TableCell align="center" className={isDark && "cellstyle"}>
+                    <TableCell
+                      align="center"
+                      className={isDark ? "cellstyle" : "none"}
+                    >
                       {_projectName}
                     </TableCell>
-                    <TableCell align="center" className={isDark && "cellstyle"}>
+                    <TableCell
+                      align="center"
+                      className={isDark ? "cellstyle" : "none"}
+                    >
                       {_subId}
                     </TableCell>
-                    <TableCell align="center" className={isDark && "cellstyle"}>
+                    <TableCell
+                      align="center"
+                      className={isDark ? "cellstyle" : "none"}
+                    >
                       {_subName}
                     </TableCell>
-                    <TableCell align="center" className={isDark && "cellstyle"}>
+                    <TableCell
+                      align="center"
+                      className={isDark ? "cellstyle" : "none"}
+                    >
                       {_startTime}
                     </TableCell>
-                    <TableCell align="center" className={isDark && "cellstyle"}>
+                    <TableCell
+                      align="center"
+                      className={isDark ? "cellstyle" : "none"}
+                    >
                       {_endTime}
                     </TableCell>
-                    <TableCell align="center" className={isDark && "cellstyle"}>
+                    <TableCell
+                      align="center"
+                      className={isDark ? "cellstyle" : "none"}
+                    >
                       {_workTime}
                     </TableCell>
-                    <TableCell align="center" className={isDark && "cellstyle"}>
+                    <TableCell
+                      align="center"
+                      className={isDark ? "cellstyle" : "none"}
+                    >
                       {_status}
                     </TableCell>
-                    <TableCell align="center" className={isDark && "cellstyle"}>
+                    <TableCell
+                      align="center"
+                      className={isDark ? "cellstyle" : "none"}
+                    >
                       {_comment}
                     </TableCell>
                     <TableCell
                       align="center"
-                      className={isDark && "cellstyle"}
+                      className={isDark ? "cellstyle" : "none"}
                     ></TableCell>
                   </TableRow>
                 </TableHead>

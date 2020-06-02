@@ -13,6 +13,11 @@ const CreateTimeSheet = require("./reports/CreateTimeSheet");
 const path = require("path");
 require("dotenv").config();
 const moment = require("moment");
+const cors = require("cors");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const hpp = require("hpp");
+const rateLimit = require("express-rate-limit");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -24,10 +29,15 @@ const sendEmail = require("./utils/sendEmail");
 
 const app = express();
 
+app.use(helmet());
+
 // connectDB();
 
 // Body parser
 app.use(express.json({ extended: false }));
+app.use(cors());
+app.use(xss());
+app.use(hpp());
 
 // Cookie parser
 app.use(cookieParser());
@@ -35,6 +45,12 @@ app.use(cookieParser());
 // MongoDB
 // app.use("/api/users", require("./routes/users"));
 // app.use("/api/auth", require("./routes/auth"));
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10000, // limit each IP to 10000 requests per windowMs
+});
+app.use(limiter);
 
 // mySQL;
 // const db_config = {
