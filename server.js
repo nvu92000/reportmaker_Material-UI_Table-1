@@ -185,7 +185,7 @@ app.get("/api/weekly/get", async (req, res) => {
 const copyWorkSheet = (name) => {
   console.log("Hello " + name);
   exec(
-    'dotnet "D:\\AKIYAMA\\Work\\reportmaker_Material-UI_Table\\public\\netcoreapp3.1\\ConsoleApp2.dll" Akiyama 20200601',
+    `dotnet "${__dirname}\\public\\netcoreapp3.1\\ConsoleApp2.dll" Akiyama 20200601`,
     (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
