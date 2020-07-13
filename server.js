@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("mysql");
 // const connectDB = require("./config/db");
 const fs = require("fs");
+const { exec } = require("child_process");
 const util = require("util");
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
@@ -53,20 +54,20 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // mySQL;
-// const db_config = {
-//   host: "localhost",
-//   user: "root",
-//   password: "123456789",
-//   database: "projectdata",
-// };
-
 const db_config = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASS,
-  port: process.env.DB_PORT,
+  host: "localhost",
+  user: "root",
+  password: "123456789",
+  database: "projectdata",
 };
+
+// const db_config = {
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   database: process.env.DB_DATABASE,
+//   password: process.env.DB_PASS,
+//   port: process.env.DB_PORT,
+// };
 
 let connection;
 
@@ -181,6 +182,24 @@ app.get("/api/weekly/get", async (req, res) => {
   }
 });
 
+const copyWorkSheet = (name) => {
+  console.log("Hello " + name);
+  exec(
+    'dotnet "D:\\AKIYAMA\\Work\\reportmaker_Material-UI_Table\\public\\netcoreapp3.1\\ConsoleApp2.dll" Akiyama 20200601',
+    (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+    }
+  );
+};
+
 app.get("/api/timesheet/get", async (req, res) => {
   try {
     const { name, monthStartDate } = req.query;
@@ -197,7 +216,7 @@ app.get("/api/timesheet/get", async (req, res) => {
       .toString()})
       ORDER BY workdate ASC, CAST(count AS UNSIGNED) ASC`;
     const results = await query(QUERY_MONTHLY);
-    CreateTimeSheet(name, monthStartDate, results);
+    CreateTimeSheet(name, monthStartDate, results, copyWorkSheet);
     return res.json({
       data: results,
     });
