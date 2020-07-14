@@ -189,7 +189,7 @@ const CreateTimeSheet = async (name, monthStartDate, results, callback) => {
       .toString()}_${name}.xlsx`
   );
 
-  callback("Nhat Vu");
+  callback(name, monthStartDate, Number(monthEndDate.slice(6, 8)) + 5);
 };
 
 module.exports = CreateTimeSheet;

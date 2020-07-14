@@ -182,10 +182,10 @@ app.get("/api/weekly/get", async (req, res) => {
   }
 });
 
-const copyWorkSheet = (name) => {
-  console.log("Hello " + name);
+const copyWorkSheet = (name, monthStartDate, endRow) => {
+  console.log("Hello " + name + " on " + monthStartDate);
   exec(
-    `dotnet "${__dirname}/public/netcoreapp3.1/ConsoleApp2.dll" Akiyama 20200601`,
+    `dotnet "${__dirname}/public/netcoreapp3.1/ConsoleApp2.dll" ${name} ${monthStartDate} ${endRow}`,
     (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
