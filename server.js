@@ -183,21 +183,45 @@ app.get("/api/weekly/get", async (req, res) => {
 });
 
 const copyWorkSheet = (name, monthStartDate, endRow) => {
-  console.log("Hello " + name + " on " + monthStartDate);
-  exec(
-    `dotnet "${__dirname}/public/netcoreapp3.1/ConsoleApp2.dll" ${name} ${monthStartDate} ${endRow}`,
-    (error, stdout, stderr) => {
-      if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-      }
-      console.log(`stdout: ${stdout}`);
+  const x = Number(monthStartDate.slice(4, 6));
+  const year = monthStartDate.slice(0, 4);
+  let y =
+    x < 12 && x >= 9
+      ? `${year}09`
+      : x < 9 && x >= 6
+      ? `${year}06`
+      : x < 6 && x >= 3
+      ? `${year}03`
+      : x === 12
+      ? `${year}12`
+      : `${Number(year) - 1}12`;
+  let yearMonth = monthStartDate.replace(monthStartDate.slice(0, 6), y);
+
+  try {
+    if (
+      fs.existsSync(`${__dirname}/public/FlextimeSheetForm${yearMonth}.xlsx`)
+    ) {
+      // console.log("The file exists.");
+      exec(
+        `dotnet "${__dirname}/public/netcoreapp3.1/ConsoleApp2.dll" ${name} ${monthStartDate} ${endRow}`,
+        (error, stdout, stderr) => {
+          if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+          }
+          if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+          }
+          console.log(`stdout: ${stdout}`);
+        }
+      );
+    } else {
+      console.log("The file does not exist.");
     }
-  );
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 app.get("/api/timesheet/get", async (req, res) => {
