@@ -62,6 +62,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import TranslateIcon from "@material-ui/icons/Translate";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import IOSSwitch from "../helpers/IOSSwitch";
+import GA from "../../utils/GoogleAnalytics";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
@@ -302,6 +303,7 @@ const Home = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <Router>
+        {GA.init() && <GA.RouteTracker />}
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
