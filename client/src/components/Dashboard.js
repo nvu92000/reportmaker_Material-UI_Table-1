@@ -95,48 +95,114 @@ const Dashboard = (props) => {
           // backgroundColor: isDark ? "#b9b9b9" : "#fff",
           // borderColor: isDark ? "#b9b9b9" : "#fff",
           // color: "#000",
-          display: "grid",
-          gridTemplateColumns: "30% 30% 30%",
-          gridColumnGap: "4em",
-          gridRowGap: "4em",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <div style={{ height: 400 }}>
-          <LineChart
-            data={feeds[0].data}
-            title={feeds[0].title}
-            color="#3E517A"
-          />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "30% 30%",
+            gridColumnGap: "4em",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 50,
+          }}
+        >
+          <div style={{ height: 400 }}>
+            <DoughnutChart
+              data={feeds[3].data}
+              title={feeds[3].title}
+              colors={[
+                "#a8e0ff",
+                "#8ee3f5",
+                "#70cad1",
+                "#3e517a",
+                "#b08ea2",
+                "#BBB6DF",
+              ]}
+            />
+          </div>
+          <div style={{ height: 400 }}>
+            <DoughnutChart
+              data={feeds[3].data}
+              title={feeds[3].title}
+              colors={[
+                "#a8e0ff",
+                "#8ee3f5",
+                "#70cad1",
+                "#3e517a",
+                "#b08ea2",
+                "#BBB6DF",
+              ]}
+            />
+          </div>
         </div>
-        <div style={{ height: 400 }}>
-          <BarChart
-            data={feeds[1].data}
-            title={feeds[1].title}
-            color="#70CAD1"
-          />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "30% 30% 30%",
+            gridColumnGap: "4em",
+            gridRowGap: "4em",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 50,
+          }}
+        >
+          <div style={{ height: 400 }}>
+            <LineChart
+              data={feeds[0].data}
+              title={feeds[0].title}
+              color="#3E517A"
+            />
+          </div>
+          <div style={{ height: 400 }}>
+            <BarChart
+              data={feeds[1].data}
+              title={feeds[1].title}
+              color="#70CAD1"
+            />
+          </div>
+          <div style={{ height: 400 }}>
+            <BarChart
+              data={feeds[2].data}
+              title={feeds[2].title}
+              color="#70CAD1"
+            />
+          </div>
         </div>
-        <div style={{ height: 400 }}>
-          <BarChart
-            data={feeds[2].data}
-            title={feeds[2].title}
-            color="#70CAD1"
-          />
-        </div>
-        <div style={{ height: 400 }}>
-          <DoughnutChart
-            data={feeds[3].data}
-            title={feeds[3].title}
-            colors={[
-              "#a8e0ff",
-              "#8ee3f5",
-              "#70cad1",
-              "#3e517a",
-              "#b08ea2",
-              "#BBB6DF",
-            ]}
-          />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "30% 30% 30%",
+            gridColumnGap: "4em",
+            gridRowGap: "4em",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 50,
+          }}
+        >
+          <div style={{ height: 400 }}>
+            <LineChart
+              data={feeds[0].data}
+              title={feeds[0].title}
+              color="#3E517A"
+            />
+          </div>
+          <div style={{ height: 400 }}>
+            <BarChart
+              data={feeds[1].data}
+              title={feeds[1].title}
+              color="#70CAD1"
+            />
+          </div>
+          <div style={{ height: 400 }}>
+            <BarChart
+              data={feeds[2].data}
+              title={feeds[2].title}
+              color="#70CAD1"
+            />
+          </div>
         </div>
       </Content>
     </Layout>

@@ -16,7 +16,7 @@ const DoughnutChart = (props) => {
           {
             label: props.title,
             data: props.data.map((d) => d.value),
-            backgroundColor: props.color,
+            backgroundColor: props.colors,
           },
         ],
       },
