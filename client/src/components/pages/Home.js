@@ -27,6 +27,7 @@ import WeeklyReview from "../WeeklyReview";
 import MonthlyReview from "../MonthlyReview";
 import DailyHistory from "../DailyHistory";
 import WeeklyWorkload from "../WeeklyWorkload";
+import Dashboard from "../Dashboard";
 import "../Style.css";
 import "antd/dist/antd.css";
 import AuthContext from "../../context/auth/authContext";
@@ -470,6 +471,12 @@ const Home = () => {
                   path="/weeklyworkload"
                   exact
                   component={WeeklyWorkload}
+                />
+                <PrivateRoute
+                  key="/dashboard"
+                  path="/dashboard"
+                  exact
+                  component={Dashboard}
                 />
                 <Footer style={{ borderColor: isDark ? "#424242" : "#fff" }}>
                   <Paper elevation={10}>

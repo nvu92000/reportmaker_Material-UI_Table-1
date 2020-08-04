@@ -9,6 +9,7 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import BarChartIcon from "@material-ui/icons/BarChart";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 import Typography from "@material-ui/core/Typography";
 
 const AppSider = (props) => {
@@ -135,6 +136,15 @@ const AppSider = (props) => {
               }
               break;
 
+            case "/dashboard":
+              if (isDataEdited) {
+                message.error(_pleaseChangeData);
+              } else {
+                dispatch({ type: SELECT_PAGE, payload: "/dashboard" });
+                props.history.push("/dashboard");
+              }
+              break;
+
             default:
               break;
           }
@@ -189,6 +199,17 @@ const AppSider = (props) => {
           <span>
             <Typography variant="body1" noWrap>
               {_weeklyWorkload}
+            </Typography>
+          </span>
+        </Menu.Item>
+        <Menu.Item
+          key="/dashboard"
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <DashboardIcon style={{ margin: "0 8px 0 -5px" }} />
+          <span>
+            <Typography variant="body1" noWrap>
+              Dashboard
             </Typography>
           </span>
         </Menu.Item>

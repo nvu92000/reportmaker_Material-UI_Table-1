@@ -19,6 +19,7 @@
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.1.0",
     "axios": "^0.19.2",
+    "chart.js": "^2.9.3",
     "moment": "^2.26.0",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
