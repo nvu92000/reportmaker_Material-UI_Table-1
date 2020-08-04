@@ -7,6 +7,8 @@ import "antd/dist/antd.css";
 import BarChart from "./charts/BarChart ";
 import DoughnutChart from "./charts/DoughnutChart";
 import LineChart from "./charts/LineChart";
+import MemberBarChart from "./charts/MemberBarChart";
+import axios from "axios";
 
 function getRandomDateArray(numItems) {
   // Create random array of objects (with date)
@@ -67,6 +69,8 @@ const Dashboard = (props) => {
 
   const [feeds, setFeeds] = useState(getFeeds());
 
+  const [dataSource, setDataSource] = useState([]);
+
   const { Content } = Layout;
 
   const { dispatch, isDark } = myContext;
@@ -77,6 +81,53 @@ const Dashboard = (props) => {
     dispatch({ type: SELECT_PAGE, payload: "/dashboard" });
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    onChangeDate();
+    // eslint-disable-next-line
+  }, []);
+
+  const onChangeDate = async () => {
+    const sunday = "20200426";
+
+    const res = await axios.get(`api/workload/get`, {
+      params: {
+        sunday,
+      },
+    });
+
+    const res1 = res.data.data.reduce((group, itm) => {
+      group[itm.name] = group[itm.name]
+        ? [...group[itm.name], { pjid: itm.pjid, worktime: itm.worktime }]
+        : [{ pjid: itm.pjid, worktime: itm.worktime }];
+      return group;
+    }, {});
+    console.log(res1);
+
+    for (let i of Object.keys(res1)) {
+      res1[i] = res1[i].reduce((group, itm) => {
+        group[itm.pjid] = group[itm.pjid]
+          ? [...group[itm.pjid], itm.worktime]
+          : [itm.worktime];
+        return group;
+      }, {});
+
+      for (let j of Object.keys(res1[i])) {
+        res1[i][j] = res1[i][j].reduce((s, a) => s + a);
+      }
+    }
+
+    const res2 = [];
+
+    for (let i of Object.keys(res1)) {
+      for (let j of Object.keys(res1[i])) {
+        res2.push({ name: i, pjid: j, worktime: res1[i][j] });
+      }
+    }
+    console.log(res2);
+
+    setDataSource(res2);
+  };
 
   return (
     <Layout
@@ -157,7 +208,7 @@ const Dashboard = (props) => {
             />
           </div>
           <div style={{ height: 400 }}>
-            <BarChart
+            <MemberBarChart
               data={feeds[1].data}
               title={feeds[1].title}
               color="#70CAD1"
