@@ -7,6 +7,9 @@ const BarChart = (props) => {
   useEffect(() => {
     const myChart = new Chart(chartRef.current, {
       type: "bar",
+      options: {
+        maintainAspectRatio: false,
+      },
       data: {
         labels: props.data.map((d) => d.label),
         datasets: [

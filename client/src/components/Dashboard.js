@@ -1,16 +1,12 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import MyContext from "../context/table/myContext";
-import LangContext from "../context/lang/langContext";
+// import LangContext from "../context/lang/langContext";
 import { SELECT_PAGE, SET_COLLAPSED } from "../context/types";
 import { Layout, Breadcrumb } from "antd";
-import { Paper } from "@material-ui/core";
 import "antd/dist/antd.css";
-import axios from "axios";
-import { StackColumn } from "@antv/g2plot";
-import moment from "moment";
-import LoadingOverlay from "react-loading-overlay";
 import BarChart from "./charts/BarChart ";
 import DoughnutChart from "./charts/DoughnutChart";
+import LineChart from "./charts/LineChart";
 
 function getRandomDateArray(numItems) {
   // Create random array of objects (with date)
@@ -102,32 +98,33 @@ const Dashboard = (props) => {
           display: "grid",
           gridTemplateColumns: "30% 30% 30%",
           gridColumnGap: "4em",
+          gridRowGap: "4em",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <div>
+        <div style={{ height: 400 }}>
+          <LineChart
+            data={feeds[0].data}
+            title={feeds[0].title}
+            color="#3E517A"
+          />
+        </div>
+        <div style={{ height: 400 }}>
           <BarChart
             data={feeds[1].data}
             title={feeds[1].title}
             color="#70CAD1"
           />
         </div>
-        <div>
+        <div style={{ height: 400 }}>
           <BarChart
-            data={feeds[1].data}
-            title={feeds[1].title}
+            data={feeds[2].data}
+            title={feeds[2].title}
             color="#70CAD1"
           />
         </div>
-        <div>
-          <BarChart
-            data={feeds[1].data}
-            title={feeds[1].title}
-            color="#70CAD1"
-          />
-        </div>
-        <div>
+        <div style={{ height: 400 }}>
           <DoughnutChart
             data={feeds[3].data}
             title={feeds[3].title}
