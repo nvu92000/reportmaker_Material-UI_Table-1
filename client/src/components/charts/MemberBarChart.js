@@ -11,7 +11,14 @@ const MemberBarChart = (props) => {
       options: {
         maintainAspectRatio: false,
         scales: {
-          xAxes: [{ stacked: true }],
+          xAxes: [
+            {
+              stacked: true,
+              gridLines: {
+                display: false,
+              },
+            },
+          ],
           yAxes: [{ stacked: true }],
         },
       },

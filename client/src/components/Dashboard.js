@@ -131,7 +131,7 @@ const Dashboard = (props) => {
 
     const uniquePjid = [...new Set(res.data.data.map((a) => a.pjid))];
 
-    const dataa = uniquePjid
+    const data = uniquePjid
       .sort((a, b) => Number(a) - Number(b))
       .map((pjid) => ({
         label: pjid,
@@ -140,8 +140,8 @@ const Dashboard = (props) => {
           return res1[`${a}`][`${pjid}`] ? res1[`${a}`][`${pjid}`] : 0;
         }),
       }));
-    // console.log(dataa);
-    setDataSource(dataa);
+    // console.log(data);
+    setDataSource(data);
   };
 
   return (
