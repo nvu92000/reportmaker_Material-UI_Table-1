@@ -70,6 +70,7 @@ const Dashboard = (props) => {
   const [feeds, setFeeds] = useState(getFeeds());
 
   const [dataSource, setDataSource] = useState([]);
+  const [uniqueName, setUniqueName] = useState([]);
 
   const { Content } = Layout;
 
@@ -87,6 +88,11 @@ const Dashboard = (props) => {
     // eslint-disable-next-line
   }, []);
 
+  const setRandomColor = () => {
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    return "#" + randomColor;
+  };
+
   const onChangeDate = async () => {
     const sunday = "20200426";
 
@@ -102,7 +108,6 @@ const Dashboard = (props) => {
         : [{ pjid: itm.pjid, worktime: itm.worktime }];
       return group;
     }, {});
-    console.log(res1);
 
     for (let i of Object.keys(res1)) {
       res1[i] = res1[i].reduce((group, itm) => {
@@ -117,16 +122,26 @@ const Dashboard = (props) => {
       }
     }
 
-    const res2 = [];
+    // console.log(res1);
 
-    for (let i of Object.keys(res1)) {
-      for (let j of Object.keys(res1[i])) {
-        res2.push({ name: i, pjid: j, worktime: res1[i][j] });
-      }
-    }
-    console.log(res2);
+    setUniqueName([...new Set(res.data.data.map((a) => a.name))]);
 
-    setDataSource(res2);
+    const uName = [...new Set(res.data.data.map((a) => a.name))];
+    console.log(uName);
+
+    const uniquePjid = [...new Set(res.data.data.map((a) => a.pjid))];
+
+    const dataa = uniquePjid
+      .sort((a, b) => Number(a) - Number(b))
+      .map((pjid) => ({
+        label: pjid,
+        backgroundColor: uName.map((a) => setRandomColor()),
+        data: uName.map((a) => {
+          return res1[`${a}`][`${pjid}`] ? res1[`${a}`][`${pjid}`] : 0;
+        }),
+      }));
+    // console.log(dataa);
+    setDataSource(dataa);
   };
 
   return (
@@ -192,6 +207,32 @@ const Dashboard = (props) => {
         <div
           style={{
             display: "grid",
+            gridTemplateColumns: "60% 30%",
+            gridColumnGap: "4em",
+            gridRowGap: "4em",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 50,
+          }}
+        >
+          <div style={{ height: 600 }}>
+            <MemberBarChart
+              uniqueName={uniqueName}
+              dataSource={dataSource}
+              color="#70CAD1"
+            />
+          </div>
+          <div style={{ height: 400 }}>
+            <MemberBarChart
+              uniqueName={uniqueName}
+              dataSource={dataSource}
+              color="#70CAD1"
+            />
+          </div>
+        </div>
+        <div
+          style={{
+            display: "grid",
             gridTemplateColumns: "30% 30% 30%",
             gridColumnGap: "4em",
             gridRowGap: "4em",
@@ -209,8 +250,8 @@ const Dashboard = (props) => {
           </div>
           <div style={{ height: 400 }}>
             <MemberBarChart
-              data={feeds[1].data}
-              title={feeds[1].title}
+              uniqueName={uniqueName}
+              dataSource={dataSource}
               color="#70CAD1"
             />
           </div>
