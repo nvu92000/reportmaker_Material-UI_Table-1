@@ -74,7 +74,7 @@ const Dashboard = (props) => {
 
   const { Content } = Layout;
 
-  const { dispatch, isDark } = myContext;
+  const { dispatch, isDark, collapsed } = myContext;
 
   // const { currentLangData } = langContext;
 
@@ -86,7 +86,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     onChangeDate();
     // eslint-disable-next-line
-  }, []);
+  }, [collapsed]);
 
   const setRandomColor = () => {
     const randomColor = Math.floor(Math.random() * 16777215).toString(16);

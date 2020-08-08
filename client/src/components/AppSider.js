@@ -26,8 +26,8 @@ const AppSider = (props) => {
     dailyHistory: { _dailyHistory },
     weeklyWorkload: { _weeklyWorkload },
   } = currentLangData
-    ? currentLangData
-    : {
+      ? currentLangData
+      : {
         alert: {
           _pleaseChangeData: "Please save your data or cancel changes first!",
         },
@@ -150,6 +150,17 @@ const AppSider = (props) => {
           }
         }}
       >
+        <Menu.Item
+          key="/dashboard"
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <DashboardIcon style={{ margin: "0 8px 0 -5px" }} />
+          <span>
+            <Typography variant="body1" noWrap>
+              Dashboard
+            </Typography>
+          </span>
+        </Menu.Item>
         <Menu.Item key="/" style={{ display: "flex", alignItems: "center" }}>
           <BorderColorIcon style={{ margin: "0 8px 0 -5px" }} />
           <span>
@@ -199,17 +210,6 @@ const AppSider = (props) => {
           <span>
             <Typography variant="body1" noWrap>
               {_weeklyWorkload}
-            </Typography>
-          </span>
-        </Menu.Item>
-        <Menu.Item
-          key="/dashboard"
-          style={{ display: "flex", alignItems: "center" }}
-        >
-          <DashboardIcon style={{ margin: "0 8px 0 -5px" }} />
-          <span>
-            <Typography variant="body1" noWrap>
-              Dashboard
             </Typography>
           </span>
         </Menu.Item>
