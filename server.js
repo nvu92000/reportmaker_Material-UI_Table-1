@@ -54,20 +54,20 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // mySQL;
-// const db_config = {
-//   host: "localhost",
-//   user: "root",
-//   password: "123456789",
-//   database: "projectdata",
-// };
-
 const db_config = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASS,
-  port: process.env.DB_PORT,
+  host: "localhost",
+  user: "root",
+  password: "123456789",
+  database: "projectdata",
 };
+
+// const db_config = {
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   database: process.env.DB_DATABASE,
+//   password: process.env.DB_PASS,
+//   port: process.env.DB_PORT,
+// };
 
 let connection;
 
@@ -113,9 +113,9 @@ app.get("/api/workload/get", async (req, res) => {
     pjid, worktime/60 AS worktime 
     FROM (projectdata.t_personalrecode) WHERE 
     (workdate BETWEEN ${sunday} AND ${moment(sunday, "YYYYMMDD")
-      .add(6, "days")
-      .format("YYYYMMDD")
-      .toString()}) 
+        .add(6, "days")
+        .format("YYYYMMDD")
+        .toString()}) 
       ORDER BY name ASC`;
     const results = await query(QUERY_WORKLOAD);
 
@@ -161,9 +161,9 @@ app.get("/api/weekly/get", async (req, res) => {
     worktime, comment, starthour, startmin, endhour, endmin, count, name, subid, subname
       FROM (projectdata.t_personalrecode) WHERE name = '${name}'
       && (workdate BETWEEN ${sunday} AND ${moment(sunday, "YYYYMMDD")
-      .add(6, "days")
-      .format("YYYYMMDD")
-      .toString()})
+        .add(6, "days")
+        .format("YYYYMMDD")
+        .toString()})
       ORDER BY workdate ASC, CAST(count AS UNSIGNED) ASC`;
     const results = await query(QUERY_WEEKLY);
     if (role === "Engineer") {
@@ -189,12 +189,12 @@ const copyWorkSheet = (name, monthStartDate, endRow) => {
     x < 12 && x >= 9
       ? `${year}09`
       : x < 9 && x >= 6
-      ? `${year}06`
-      : x < 6 && x >= 3
-      ? `${year}03`
-      : x === 12
-      ? `${year}12`
-      : `${Number(year) - 1}12`;
+        ? `${year}06`
+        : x < 6 && x >= 3
+          ? `${year}03`
+          : x === 12
+            ? `${year}12`
+            : `${Number(year) - 1}12`;
   let yearMonth = monthStartDate.replace(monthStartDate.slice(0, 6), y);
 
   try {
@@ -234,10 +234,10 @@ app.get("/api/timesheet/get", async (req, res) => {
       monthStartDate,
       "YYYYMMDD"
     )
-      .add(1, "months")
-      .subtract(1, "days")
-      .format("YYYYMMDD")
-      .toString()})
+        .add(1, "months")
+        .subtract(1, "days")
+        .format("YYYYMMDD")
+        .toString()})
       ORDER BY workdate ASC, CAST(count AS UNSIGNED) ASC`;
     const results = await query(QUERY_MONTHLY);
     CreateTimeSheet(name, monthStartDate, results, copyWorkSheet);
@@ -274,21 +274,21 @@ app.post("/api/projects/add", async (req, res) => {
     (SELECT deadline FROM projectdata.t_projectmaster WHERE pjid = '${pjid}'),
     (SELECT expecteddate FROM projectdata.t_projectmaster WHERE pjid = '${pjid}'),
     '${subid}','${subname}','${status}','${comment
-      .split("")
-      .map((a) => {
-        if (a === "'") {
-          return "\\".concat("'");
-        } else if (a === '"') {
-          return "\\".concat('"');
-        } else if (a === "\\") {
-          return "\\".concat("\\");
-        } else {
-          return a;
-        }
-      })
-      .join(
-        ""
-      )}', '${worktime}', '${starthour}', '${startmin}', '${endhour}', '${endmin}')`;
+        .split("")
+        .map((a) => {
+          if (a === "'") {
+            return "\\".concat("'");
+          } else if (a === '"') {
+            return "\\".concat('"');
+          } else if (a === "\\") {
+            return "\\".concat("\\");
+          } else {
+            return a;
+          }
+        })
+        .join(
+          ""
+        )}', '${worktime}', '${starthour}', '${startmin}', '${endhour}', '${endmin}')`;
     await query(INSERT_PRODUCTS_QUERY);
     console.log(`${name} added data at ${Date()}`);
     return res.send("Successfully added weekly data");
@@ -321,19 +321,19 @@ app.put("/api/projects/update", async (req, res) => {
     deadline = (SELECT deadline FROM projectdata.t_projectmaster WHERE pjid = '${pjid}'),
     expecteddate = (SELECT expecteddate FROM projectdata.t_projectmaster WHERE pjid = '${pjid}'),
     subid = '${subid}', subname = '${subname}', percent = '${status}', comment = '${comment
-      .split("")
-      .map((a) => {
-        if (a === "'") {
-          return "\\".concat("'");
-        } else if (a === '"') {
-          return "\\".concat('"');
-        } else if (a === "\\") {
-          return "\\".concat("\\");
-        } else {
-          return a;
-        }
-      })
-      .join("")}', worktime = '${worktime}',
+        .split("")
+        .map((a) => {
+          if (a === "'") {
+            return "\\".concat("'");
+          } else if (a === '"') {
+            return "\\".concat('"');
+          } else if (a === "\\") {
+            return "\\".concat("\\");
+          } else {
+            return a;
+          }
+        })
+        .join("")}', worktime = '${worktime}',
     starthour = '${starthour}', startmin = '${startmin}', endhour = '${endhour}', endmin = '${endmin}'
     WHERE name = '${name}' AND workdate = '${workdate}' AND count = '${count}'`;
     await query(UPDATE_PRODUCTS_QUERY);
